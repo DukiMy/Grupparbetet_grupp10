@@ -1,4 +1,4 @@
-﻿using Grupparbetet_grupp10.Models;
+﻿using HomeFinder.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Grupparbetet_grupp10.Controllers
+namespace HomeFinder.Controllers
 {
     public class HomeController : Controller
     {

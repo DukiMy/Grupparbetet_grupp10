@@ -1,6 +1,6 @@
 using System;
 
-namespace Grupparbetet_grupp10.Models
+namespace HomeFinder.Models
 {
     public class ErrorViewModel
     {

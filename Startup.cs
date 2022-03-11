@@ -8,8 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HomeFinder.Data;
+using Microsoft.EntityFrameworkCore;
 
-namespace Grupparbetet_grupp10
+namespace HomeFinder
 {
     public class Startup
     {
@@ -23,6 +25,7 @@ namespace Grupparbetet_grupp10
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<HomeFinderContext>(options => options.UseSqlServer(Configuration.GetConnectionString("")));
             services.AddControllersWithViews();
         }
 

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Grupparbetet_grupp10
+namespace HomeFinder
 {
     public class Program
     {
