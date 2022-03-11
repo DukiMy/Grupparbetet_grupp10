@@ -11,6 +11,7 @@ namespace HomeFinder.Data
         {
 
         }
-        public DbSet<House> House { get; set; }
+        public DbSet<Item> Item { get; set; }
+      
     }
 }
