@@ -53,7 +53,8 @@ namespace HomeFinder.Models
                 PlotArea = Generator.SetPlotArea(),
                 Price = Generator.SetPrice(),
                 ConstructionYear = DateTime.Now,
-                ListingDate = DateTime.Now
+                ListingDate = DateTime.Now,
+                ImgPath = "~/img/villa.jpg"
             };
         }
     }

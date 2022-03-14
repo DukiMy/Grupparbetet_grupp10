@@ -77,6 +77,8 @@
             <thead>
                 <tr>
                     <th>
+                    </th>
+                    <th>
                         @Html.DisplayNameFor(model => model.Items[0].Id)
                     </th>
                     <th>
@@ -120,6 +122,9 @@
                 {
                 <tr>
                     <td>
+                        <img src="@Url.Content(item.ImgPath)" alt="Loading image">
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Id)
                     </td>
                     <td>
@@ -157,14 +162,14 @@
                     </td>
                     <td>
                         @*@if (User.Identity.IsAuthenticated)
-                        {
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
-                        }
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success"><i class="fa-solid fa-circle-info"></i></a>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
-                        }*@
+            {
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+            }
+            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success"><i class="fa-solid fa-circle-info"></i></a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
+            }*@
                         <a asp-action="Edit" asp-route-id="@item.Id">Ändra</a> |
                         <a asp-action="Details" asp-route-id="@item.Id">Info</a> |
                         <a asp-action="Delete" asp-route-id="@item.Id">Ta bort</a>

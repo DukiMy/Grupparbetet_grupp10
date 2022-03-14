@@ -61,7 +61,7 @@ namespace HomeFinder.Models
 
         //public List<User> Intressee { get; set; }
 
-        //public IMG MyProperty { get; set; }
+        public string ImgPath { get; set; }
 
         //public ItemType MyProperty { get; set; }
 
