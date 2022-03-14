@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeFinder.Data;
 using HomeFinder.Models;
+using HomeFinder.ViewModels;
 
 namespace HomeFinder.Controllers
 {
@@ -19,11 +20,124 @@ namespace HomeFinder.Controllers
             _context = context;
         }
 
-        // GET: Items
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index(string minNrOfRooms, string maxNrOfRooms, string searchString)
+        //{
+        //    //var items = _context.Item.Select(i => i);
+        //    var items = from i in _context.Item select i;
+
+        //    if (!string.IsNullOrEmpty(searchString))
+        //    {
+        //        items = items.Where(i => i.Address.Contains(searchString) || i.Description.Contains(searchString) || i.City.Contains(searchString));
+        //    }
+
+        //    if (!string.IsNullOrEmpty(minNrOfRooms))
+        //    {
+        //        var min = int.Parse(minNrOfRooms);
+        //        items = items.Where(i => i.NrOfRoom >= min);
+        //    }
+
+        //    if (!string.IsNullOrEmpty(maxNrOfRooms))
+        //    {
+        //        var max = int.Parse(maxNrOfRooms);
+        //        items = items.Where(i => i.NrOfRoom <= max);
+        //    }
+
+        //    var itemVM = new ItemViewModel
+        //    {
+
+        //        Items = await items.ToListAsync()
+        //    };
+
+
+        //    // Use LINQ to get list of genres.
+        //    //IQueryable<string> itmeTypeQuery = from i in _context.Item
+        //    //                                   orderby i.ItemType
+        //    //                                   select i.ItemType;
+
+        //    //var items = from i in _context.Item
+        //    //            select i;
+
+        //    //if (!string.IsNullOrEmpty(searchString))
+        //    //{
+        //    //    items = items.Where(i => i.Address.Contains(searchString));
+        //    //}
+
+        //    //if (!string.IsNullOrEmpty(itemType))
+        //    //{
+        //    //    items = items.Where(i => i.ItemType == itemType);
+        //    //}
+
+        //    //var itemVM = new ItemViewModel
+        //    //{
+        //    //    ItemTypesVM = new SelectList(await itmeTypeQuery.Distinct().ToListAsync()),
+        //    //    Items = await items.ToListAsync()
+        //    //};
+
+
+
+        //    //IQueryable<int> nrOfRoomsQuery = from i in _context.Item
+        //    //                                 orderby i.NrOfRoom
+        //    //                                 select i.NrOfRoom;
+
+
+
+        //    //items = items.Where(i => i.NrOfRoom == nrOfRooms);
+
+        //    //itemVM.NrOfRoomsVM = new SelectList(await nrOfRoomsQuery.Distinct().ToListAsync());
+        //    //itemVM.Items = await items.ToListAsync();
+
+
+
+        //    return View(itemVM);
+        //}
+
+
+        public async Task<IActionResult> Index(string itemType, int nrOfRooms, string searchString)
         {
-            return View(await _context.Item.ToListAsync());
+            // Use LINQ to get list of genres.
+            IQueryable<string> itmeTypeQuery = from i in _context.Item
+                                               orderby i.ItemType
+                                               select i.ItemType;
+
+            var items = from i in _context.Item
+                        select i;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                items = items.Where(i => i.Address.Contains(searchString));
+            }
+
+            if (!string.IsNullOrEmpty(itemType))
+            {
+                items = items.Where(i => i.ItemType == itemType);
+            }
+
+            var itemVM = new ItemViewModel
+            {
+                ItemTypesVM = new SelectList(await itmeTypeQuery.Distinct().ToListAsync()),
+                Items = await items.ToListAsync()
+            };
+
+
+
+            //IQueryable<int> nrOfRoomsQuery = from i in _context.Item
+            //                                 orderby i.NrOfRoom
+            //                                 select i.NrOfRoom;
+
+
+
+            //items = items.Where(i => i.NrOfRoom == nrOfRooms);
+
+            //itemVM.NrOfRoomsVM = new SelectList(await nrOfRoomsQuery.Distinct().ToListAsync());
+            //itemVM.Items = await items.ToListAsync();
+
+
+
+            return View(itemVM);
         }
+
+
+
 
         // GET: Items/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -54,7 +168,7 @@ namespace HomeFinder.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Address,Price,NrOfRoom,Description,LivingArea,GrossFloorArea,PlotArea,ConstructionYear,ListingDate")] Item item)
+        public async Task<IActionResult> Create([Bind("Id,ItemType,Address,Price,NrOfRoom,Description,LivingArea,GrossFloorArea,PlotArea,ConstructionYear,ListingDate")] Item item)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +200,7 @@ namespace HomeFinder.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Address,Price,NrOfRoom,Description,LivingArea,GrossFloorArea,PlotArea,ConstructionYear,ListingDate")] Item item)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ItemType,Address,Price,NrOfRoom,Description,LivingArea,GrossFloorArea,PlotArea,ConstructionYear,ListingDate")] Item item)
         {
             if (id != item.Id)
             {

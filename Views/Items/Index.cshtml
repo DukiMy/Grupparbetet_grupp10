@@ -1,83 +1,141 @@
-﻿@model IEnumerable<HomeFinder.Models.Item>
-
+﻿@*@model IEnumerable<HomeFinder.Models.Item>*@
+@model HomeFinder.ViewModels.ItemViewModel
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NrOfRoom)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LivingArea)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GrossFloorArea)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PlotArea)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ConstructionYear)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ListingDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NrOfRoom)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LivingArea)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GrossFloorArea)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PlotArea)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ConstructionYear)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ListingDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a asp-action="Create">Create new <i class="fa-solid fa-plus"></i></a>
+    </p>
 }
-    </tbody>
-</table>
+<form asp-controller="Items" asp-action="Index" method="get">
+    <p>
+    <p>Typ av objekt</p>
+    
+        <select asp-for="ItemType" asp-items="Model.ItemTypesVM">
+            <option value="">Alla objekt</option>
+        </select>
+
+        Title:
+        <input type="text" asp-for="SearchString" />
+        <input type="submit" value="Sök" />
+        </p>
+</form>
+@*<form asp-controller="Items" asp-action="Index2" method="get">
+    <p>
+    <p>Antal rum</p>
+    <select asp-for="NrOfRooms" asp-items="Model.NrOfRoomsVM">
+        <option value="">Alla objekt</option>
+    </select>
+
+    </p>
+</form>*@
+
+<div class="row">
+    <div class="col-6">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].ItemType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].City)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].NrOfRoom)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].LivingArea)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].GrossFloorArea)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].PlotArea)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].ConstructionYear)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].ListingDate)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.City)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price) SEK
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NrOfRoom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LivingArea) m²
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GrossFloorArea) m²
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PlotArea) m²
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ConstructionYear)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ListingDate)
+                    </td>
+                    <td>
+                        @*@if (User.Identity.IsAuthenticated)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+                        }
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success"><i class="fa-solid fa-circle-info"></i></a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
+                        }*@
+                        <a asp-action="Edit" asp-route-id="@item.Id">Ändra</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Info</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Ta bort</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

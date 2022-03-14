@@ -30,6 +30,10 @@ namespace HomeFinder.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("ConstructionYear")
                         .HasColumnType("datetime2");
 
@@ -39,6 +43,10 @@ namespace HomeFinder.Migrations
 
                     b.Property<double?>("GrossFloorArea")
                         .HasColumnType("float");
+
+                    b.Property<string>("ItemType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ListingDate")
                         .HasColumnType("datetime2");
