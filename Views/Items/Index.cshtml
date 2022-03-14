@@ -12,6 +12,42 @@
         <a asp-action="Create">Create new <i class="fa-solid fa-plus"></i></a>
     </p>
 }
+    @*Nya tabellen*@
+
+<h3>
+    Filtrera sökning
+</h3>
+<form asp-controller="Items" asp-action="Index" class="col-4 my-1 p-2">
+    <div>
+        Bostadstyp
+        <div class="my-1">
+            <select asp-for="ItemType" asp-items="Model.ItemTypesVM">
+                <option value="">Alla objekt</option>
+            </select>
+        </div>
+        Stad eller Adress
+        <div class="my-1">
+            <input type="text" name="searchString" placeholder="Title" class="form-control-sm col-12" />
+        </div>
+        Rum
+        <div class="my-1">
+            <input type="number" name="minNrOfRooms" step="1" placeholder="min" class="form-control-sm col-5" />&nbsp;&#8212;&nbsp;<input type="number" name="maxNrOfRooms" step="1" placeholder="max" class="form-control-sm col-5" />
+        </div>
+        BoArea
+        <div class="my-1">
+            <input type="number" name="minArea" step="1" placeholder="min" class="form-control-sm col-5" />&nbsp;&#8212;&nbsp;<input type="number" name="maxArea" step="1" placeholder="max" class="form-control-sm col-5" />
+        </div>
+        Pris
+        <div class="my-1">
+            <input type="number" name="minPrice" step="100000" placeholder="$min" class="form-control-sm col-5" />&nbsp;&#8212;&nbsp;<input type="number" name="maxPrice" step="100000" placeholder="$max" class="form-control-sm col-5" />
+        </div>
+        <input type="submit" value="Filter" class="btn btn-primary btn-sm" />
+        <a asp-action="Index" class="btn btn-secondary btn-sm float-right">Clear</a>
+    </div>
+</form>
+
+    @*Gamla tabellen*@
+
 <form asp-controller="Items" asp-action="Index" method="get">
     <p>
     <p>Typ av objekt</p>

@@ -92,7 +92,7 @@ namespace HomeFinder.Controllers
         //}
 
 
-        public async Task<IActionResult> Index(string itemType, int nrOfRooms, string searchString)
+        public async Task<IActionResult> Index(string searchString, string itemType, string minNrOfRooms, string maxNrOfRooms, string minPrice, string maxPrice, string minArea, string maxArea)
         {
             // Use LINQ to get list of genres.
             IQueryable<string> itmeTypeQuery = from i in _context.Item
@@ -104,7 +104,7 @@ namespace HomeFinder.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                items = items.Where(i => i.Address.Contains(searchString));
+                items = items.Where(i => i.Address.Contains(searchString) || i.City.Contains(searchString));
             }
 
             if (!string.IsNullOrEmpty(itemType))
@@ -112,11 +112,49 @@ namespace HomeFinder.Controllers
                 items = items.Where(i => i.ItemType == itemType);
             }
 
+            if (!string.IsNullOrEmpty(minNrOfRooms))
+            {
+                var min = int.Parse(minNrOfRooms);
+                items = items.Where(i => i.NrOfRoom >= min);
+            }
+
+            if (!string.IsNullOrEmpty(maxNrOfRooms))
+            {
+                var max = int.Parse(maxNrOfRooms);
+                items = items.Where(i => i.NrOfRoom <= max);
+            }
+
+            if (!string.IsNullOrEmpty(minPrice))
+            {
+                var min = decimal.Parse(minPrice);
+                items = items.Where(i => i.Price >= min);
+            }
+
+            if (!string.IsNullOrEmpty(maxPrice))
+            {
+                var max = decimal.Parse(maxPrice);
+                items = items.Where(i => i.Price <= max);
+            }
+
+            if (!string.IsNullOrEmpty(minArea))
+            {
+                var min = double.Parse(minArea);
+                items = items.Where(i => i.LivingArea >= min);
+            }
+
+            if (!string.IsNullOrEmpty(maxArea))
+            {
+                var max = double.Parse(maxArea);
+                items = items.Where(i => i.LivingArea <= max);
+            }
+
+
             var itemVM = new ItemViewModel
             {
                 ItemTypesVM = new SelectList(await itmeTypeQuery.Distinct().ToListAsync()),
                 Items = await items.ToListAsync()
             };
+
 
 
 
