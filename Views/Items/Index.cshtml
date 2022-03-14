@@ -30,6 +30,16 @@
             <input type="text" name="searchString" placeholder="Title" class="form-control-sm col-12" />
         </div>
         Rum
+        @*<div class="my-1">
+            <select asp-for="NrOfRoomsVM" asp-items="Model.NrOfRoomsVM">
+                <option value="">Min</option>
+            </select>
+                <select asp-for="NrOfRoomsVM" asp-items="Model.NrOfRoomsVM">
+                    <option value="">Max</option>
+               
+            </select>
+        </div>*@
+        
         <div class="my-1">
             <input type="number" name="minNrOfRooms" step="1" placeholder="min" class="form-control-sm col-5" />&nbsp;&#8212;&nbsp;<input type="number" name="maxNrOfRooms" step="1" placeholder="max" class="form-control-sm col-5" />
         </div>

@@ -12,7 +12,10 @@ namespace HomeFinder.ViewModels
         public List<Item> Items { get; set; }
         public SelectList ItemTypesVM { get; set; }
         public SelectList NrOfRoomsVM { get; set; }
-
+        public SelectList MinNrOfRooms { get; set; }
+        public SelectList MaxNrOfRooms { get; set; }
+        public int Min { get; set; }  
+        public int Max { get; set; }
         public string ItemType { get; set; }
         public string SearchString { get; set; }
     }

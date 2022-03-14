@@ -52,9 +52,9 @@ namespace HomeFinder.Models
                 GrossFloorArea = Generator.SetGrosFloorArea(),
                 PlotArea = Generator.SetPlotArea(),
                 Price = Generator.SetPrice(),
+                ImgPath = Generator.SetImage(),
                 ConstructionYear = DateTime.Now,
-                ListingDate = DateTime.Now,
-                ImgPath = "~/img/villa.jpg"
+                ListingDate = DateTime.Now
             };
         }
     }
@@ -163,6 +163,34 @@ namespace HomeFinder.Models
             }
 
             return price;
+        }
+
+        public static string SetImage()
+        {
+            if (Generator.GenItemType == "Lägenhet")
+            {
+                return "~/img/lägenhet.jpg";
+            }
+            else if (Generator.GenItemType == "Radhus")
+            {
+                return "~/img/radhus.jpg";
+            }
+
+            else if (Generator.GenItemType == "Villa")
+            {
+                return "~/img/villa.jpg";
+            }
+
+            else if (Generator.GenItemType == "Gård")
+            {
+                return "~/img/gård.jpg";
+            }
+            else if (Generator.GenItemType == "Fritidsboende")
+            {
+                return "~/img/fritidsboende.jpg";
+            }
+            return "~/img/fritidsboende.jpg";
+
         }
     }
 }

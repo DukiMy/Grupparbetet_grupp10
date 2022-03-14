@@ -92,15 +92,19 @@ namespace HomeFinder.Controllers
         //}
 
 
-        public async Task<IActionResult> Index(string searchString, string itemType, string minNrOfRooms, string maxNrOfRooms, string minPrice, string maxPrice, string minArea, string maxArea)
+        public async Task<IActionResult> Index(string searchString, string itemType, int nrOfRooms, string minNrOfRooms, string maxNrOfRooms, string minPrice, string maxPrice, string minArea, string maxArea)
         {
             // Use LINQ to get list of genres.
-            IQueryable<string> itmeTypeQuery = from i in _context.Item
+            IQueryable<string> itemTypeQuery = from i in _context.Item
                                                orderby i.ItemType
                                                select i.ItemType;
 
             var items = from i in _context.Item
                         select i;
+
+            //IQueryable<int> nrOfRoomsQuery = from i in items
+            //                                    orderby i.NrOfRoom
+            //                                    select i.NrOfRoom;
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -114,6 +118,9 @@ namespace HomeFinder.Controllers
 
             if (!string.IsNullOrEmpty(minNrOfRooms))
             {
+                IQueryable<int> nrOfRoomsQuery = from i in items
+                                                 orderby i.NrOfRoom
+                                                 select i.NrOfRoom;
                 var min = int.Parse(minNrOfRooms);
                 items = items.Where(i => i.NrOfRoom >= min);
             }
@@ -151,7 +158,7 @@ namespace HomeFinder.Controllers
 
             var itemVM = new ItemViewModel
             {
-                ItemTypesVM = new SelectList(await itmeTypeQuery.Distinct().ToListAsync()),
+                ItemTypesVM = new SelectList(await itemTypeQuery.Distinct().ToListAsync()),
                 Items = await items.ToListAsync()
             };
 
