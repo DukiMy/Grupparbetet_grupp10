@@ -15,7 +15,7 @@ namespace HomeFinder.Models
         public int Id { get; set; }
         
         [Required]
-        [DisplayName("Typ av fastighet")]
+        [DisplayName("Fastighetstyp")]
         public string ItemType { get; set; }
 
         [Required]
