@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomeFinder.Migrations
 {
     [DbContext(typeof(HomeFinderContext))]
-    [Migration("20220312145226_init")]
-    partial class init
+    [Migration("20220314213720_InitWithAddedRelationship")]
+    partial class InitWithAddedRelationship
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,6 +32,13 @@ namespace HomeFinder.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("BrokerUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("ConstructionYear")
                         .HasColumnType("datetime2");
 
@@ -41,6 +48,9 @@ namespace HomeFinder.Migrations
 
                     b.Property<double?>("GrossFloorArea")
                         .HasColumnType("float");
+
+                    b.Property<string>("ImgPath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ItemType")
                         .IsRequired()
@@ -64,6 +74,26 @@ namespace HomeFinder.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Item");
+                });
+
+            modelBuilder.Entity("HomeFinder.Models.UserItemInterest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("UserItemInterests");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -266,6 +296,15 @@ namespace HomeFinder.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("HomeFinder.Models.UserItemInterest", b =>
+                {
+                    b.HasOne("HomeFinder.Models.Item", null)
+                        .WithMany("InterestedSpeculators")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -315,6 +354,11 @@ namespace HomeFinder.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("HomeFinder.Models.Item", b =>
+                {
+                    b.Navigation("InterestedSpeculators");
                 });
 #pragma warning restore 612, 618
         }

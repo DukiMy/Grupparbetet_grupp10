@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HomeFinder.Migrations
 {
-    public partial class Init : Migration
+    public partial class InitWithAddedRelationship : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -62,7 +62,9 @@ namespace HomeFinder.Migrations
                     GrossFloorArea = table.Column<double>(type: "float", nullable: true),
                     PlotArea = table.Column<double>(type: "float", nullable: true),
                     ConstructionYear = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ListingDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    ListingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ImgPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BrokerUserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -175,6 +177,26 @@ namespace HomeFinder.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserItemInterests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ItemId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserItemInterests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserItemInterests_Item_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Item",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -213,6 +235,11 @@ namespace HomeFinder.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserItemInterests_ItemId",
+                table: "UserItemInterests",
+                column: "ItemId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -233,13 +260,16 @@ namespace HomeFinder.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Item");
+                name: "UserItemInterests");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Item");
         }
     }
 }
