@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace HomeFinder.Data
 {
-    public class HomeFinderContext : IdentityDbContext
+    public class HomeFinderContext : IdentityDbContext<ApplicationUser>
     {
         public HomeFinderContext(DbContextOptions<HomeFinderContext> options)
             : base(options)
@@ -12,6 +12,10 @@ namespace HomeFinder.Data
 
         }
         public DbSet<Item> Item { get; set; }
-      
+
+        //public override void OnModelCreating()
+        //{
+
+        //}
     }
 }
