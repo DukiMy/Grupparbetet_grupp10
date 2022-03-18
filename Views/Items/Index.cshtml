@@ -1,10 +1,10 @@
-﻿
+﻿<link rel="stylesheet" href="./css/item.css">
 @model HomeFinder.ViewModels.ItemViewModel
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Fastigheter</h1>
 
 @if (User.Identity.IsAuthenticated)
 {
@@ -17,54 +17,55 @@
 <h3>
     Filtrera sökning
 </h3>
-<form asp-controller="Items" asp-action="Index" class="col-4 my-1 p-2">
-    <div>
-        Fastighetstyp
-        <div class="my-1">
-            <select asp-for="ItemType" asp-items="Model.ItemTypesVM">
-                <option value="">Alla objekt</option>
-            </select>
-        </div>
-        Stad eller Adress
-        <div class="my-1">
-            <input type="text" name="searchString" placeholder="Title" class="form-control-sm col-12" />
-        </div>
-        Antal rum
-        <div class="my-1">
-            <select asp-for="minNrOfRooms" asp-items="Model.NrOfRoomsVM">
-                <option value="">Min</option>
-            </select>&nbsp;&#8212;&nbsp;
-            <select asp-for="maxNrOfRooms" asp-items="Model.NrOfRoomsVM">
-                <option value="">Max</option>
-            </select>
-        </div>
+<div class="front">
+    <form asp-controller="Items" asp-action="Index" class="col-4 my-1 p-2">
+        <div>
+            Fastighetstyp
+            <div class="my-1">
+                <select asp-for="ItemType" asp-items="Model.ItemTypesVM">
+                    <option value="">Alla objekt</option>
+                </select>
+            </div>
+            Stad eller Adress
+            <div class="my-1">
+                <input type="text" name="searchString" placeholder="Title" class="form-control-sm col-12" />
+            </div>
+            Antal rum
+            <div class="my-1">
+                <select asp-for="minNrOfRooms" asp-items="Model.NrOfRoomsVM">
+                    <option value="">Min</option>
+                </select>&nbsp;&#8212;&nbsp;
+                <select asp-for="maxNrOfRooms" asp-items="Model.NrOfRoomsVM">
+                    <option value="">Max</option>
+                </select>
+            </div>
 
-        Boarea m²
+            Boarea m²
 
-        <div class="my-1">
-            <select asp-for="minArea" asp-items="Model.LowerAreaSpan">
-                <option value="">Min</option>
-            </select>&nbsp;&#8212;&nbsp;
-            <select asp-for="maxArea" asp-items="Model.HigherAreaSpan">
-                <option value="">Max</option>
-            </select>
-        </div>
-       
-        Pris
-        <div class="my-1">
-            <select asp-for="minPrice" asp-items="Model.LowerPriceSpan">
-                <option value="">Min</option>
-            </select>&nbsp;&#8212;&nbsp;
-            <select asp-for="maxPrice" asp-items="Model.HigherPriceSpan">
-                <option value="">Max</option>
-            </select>
-        </div>
-       
-        <input type="submit" value="Sök" class="btn btn-primary btn-sm" />
-        <a asp-action="Index" class="btn btn-secondary btn-sm float-right">Rensa</a>
-    </div>
-</form>
+            <div class="my-1">
+                <select asp-for="minArea" asp-items="Model.LowerAreaSpan">
+                    <option value="">Min</option>
+                </select>&nbsp;&#8212;&nbsp;
+                <select asp-for="maxArea" asp-items="Model.HigherAreaSpan">
+                    <option value="">Max</option>
+                </select>
+            </div>
 
+            Pris
+            <div class="my-1">
+                <select asp-for="minPrice" asp-items="Model.LowerPriceSpan">
+                    <option value="">Min</option>
+                </select>&nbsp;&#8212;&nbsp;
+                <select asp-for="maxPrice" asp-items="Model.HigherPriceSpan">
+                    <option value="">Max</option>
+                </select>
+            </div>
+
+            <input type="submit" value="Sök" class="btn btn-primary btn-sm" />
+            <a asp-action="Index" class="btn btn-secondary btn-sm float-right">Rensa</a>
+        </div>
+    </form>
+</div>
  
 
 <div class="row">
