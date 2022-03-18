@@ -1,4 +1,4 @@
-﻿@*@model IEnumerable<HomeFinder.Models.Item>*@
+﻿
 @model HomeFinder.ViewModels.ItemViewModel
 @{
     ViewData["Title"] = "Index";
@@ -41,15 +41,6 @@
 
         Boarea m²
 
-        @*<div class="my-1">
-            <select asp-for="minArea" asp-items="Model.AreaVM">
-                <option value="">Min</option>
-            </select>&nbsp;&#8212;&nbsp;
-            <select asp-for="maxArea" asp-items="Model.AreaVM">
-                <option value="">Max</option>
-            </select>
-        </div>*@
-
         <div class="my-1">
             <select asp-for="minArea" asp-items="Model.LowerAreaSpan">
                 <option value="">Min</option>
@@ -58,10 +49,7 @@
                 <option value="">Max</option>
             </select>
         </div>
-
-        @*<div class="my-1">
-            <input type="number" name="minArea" step="1" placeholder="min" class="form-control-sm col-5" />&nbsp;&#8212;&nbsp;<input type="number" name="maxArea" step="1" placeholder="max" class="form-control-sm col-5" />
-        </div>*@
+       
         Pris
         <div class="my-1">
             <select asp-for="minPrice" asp-items="Model.LowerPriceSpan">
@@ -71,39 +59,13 @@
                 <option value="">Max</option>
             </select>
         </div>
-        @*<div class="my-1">
-            <input type="number" name="minPrice" step="100000" placeholder="$min" class="form-control-sm col-5" />&nbsp;&#8212;&nbsp;<input type="number" name="maxPrice" step="100000" placeholder="$max" class="form-control-sm col-5" />
-        </div>*@
+       
         <input type="submit" value="Sök" class="btn btn-primary btn-sm" />
         <a asp-action="Index" class="btn btn-secondary btn-sm float-right">Rensa</a>
     </div>
 </form>
 
-    @*Gamla tabellen*@
-
-@*<form asp-controller="Items" asp-action="Index" method="get">
-    <p>
-    <p>Typ av objekt</p>
-    
-        <select asp-for="ItemType" asp-items="Model.ItemTypesVM">
-            <option value="">Alla objekt</option>
-        </select>
-
-        Title:
-        <input type="text" asp-for="SearchString" />
-        <input type="submit" value="Sök" />
-        </p>
-</form>*@
-
-@*<form asp-controller="Items" asp-action="Index2" method="get">
-    <p>
-    <p>Antal rum</p>
-    <select asp-for="NrOfRooms" asp-items="Model.NrOfRoomsVM">
-        <option value="">Alla objekt</option>
-    </select>
-
-    </p>
-</form>*@
+ 
 
 <div class="row">
     <div class="col-6">
@@ -131,24 +93,13 @@
                         @Html.DisplayNameFor(model => model.Items[0].NrOfRoom)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Items[0].Description)
-                    </th>
-                    <th>
                         @Html.DisplayNameFor(model => model.Items[0].LivingArea)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Items[0].GrossFloorArea)
+                        @Html.DisplayNameFor(model => model.Items[0].Description)
                     </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Items[0].PlotArea)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Items[0].ConstructionYear)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Items[0].ListingDate)
-                    </th>
-                    <th></th>
+                   
+                    
                 </tr>
             </thead>
             <tbody>
@@ -156,7 +107,8 @@
                 {
                 <tr>
                     <td>
-                        <img src="@Url.Content(item.ImgPath)" alt="Loading image">
+                        <a asp-action="Details" asp-route-id="@item.Id" img src="@Url.Content(item.ImgPath)" alt="Loading image">Info</a> |
+                        @*<img src="@Url.Content(item.ImgPath)" alt="Loading image">*@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Id)
@@ -177,23 +129,12 @@
                         @Html.DisplayFor(modelItem => item.NrOfRoom)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.LivingArea) m²
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.GrossFloorArea) m²
+                        @Html.DisplayFor(modelItem => item.Description)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PlotArea) m²
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ConstructionYear)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ListingDate)
-                    </td>
+                  
                     <td>
                         @*@if (User.Identity.IsAuthenticated)
             {
