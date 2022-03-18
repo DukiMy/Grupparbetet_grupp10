@@ -20,18 +20,35 @@ namespace HomeFinder.Controllers
             _context = context;
         }
 
-        //public async Task<IActionResult> Index(string minNrOfRooms, string maxNrOfRooms, string searchString)
+        //public async Task<IActionResult> Index(string searchString, string itemType, int nrOfRooms, string minNrOfRooms, string maxNrOfRooms, string minPrice, string maxPrice, string minArea, string maxArea)
         //{
-        //    //var items = _context.Item.Select(i => i);
-        //    var items = from i in _context.Item select i;
+
+
+        //    // Use LINQ to get list of genres.
+        //    IQueryable<string> itemTypeQuery = from i in _context.Item
+        //                                       orderby i.ItemType
+        //                                       select i.ItemType;
+
+        //    var items = from i in _context.Item
+        //                select i;
+
+        //    IQueryable<int> nrOfRoomsQuery = from i in items
+        //                                     orderby i.NrOfRoom
+        //                                     select i.NrOfRoom;
 
         //    if (!string.IsNullOrEmpty(searchString))
         //    {
-        //        items = items.Where(i => i.Address.Contains(searchString) || i.Description.Contains(searchString) || i.City.Contains(searchString));
+        //        items = items.Where(i => i.Address.Contains(searchString) || i.City.Contains(searchString));
+        //    }
+
+        //    if (!string.IsNullOrEmpty(itemType))
+        //    {
+        //        items = items.Where(i => i.ItemType == itemType);
         //    }
 
         //    if (!string.IsNullOrEmpty(minNrOfRooms))
         //    {
+
         //        var min = int.Parse(minNrOfRooms);
         //        items = items.Where(i => i.NrOfRoom >= min);
         //    }
@@ -42,36 +59,44 @@ namespace HomeFinder.Controllers
         //        items = items.Where(i => i.NrOfRoom <= max);
         //    }
 
+        //    if (!string.IsNullOrEmpty(minPrice))
+        //    {
+        //        var min = decimal.Parse(minPrice);
+        //        items = items.Where(i => i.Price >= min);
+        //    }
+
+        //    if (!string.IsNullOrEmpty(maxPrice))
+        //    {
+        //        var max = decimal.Parse(maxPrice);
+        //        items = items.Where(i => i.Price <= max);
+        //    }
+
+        //    if (!string.IsNullOrEmpty(minArea))
+        //    {
+        //        var min = double.Parse(minArea);
+        //        items = items.Where(i => i.LivingArea >= min);
+        //    }
+
+        //    if (!string.IsNullOrEmpty(maxArea))
+        //    {
+        //        var max = double.Parse(maxArea);
+        //        items = items.Where(i => i.LivingArea <= max);
+        //    }
+
         //    var itemVM = new ItemViewModel
         //    {
-
+        //        MinNrOfRooms = new SelectList(await nrOfRoomsQuery.Distinct().ToListAsync()),
+        //        ItemTypesVM = new SelectList(await itemTypeQuery.Distinct().ToListAsync()),
         //        Items = await items.ToListAsync()
         //    };
 
-
-        //    // Use LINQ to get list of genres.
-        //    //IQueryable<string> itmeTypeQuery = from i in _context.Item
-        //    //                                   orderby i.ItemType
-        //    //                                   select i.ItemType;
-
-        //    //var items = from i in _context.Item
-        //    //            select i;
-
-        //    //if (!string.IsNullOrEmpty(searchString))
-        //    //{
-        //    //    items = items.Where(i => i.Address.Contains(searchString));
-        //    //}
-
-        //    //if (!string.IsNullOrEmpty(itemType))
-        //    //{
-        //    //    items = items.Where(i => i.ItemType == itemType);
-        //    //}
-
         //    //var itemVM = new ItemViewModel
         //    //{
-        //    //    ItemTypesVM = new SelectList(await itmeTypeQuery.Distinct().ToListAsync()),
+        //    //    NrOfRoomsVM = new SelectList(await nrOfRoomsQuery.Distinct().ToListAsync()),
+        //    //    ItemTypesVM = new SelectList(await itemTypeQuery.Distinct().ToListAsync()),
         //    //    Items = await items.ToListAsync()
         //    //};
+
 
 
 
@@ -91,20 +116,31 @@ namespace HomeFinder.Controllers
         //    return View(itemVM);
         //}
 
-
+        //public async Task<IActionResult> Index(string searchString, string itemType, int nrOfRooms, string minNrOfRooms, string maxNrOfRooms, string minPrice, string maxPrice, string minArea, string maxArea)
         public async Task<IActionResult> Index(string searchString, string itemType, int nrOfRooms, string minNrOfRooms, string maxNrOfRooms, string minPrice, string maxPrice, string minArea, string maxArea)
         {
-            // Use LINQ to get list of genres.
-            IQueryable<string> itemTypeQuery = from i in _context.Item
-                                               orderby i.ItemType
-                                               select i.ItemType;
+
 
             var items = from i in _context.Item
                         select i;
+            // Use LINQ to get list of genres.
+            IQueryable<string> itemTypeQuery = from i in items
+                                               orderby i.ItemType
+                                               select i.ItemType;
 
-            //IQueryable<int> nrOfRoomsQuery = from i in items
-            //                                    orderby i.NrOfRoom
-            //                                    select i.NrOfRoom;
+
+
+            IQueryable<int> nrOfRoomsQuery = from i in items
+                                             orderby i.NrOfRoom
+                                             select i.NrOfRoom;
+
+            IQueryable<double> areaQuery = from i in items
+                                             orderby i.LivingArea
+                                             select i.LivingArea;
+
+            IQueryable<decimal> priceQuery = from i in items
+                                           orderby i.Price
+                                           select i.Price;
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -115,12 +151,9 @@ namespace HomeFinder.Controllers
             {
                 items = items.Where(i => i.ItemType == itemType);
             }
-
+                        
             if (!string.IsNullOrEmpty(minNrOfRooms))
             {
-                IQueryable<int> nrOfRoomsQuery = from i in items
-                                                 orderby i.NrOfRoom
-                                                 select i.NrOfRoom;
                 var min = int.Parse(minNrOfRooms);
                 items = items.Where(i => i.NrOfRoom >= min);
             }
@@ -133,49 +166,52 @@ namespace HomeFinder.Controllers
 
             if (!string.IsNullOrEmpty(minPrice))
             {
+                minPrice = RemoveChar(minPrice);
                 var min = decimal.Parse(minPrice);
                 items = items.Where(i => i.Price >= min);
             }
 
             if (!string.IsNullOrEmpty(maxPrice))
             {
+                maxPrice = RemoveChar(maxPrice);
                 var max = decimal.Parse(maxPrice);
                 items = items.Where(i => i.Price <= max);
             }
 
             if (!string.IsNullOrEmpty(minArea))
             {
+                minArea = RemoveChar(minArea);
                 var min = double.Parse(minArea);
                 items = items.Where(i => i.LivingArea >= min);
             }
 
             if (!string.IsNullOrEmpty(maxArea))
             {
+                maxArea = RemoveChar(maxArea);
                 var max = double.Parse(maxArea);
                 items = items.Where(i => i.LivingArea <= max);
             }
-
-
+            
+           
             var itemVM = new ItemViewModel
             {
+
                 ItemTypesVM = new SelectList(await itemTypeQuery.Distinct().ToListAsync()),
+                NrOfRoomsVM = new SelectList(await nrOfRoomsQuery.Distinct().ToListAsync()),
+                AreaVM = new SelectList(await areaQuery.Distinct().ToListAsync()),
+               
+                PriceVM = new SelectList(await priceQuery.Distinct().ToListAsync()),
+
+
                 Items = await items.ToListAsync()
             };
 
 
+            //(itemVM.LowerAreaSpan, itemVM.HigherAreaSpan) = SetAreaSpan((IQueryable<int>)areaQuery, 25);
+            //(itemVM.LowerPriceSpan, itemVM.HigherPriceSpan) = SetPriceSpan((IQueryable<int>)priceQuery, 250000);
 
-
-            //IQueryable<int> nrOfRoomsQuery = from i in _context.Item
-            //                                 orderby i.NrOfRoom
-            //                                 select i.NrOfRoom;
-
-
-
-            //items = items.Where(i => i.NrOfRoom == nrOfRooms);
-
-            //itemVM.NrOfRoomsVM = new SelectList(await nrOfRoomsQuery.Distinct().ToListAsync());
-            //itemVM.Items = await items.ToListAsync();
-
+            (itemVM.LowerAreaSpan, itemVM.HigherAreaSpan) = SetAreaSpan(areaQuery, 25);
+            (itemVM.LowerPriceSpan, itemVM.HigherPriceSpan) = SetPriceSpan(priceQuery, 250000);
 
 
             return View(itemVM);
@@ -308,5 +344,78 @@ namespace HomeFinder.Controllers
         {
             return _context.Item.Any(e => e.Id == id);
         }
+
+        //====================================================
+
+        public string RemoveChar(string numString)
+        {
+            if (numString.Contains("<") || numString.Contains(">"))
+            {
+                numString = numString[1..];
+            }
+
+            return numString;
+        }
+
+
+        //public (SelectList, SelectList) SetSpan(IQueryable<int> areaQuery, int step)
+        //{
+        //    List<string> lowerAreaSpanQuery = new();
+        //    List<string> higherAreaSpanQuery = new();
+
+        //    foreach (int area in areaQuery)
+        //    {
+        //        for (int i = 0; i < area; i += step)
+        //        {
+        //            if (area <= i + step)
+        //            {
+        //                lowerAreaSpanQuery.Add(i.ToString());
+        //                higherAreaSpanQuery.Add((i + step).ToString());
+        //            }
+        //        }
+        //    }
+
+        //    return (new SelectList(lowerAreaSpanQuery.Distinct()), new SelectList(higherAreaSpanQuery.Distinct()));
+        //}
+        public (SelectList, SelectList) SetAreaSpan(IQueryable<double> areaQuery, int step)
+        {
+            List<string> lowerAreaSpanQuery = new();
+            List<string> higherAreaSpanQuery = new();
+
+            foreach (int area in areaQuery)
+            {
+                for (int i = 0; i < area; i += step)
+                {
+                    if (area <= i + step)
+                    {
+                        lowerAreaSpanQuery.Add(i.ToString());
+                        higherAreaSpanQuery.Add((i + step).ToString());
+                    }
+                }
+            }
+
+            return (new SelectList(lowerAreaSpanQuery.Distinct()), new SelectList(higherAreaSpanQuery.Distinct()));
+        }
+        public (SelectList, SelectList) SetPriceSpan(IQueryable<decimal> areaQuery, int step)
+        {
+            List<string> lowerAreaSpanQuery = new();
+            List<string> higherAreaSpanQuery = new();
+
+            foreach (int area in areaQuery)
+            {
+                for (int i = 0; i < area; i += step)
+                {
+                    if (area <= i + step)
+                    {
+                        lowerAreaSpanQuery.Add(i.ToString());
+                        higherAreaSpanQuery.Add((i + step).ToString());
+                    }
+                }
+            }
+
+            return (new SelectList(lowerAreaSpanQuery.Distinct()), new SelectList(higherAreaSpanQuery.Distinct()));
+        }
+
+        
     }
 }
