@@ -6,5 +6,6 @@ namespace HomeFinder.Models
     public class ApplicationUser : IdentityUser
     {
         public ICollection<Item> OwnedItems { get; set; }
+        public ICollection<InterestRegistration> InterestRegistrations { get; set; }
     }
 }

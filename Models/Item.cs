@@ -68,6 +68,6 @@ namespace HomeFinder.Models
         // public string FormOfLease { get; set; }
 
         public ApplicationUser Broker { get; set; }
-        public ICollection<InterestRegistration> InterestRegistration { get; set; }
+        public ICollection<InterestRegistration> InterestRegistrations { get; set; }
     }
 }
