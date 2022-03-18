@@ -9,75 +9,88 @@
         <img src="@Url.Content(@Model.ImgPath)" alt="Loading image" class="w-100">
     </div>
     <div class="col-4">
-        Ansvarig mäklare
-
-        @*<dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.ListingDate)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.ListingDate)
-        </dd>*@
-    </div>
-</div>
-
-<div class="row" my="1">
-    <div class="col-6">
-        <h3>@Html.DisplayFor(model => model.Address)</h3>
-        <h5>@Model.City</h5>
-    </div>
-    <div class="col-6">
-        <h3>@Html.DisplayFor(model => model.Price) SEK</h3>
-    </div>
-
-    <div class="col-6">
-        @Html.DisplayFor(model => model.Description)
-    </div>
-
-    <div class="col-6">
-        <h5>Information om fastigheten</h5>
+        Ansvarig mäklare: @*@Model.Broker*@
         <dl class="row">
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.ItemType)
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.ListingDate)
             </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.ItemType)
-            </dd>
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.NrOfRoom)
+            <dt class="col-sm-9">
+                @Html.DisplayFor(model => model.ListingDate)
             </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.NrOfRoom)
-            </dd>
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.LivingArea)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.LivingArea)
-            </dd>
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.GrossFloorArea)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.GrossFloorArea)
-            </dd>
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.PlotArea)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.PlotArea)
-            </dd>
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.ConstructionYear)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.ConstructionYear)
-            </dd>
         </dl>
     </div>
 </div>
-
-
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="col-8">
+    <div class="row justify-content-between" my="1">
+        <div class="col-4">
+            <h3>@Html.DisplayFor(model => model.Address)</h3>
+            <h6>@Model.City</h6>
+        </div>
+        <div class="col-4">
+            <h3>@Html.DisplayFor(model => model.Price) SEK</h3>
+        </div>
+    </div>
 </div>
+<div class="col-8">
+    <div class="row justify-content-between" my="1">
+        <div class="col-4">
+            @Html.DisplayFor(model => model.Description)
+        </div>
+
+        <div class="col-4">
+            <h5>Information om fastigheten</h5>
+            <dl class="row">
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.ItemType)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.ItemType)
+                </dd>
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.NrOfRoom)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.NrOfRoom)
+                </dd>
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.LivingArea)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.LivingArea)
+                </dd>
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.GrossFloorArea)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.GrossFloorArea)
+                </dd>
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.PlotArea)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.PlotArea)
+                </dd>
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.ConstructionYear)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.ConstructionYear)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+
+    <p>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d130265.72825540218!2d17.84197185942864!3d59.32624196686473!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ssv!2sse!4v1647439700977!5m2!1ssv!2sse" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </p>
+
+    <div class="row">
+        <div class="col-6">
+            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+        <div class="col-6">
+            Anmäl intresse
+        </div>
+    </div>

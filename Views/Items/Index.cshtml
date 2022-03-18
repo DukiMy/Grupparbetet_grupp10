@@ -19,7 +19,7 @@
 </h3>
 <form asp-controller="Items" asp-action="Index" class="col-4 my-1 p-2">
     <div>
-        Bostadstyp
+        Fastighetstyp
         <div class="my-1">
             <select asp-for="ItemType" asp-items="Model.ItemTypesVM">
                 <option value="">Alla objekt</option>
@@ -29,36 +29,59 @@
         <div class="my-1">
             <input type="text" name="searchString" placeholder="Title" class="form-control-sm col-12" />
         </div>
-        Rum
-        @*<div class="my-1">
-            <select asp-for="NrOfRoomsVM" asp-items="Model.NrOfRoomsVM">
+        Antal rum
+        <div class="my-1">
+            <select asp-for="minNrOfRooms" asp-items="Model.NrOfRoomsVM">
                 <option value="">Min</option>
+            </select>&nbsp;&#8212;&nbsp;
+            <select asp-for="maxNrOfRooms" asp-items="Model.NrOfRoomsVM">
+                <option value="">Max</option>
             </select>
-                <select asp-for="NrOfRoomsVM" asp-items="Model.NrOfRoomsVM">
-                    <option value="">Max</option>
-               
+        </div>
+
+        Boarea m²
+
+        @*<div class="my-1">
+            <select asp-for="minArea" asp-items="Model.AreaVM">
+                <option value="">Min</option>
+            </select>&nbsp;&#8212;&nbsp;
+            <select asp-for="maxArea" asp-items="Model.AreaVM">
+                <option value="">Max</option>
             </select>
         </div>*@
-        
+
         <div class="my-1">
-            <input type="number" name="minNrOfRooms" step="1" placeholder="min" class="form-control-sm col-5" />&nbsp;&#8212;&nbsp;<input type="number" name="maxNrOfRooms" step="1" placeholder="max" class="form-control-sm col-5" />
+            <select asp-for="minArea" asp-items="Model.LowerAreaSpan">
+                <option value="">Min</option>
+            </select>&nbsp;&#8212;&nbsp;
+            <select asp-for="maxArea" asp-items="Model.HigherAreaSpan">
+                <option value="">Max</option>
+            </select>
         </div>
-        BoArea
-        <div class="my-1">
+
+        @*<div class="my-1">
             <input type="number" name="minArea" step="1" placeholder="min" class="form-control-sm col-5" />&nbsp;&#8212;&nbsp;<input type="number" name="maxArea" step="1" placeholder="max" class="form-control-sm col-5" />
-        </div>
+        </div>*@
         Pris
         <div class="my-1">
-            <input type="number" name="minPrice" step="100000" placeholder="$min" class="form-control-sm col-5" />&nbsp;&#8212;&nbsp;<input type="number" name="maxPrice" step="100000" placeholder="$max" class="form-control-sm col-5" />
+            <select asp-for="minPrice" asp-items="Model.LowerPriceSpan">
+                <option value="">Min</option>
+            </select>&nbsp;&#8212;&nbsp;
+            <select asp-for="maxPrice" asp-items="Model.HigherPriceSpan">
+                <option value="">Max</option>
+            </select>
         </div>
-        <input type="submit" value="Filter" class="btn btn-primary btn-sm" />
-        <a asp-action="Index" class="btn btn-secondary btn-sm float-right">Clear</a>
+        @*<div class="my-1">
+            <input type="number" name="minPrice" step="100000" placeholder="$min" class="form-control-sm col-5" />&nbsp;&#8212;&nbsp;<input type="number" name="maxPrice" step="100000" placeholder="$max" class="form-control-sm col-5" />
+        </div>*@
+        <input type="submit" value="Sök" class="btn btn-primary btn-sm" />
+        <a asp-action="Index" class="btn btn-secondary btn-sm float-right">Rensa</a>
     </div>
 </form>
 
     @*Gamla tabellen*@
 
-<form asp-controller="Items" asp-action="Index" method="get">
+@*<form asp-controller="Items" asp-action="Index" method="get">
     <p>
     <p>Typ av objekt</p>
     
@@ -70,7 +93,8 @@
         <input type="text" asp-for="SearchString" />
         <input type="submit" value="Sök" />
         </p>
-</form>
+</form>*@
+
 @*<form asp-controller="Items" asp-action="Index2" method="get">
     <p>
     <p>Antal rum</p>
