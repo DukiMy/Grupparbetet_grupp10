@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using HomeFinder.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using HomeFinder.Models;
 
 namespace HomeFinder
 {
@@ -28,7 +29,7 @@ namespace HomeFinder
         {
             services.AddDbContext<HomeFinderContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HomeFinderContext")));
             services.AddRazorPages();
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<HomeFinderContext>();
             services.AddControllersWithViews();

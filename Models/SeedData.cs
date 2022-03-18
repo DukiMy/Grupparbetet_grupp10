@@ -23,7 +23,7 @@ namespace HomeFinder.Models
                 //}
 
                 context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
+                context.Database.Migrate();
 
                 //========================< INFO >=============================
                 // Ange hur många objekt du vill skapa i numberOfItems
