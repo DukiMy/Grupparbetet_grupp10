@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace HomeFinder.Areas.Identity.Pages.Account.Manage
+namespace HomeFinderResetTest.Areas.Identity.Pages.Account.Manage
 {
     public class EnableAuthenticatorModel : PageModel
     {
@@ -149,7 +149,7 @@ namespace HomeFinder.Areas.Identity.Pages.Account.Manage
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("HomeFinder"),
+                _urlEncoder.Encode("HomeFinderResetTest"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

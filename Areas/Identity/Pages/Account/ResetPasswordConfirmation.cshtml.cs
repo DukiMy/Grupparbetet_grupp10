@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace HomeFinder.Areas.Identity.Pages.Account
+namespace HomeFinderResetTest.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class ResetPasswordConfirmationModel : PageModel

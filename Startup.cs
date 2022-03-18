@@ -1,6 +1,9 @@
+using HomeFinder.Data;
+using HomeFinder.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,12 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HomeFinder.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using HomeFinder.Models;
 
-namespace HomeFinder
+namespace HomeFinderResetTest
 {
     public class Startup
     {
@@ -28,11 +27,16 @@ namespace HomeFinder
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<HomeFinderContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HomeFinderContext")));
-            services.AddRazorPages();
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<HomeFinderContext>();
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<HomeFinderContext>();
 
+
+            //services.AddIdentity<ApplicationUser, IdentityRole>(
+            //    options => options.SignIn.RequireConfirmedAccount = true)
+            //.AddEntityFrameworkStores<HomeFinderContext>()
+            //.AddDefaultUI()
+            //.AddDefaultTokenProviders();
+
+            services.AddRazorPages();
             services.AddControllersWithViews();
         }
 
@@ -54,8 +58,8 @@ namespace HomeFinder
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

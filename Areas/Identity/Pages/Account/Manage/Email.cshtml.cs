@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace HomeFinder.Areas.Identity.Pages.Account.Manage
+namespace HomeFinderResetTest.Areas.Identity.Pages.Account.Manage
 {
     public partial class EmailModel : PageModel
     {

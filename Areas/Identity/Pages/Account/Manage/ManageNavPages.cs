@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace HomeFinder.Areas.Identity.Pages.Account.Manage
+namespace HomeFinderResetTest.Areas.Identity.Pages.Account.Manage
 {
     public static class ManageNavPages
     {

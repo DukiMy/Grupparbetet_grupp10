@@ -22,8 +22,8 @@ namespace HomeFinder.Models
                 //    return;   // DB has been seeded
                 //}
 
-                context.Database.EnsureDeleted();
-                context.Database.Migrate();
+                //context.Database.EnsureDeleted();
+                //context.Database.Migrate();
 
                 //========================< INFO >=============================
                 // Ange hur många objekt du vill skapa i numberOfItems
