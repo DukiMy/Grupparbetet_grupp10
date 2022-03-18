@@ -32,6 +32,7 @@ namespace HomeFinder
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<HomeFinderContext>();
+
             services.AddControllersWithViews();
         }
 
