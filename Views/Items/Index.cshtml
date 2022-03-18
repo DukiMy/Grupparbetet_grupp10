@@ -107,8 +107,8 @@
                 {
                 <tr>
                     <td>
-                        <a asp-action="Details" asp-route-id="@item.Id" img src="@Url.Content(item.ImgPath)" alt="Loading image">Info</a> |
-                        @*<img src="@Url.Content(item.ImgPath)" alt="Loading image">*@
+                        
+                        <img src="@Url.Content(item.ImgPath)" alt="Loading image">
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Id)
