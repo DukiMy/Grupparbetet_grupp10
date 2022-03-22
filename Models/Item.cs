@@ -22,9 +22,9 @@ namespace HomeFinder.Models
         [DisplayName("Adress")]
         public string Address { get; set; }
 
-        [Required]
+        //[Required]
         [DisplayName("Stad")]
-        public string City { get; set; }
+        public string? City { get; set; } = string.Empty;
 
         [Required]
         [DisplayName("Pris")]
