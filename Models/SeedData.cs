@@ -63,8 +63,9 @@ namespace HomeFinder.Models
                 PlotArea = Generator.SetPlotArea(),
                 Price = Generator.SetPrice(),
                 ImgPath = Generator.SetImage(),
-                ConstructionYear = DateTime.Now,
-                ListingDate = DateTime.Now
+                ConstructionYear = Generator.SetConstructionYear(),
+                ListingDate = Generator.SetListingDate(),
+                
             };
         }
     }
@@ -79,6 +80,7 @@ namespace HomeFinder.Models
         public static double? GenGrosFloorArea { get; set; }
         public static double? GenPlotArea { get; set; }
         
+
         //=====properties i klassen Item=======
         // int Id, string ItemType, string Address, string City, decimal Price, int NrOfRoom, string Description,
         // double LivingArea, double? GrosFloorArea, double? PlotArea, DataType.Date ConstructionYear, DataType.Date ListingDate
@@ -175,6 +177,19 @@ namespace HomeFinder.Models
             return price;
         }
 
+        public static DateTime SetConstructionYear()
+        {
+            DateTime start = new DateTime(1900, 1, 1);
+            int range = (DateTime.Today - start).Days;
+            return start.AddDays(Random.Next(range));
+        }
+        public static DateTime SetListingDate()
+        {
+            DateTime start = DateTime.Now.AddDays(-30);
+            int range = (DateTime.Today - start).Days;
+            return start.AddDays(Random.Next(range));
+        }
+        
         public static string SetImage()
         {
             if (Generator.GenItemType == "Lägenhet")
