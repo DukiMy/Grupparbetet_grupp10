@@ -27,18 +27,28 @@ namespace HomeFinder.Models
 
                 //========================< INFO >=============================
                 // Ange hur många objekt du vill skapa i numberOfItems
-                int numberOfItems = 25;
+                int numberOfItems = 100;
 
                 for (int i = 0; i < numberOfItems; i++)
                 {
                     var newItem = CreateNewItem();
                     context.Item.AddRange(newItem);
                 }
-                              
+
+                var newUser = CreateNewApplicationUser();
                 context.SaveChanges();
             }
         }
 
+        public static ApplicationUser CreateNewApplicationUser()
+        {
+            return new ApplicationUser
+            {
+                UserName = "",
+                Email = "petter.berelin@gmail.com",
+                PasswordHash = "Superpassword-2022"
+            };
+        }
         public static Item CreateNewItem()
         {
             return new Item

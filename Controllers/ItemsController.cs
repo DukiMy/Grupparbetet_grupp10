@@ -21,10 +21,12 @@ namespace HomeFinder.Controllers
         }
 
         
-        public async Task<IActionResult> Index(string searchString, string itemType, int nrOfRooms, string minNrOfRooms, string maxNrOfRooms, string minPrice, string maxPrice, string minArea, string maxArea)
+        public async Task<IActionResult> Index(string searchString, string itemType, int nrOfRooms, string minNrOfRooms, 
+                                               string maxNrOfRooms, string minPrice, string maxPrice, string minArea, 
+                                               string maxArea, string displayOrder)
         {
 
-
+             
             var items = from i in _context.Item
                         select i;
             // Use LINQ to get list of genres.
@@ -110,12 +112,14 @@ namespace HomeFinder.Controllers
                 Items = await items.ToListAsync()
             };
 
-
+            
             //(itemVM.LowerAreaSpan, itemVM.HigherAreaSpan) = SetAreaSpan((IQueryable<int>)areaQuery, 25);
             //(itemVM.LowerPriceSpan, itemVM.HigherPriceSpan) = SetPriceSpan((IQueryable<int>)priceQuery, 250000);
 
             (itemVM.LowerAreaSpan, itemVM.HigherAreaSpan) = SetAreaSpan(areaQuery, 25);
             (itemVM.LowerPriceSpan, itemVM.HigherPriceSpan) = SetPriceSpan(priceQuery, 250000);
+
+            itemVM.Items = SortList(itemVM.Items, displayOrder);
 
 
             return View(itemVM);
@@ -161,6 +165,7 @@ namespace HomeFinder.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            //return BadRequest("Fel vid skapande av item.");
             return View(item);
         }
 
@@ -251,6 +256,37 @@ namespace HomeFinder.Controllers
 
         //====================================================
 
+        public List<Item> SortList(List<Item> itemList, string displayOrder)
+        {
+           // List<Item> sortedList = new();
+
+            if (displayOrder == "Pris_Stigande")
+            {
+               return itemList.OrderBy(i => i.Price).ToList();
+
+            }
+
+            else if (displayOrder == "Pris_Fallande")
+            {
+                return itemList.OrderBy(i => i.Price).Reverse().ToList();
+            }
+
+            else if (displayOrder == "Datum_Nyast")
+            {
+                return itemList.OrderBy(i => i.ListingDate).ToList();
+
+            }
+
+            else if (displayOrder == "Datum_Äldst")
+            {
+                return itemList.OrderBy(i => i.ListingDate).Reverse().ToList();
+
+            }
+
+
+
+            return itemList;
+        }
         public string RemoveChar(string numString)
         {
             if (numString.Contains("<") || numString.Contains(">"))
@@ -262,25 +298,7 @@ namespace HomeFinder.Controllers
         }
 
 
-        //public (SelectList, SelectList) SetSpan(IQueryable<int> areaQuery, int step)
-        //{
-        //    List<string> lowerAreaSpanQuery = new();
-        //    List<string> higherAreaSpanQuery = new();
-
-        //    foreach (int area in areaQuery)
-        //    {
-        //        for (int i = 0; i < area; i += step)
-        //        {
-        //            if (area <= i + step)
-        //            {
-        //                lowerAreaSpanQuery.Add(i.ToString());
-        //                higherAreaSpanQuery.Add((i + step).ToString());
-        //            }
-        //        }
-        //    }
-
-        //    return (new SelectList(lowerAreaSpanQuery.Distinct()), new SelectList(higherAreaSpanQuery.Distinct()));
-        //}
+        
         public (SelectList, SelectList) SetAreaSpan(IQueryable<double> areaQuery, int step)
         {
             List<string> lowerAreaSpanQuery = new();

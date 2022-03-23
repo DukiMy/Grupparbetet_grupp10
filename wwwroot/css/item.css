@@ -7,6 +7,13 @@
     border: 1px solid black;
    
 }
-    .front img {
-        opacity: 0.1;
+    .front span {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        /*background-color: whitesmoke;*/
+        background-color:aliceblue;
+        font: bolder;
+        padding: 1px;
+        border: 2px solid grey;
+        border-radius: 5px;
     }

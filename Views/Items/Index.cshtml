@@ -20,46 +20,57 @@
 <div class="front">
     <form asp-controller="Items" asp-action="Index" class="col-4 my-1 p-2">
         <div>
-            Fastighetstyp
+            <span>Fastighetstyp</span>
             <div class="my-1">
                 <select asp-for="ItemType" asp-items="Model.ItemTypesVM">
                     <option value="">Alla objekt</option>
                 </select>
             </div>
-            Stad eller Adress
+            <span>Stad eller Adress</span>
             <div class="my-1">
                 <input type="text" name="searchString" placeholder="Title" class="form-control-sm col-12" />
             </div>
-            Antal rum
+            <span>Antal rum</span>
             <div class="my-1">
-                <select asp-for="minNrOfRooms" asp-items="Model.NrOfRoomsVM">
+                <select asp-for="MinNrOfRooms" asp-items="Model.NrOfRoomsVM">
                     <option value="">Min</option>
                 </select>&nbsp;&#8212;&nbsp;
-                <select asp-for="maxNrOfRooms" asp-items="Model.NrOfRoomsVM">
+                <select asp-for="MaxNrOfRooms" asp-items="Model.NrOfRoomsVM">
                     <option value="">Max</option>
                 </select>
             </div>
 
-            Boarea m²
+            <span>Boarea m²</span>
 
             <div class="my-1">
-                <select asp-for="minArea" asp-items="Model.LowerAreaSpan">
+                <select asp-for="MinArea" asp-items="Model.LowerAreaSpan">
                     <option value="">Min</option>
                 </select>&nbsp;&#8212;&nbsp;
-                <select asp-for="maxArea" asp-items="Model.HigherAreaSpan">
+                <select asp-for="MaxArea" asp-items="Model.HigherAreaSpan">
                     <option value="">Max</option>
                 </select>
             </div>
 
-            Pris
+            <span>Pris</span>
             <div class="my-1">
-                <select asp-for="minPrice" asp-items="Model.LowerPriceSpan">
+                <select asp-for="MinPrice" asp-items="Model.LowerPriceSpan">
                     <option value="">Min</option>
                 </select>&nbsp;&#8212;&nbsp;
-                <select asp-for="maxPrice" asp-items="Model.HigherPriceSpan">
+                <select asp-for="MaxPrice" asp-items="Model.HigherPriceSpan">
                     <option value="">Max</option>
                 </select>
             </div>
+            @*<div class="my-1">
+                <select asp-for="DisplayOrder" asp-items="Model.DisplayOrderVM">
+                    <option value="">Alla objekt</option>
+                </select>
+            </div>*@
+        <select asp-for="DisplayOrder">
+            <option value="Pris_Stigande">Pris - stigande</option>
+            <option value="Pris_Fallande">Pris - fallande</option>
+            <option value="Datum_Nyast">Nyast</option>
+            <option value="Datum_Äldst">Äldst</option>
+        </select>
 
             <input type="submit" value="Sök" class="btn btn-primary btn-sm" />
             <a asp-action="Index" class="btn btn-secondary btn-sm float-right">Rensa</a>
@@ -67,6 +78,45 @@
     </form>
 </div>
  
+
+@*<div class="row">
+    @foreach (var item in Model.Items)
+    {
+    <div class="col-12">
+        <div class="card">
+            <a class="a-cleanup" asp-controller="Items" asp-action="Details" asp-route-id="@item.Id">
+                <div class="col-6">
+                    <img src="@Url.Content(item.ImgPath)" alt="Loading image" class="card-img-bottom">
+                </div>
+                <div class="col-6">
+                    <div class="card-body" style="height: 5em;">
+                        <h5 class="mb-3">@item.ItemType</h5>
+                    </div>
+                    <div class="card-body">
+                        <span class="card-text">@item.Price.ToString("c")</span>
+                        <a asp-controller="" asp-action="" asp-route-id="@item.Id" class="btn btn-primary float-rigth"><i class="fa-solid fa-cart-plus"></i></a>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    }
+</div>
+
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="..." class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+    </div>
+</div>*@
 
 <div class="row">
     <div class="col-6">
@@ -106,9 +156,9 @@
             <tbody>
                 @foreach (var item in Model.Items)
                 {
+                
                 <tr>
                     <td>
-                        
                         <img src="@Url.Content(item.ImgPath)" alt="Loading image">
                     </td>
                     <td>
