@@ -84,6 +84,29 @@ namespace HomeFinder.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("HomeFinder.Models.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImgPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("Image");
+                });
+
             modelBuilder.Entity("HomeFinder.Models.InterestRegistration", b =>
                 {
                     b.Property<int>("Id")
@@ -121,7 +144,6 @@ namespace HomeFinder.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ConstructionYear")
@@ -298,6 +320,15 @@ namespace HomeFinder.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("HomeFinder.Models.Image", b =>
+                {
+                    b.HasOne("HomeFinder.Models.Item", "Item")
+                        .WithMany("Images")
+                        .HasForeignKey("ItemId");
+
+                    b.Navigation("Item");
+                });
+
             modelBuilder.Entity("HomeFinder.Models.InterestRegistration", b =>
                 {
                     b.HasOne("HomeFinder.Models.ApplicationUser", null)
@@ -380,6 +411,8 @@ namespace HomeFinder.Migrations
 
             modelBuilder.Entity("HomeFinder.Models.Item", b =>
                 {
+                    b.Navigation("Images");
+
                     b.Navigation("InterestRegistrations");
                 });
 #pragma warning restore 612, 618

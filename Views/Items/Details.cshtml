@@ -9,7 +9,10 @@
         <img src="@Url.Content(@Model.ImgPath)" alt="Loading image" class="w-100">
     </div>
     <div class="col-4">
-        Ansvarig mäklare: @*@Model.Broker*@
+        @if (Model.Broker != null)
+        {
+            <p>Ansvarig mäklare: @Model.Broker.UserName</p>
+                }
         <dl class="row">
             <dt class="col-sm-3">
                 @Html.DisplayNameFor(model => model.ListingDate)

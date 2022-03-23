@@ -8,16 +8,20 @@ using Microsoft.EntityFrameworkCore;
 using HomeFinder.Data;
 using HomeFinder.Models;
 using HomeFinder.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeFinder.Controllers
 {
     public class ItemsController : Controller
     {
         private readonly HomeFinderContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ItemsController(HomeFinderContext context)
+
+        public ItemsController(HomeFinderContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         
@@ -136,7 +140,7 @@ namespace HomeFinder.Controllers
                 return NotFound();
             }
 
-            var item = await _context.Item
+            var item = await _context.Item.Include(i=>i.Broker)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (item == null)
             {
@@ -159,6 +163,8 @@ namespace HomeFinder.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ItemType,Address,Price,NrOfRoom,Description,LivingArea,GrossFloorArea,PlotArea,ConstructionYear,ListingDate")] Item item)
         {
+            item.Broker = await _userManager.GetUserAsync(User);
+
             if (ModelState.IsValid)
             {
                 _context.Add(item);

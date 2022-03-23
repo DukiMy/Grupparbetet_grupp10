@@ -34,6 +34,15 @@ namespace HomeFinder
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<HomeFinderContext>();
             services.AddControllersWithViews();
+
+            services.AddAuthentication().AddGoogle(options =>
+            {
+                //IConfigurationSection googleAuthNSection =
+                //    Configuration.GetSection("Authentication:Google");
+
+                options.ClientId = "647277621048-aba8vqvo395blm6eq1llq8km3hocied2.apps.googleusercontent.com";
+                options.ClientSecret = "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";
+            }); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,8 +63,8 @@ namespace HomeFinder
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
