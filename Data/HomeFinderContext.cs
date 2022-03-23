@@ -12,6 +12,7 @@ namespace HomeFinder.Data
 
         }
         public DbSet<Item> Item { get; set; }
+        public DbSet<Image> Image { get; set; }
 
         //public override void OnModelCreating()
         //{

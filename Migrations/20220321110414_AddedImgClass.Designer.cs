@@ -4,14 +4,16 @@ using HomeFinder.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HomeFinder.Migrations
 {
     [DbContext(typeof(HomeFinderContext))]
-    partial class HomeFinderContextModelSnapshot : ModelSnapshot
+    [Migration("20220321110414_AddedImgClass")]
+    partial class AddedImgClass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,15 +96,10 @@ namespace HomeFinder.Migrations
                     b.Property<string>("ImgPath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ItemId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
 
                     b.ToTable("Image");
                 });
@@ -321,15 +318,6 @@ namespace HomeFinder.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("HomeFinder.Models.Image", b =>
-                {
-                    b.HasOne("HomeFinder.Models.Item", "Item")
-                        .WithMany("Images")
-                        .HasForeignKey("ItemId");
-
-                    b.Navigation("Item");
-                });
-
             modelBuilder.Entity("HomeFinder.Models.InterestRegistration", b =>
                 {
                     b.HasOne("HomeFinder.Models.ApplicationUser", null)
@@ -412,8 +400,6 @@ namespace HomeFinder.Migrations
 
             modelBuilder.Entity("HomeFinder.Models.Item", b =>
                 {
-                    b.Navigation("Images");
-
                     b.Navigation("InterestRegistrations");
                 });
 #pragma warning restore 612, 618

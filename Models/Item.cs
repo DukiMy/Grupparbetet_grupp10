@@ -63,6 +63,8 @@ namespace HomeFinder.Models
 
         public string ImgPath { get; set; }
 
+        public ICollection<Image> Images { get; set; }
+
         //public ItemType MyProperty { get; set; }
 
         // public string FormOfLease { get; set; }
