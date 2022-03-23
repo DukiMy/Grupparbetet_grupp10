@@ -9,6 +9,7 @@ using HomeFinder.Data;
 using HomeFinder.Models;
 using HomeFinder.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HomeFinder.Controllers
 {
@@ -124,8 +125,6 @@ namespace HomeFinder.Controllers
 
             return View(itemVM);
         }
-
-
 
 
         // GET: Items/Details/5
