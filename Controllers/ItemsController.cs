@@ -279,14 +279,14 @@ namespace HomeFinder.Controllers
 
             else if (displayOrder == "Datum_Nyast")
             {
-                return itemList.OrderBy(i => i.ListingDate).ToList();
+               
+                return itemList.OrderBy(i => i.ListingDate).Reverse().ToList();
 
             }
 
             else if (displayOrder == "Datum_Äldst")
             {
-                return itemList.OrderBy(i => i.ListingDate).Reverse().ToList();
-
+                return itemList.OrderBy(i => i.ListingDate).ToList();
             }
 
 
