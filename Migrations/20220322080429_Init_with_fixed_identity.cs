@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HomeFinder.Migrations
 {
-    public partial class InitWithAddedRelationship : Migration
+    public partial class Init_with_fixed_identity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,31 +44,6 @@ namespace HomeFinder.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Item",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ItemType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    NrOfRoom = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LivingArea = table.Column<double>(type: "float", nullable: false),
-                    GrossFloorArea = table.Column<double>(type: "float", nullable: true),
-                    PlotArea = table.Column<double>(type: "float", nullable: true),
-                    ConstructionYear = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ListingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ImgPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BrokerUserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Item", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -178,23 +153,60 @@ namespace HomeFinder.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserItemInterests",
+                name: "Item",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ItemId = table.Column<int>(type: "int", nullable: false)
+                    ItemType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    NrOfRoom = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LivingArea = table.Column<double>(type: "float", nullable: false),
+                    GrossFloorArea = table.Column<double>(type: "float", nullable: true),
+                    PlotArea = table.Column<double>(type: "float", nullable: true),
+                    ConstructionYear = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ListingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ImgPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BrokerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserItemInterests", x => x.Id);
+                    table.PrimaryKey("PK_Item", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserItemInterests_Item_ItemId",
+                        name: "FK_Item_AspNetUsers_BrokerId",
+                        column: x => x.BrokerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InterestRegistration",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ItemId = table.Column<int>(type: "int", nullable: true),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InterestRegistration", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_InterestRegistration_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_InterestRegistration_Item_ItemId",
                         column: x => x.ItemId,
                         principalTable: "Item",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -237,9 +249,19 @@ namespace HomeFinder.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserItemInterests_ItemId",
-                table: "UserItemInterests",
+                name: "IX_InterestRegistration_ApplicationUserId",
+                table: "InterestRegistration",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InterestRegistration_ItemId",
+                table: "InterestRegistration",
                 column: "ItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Item_BrokerId",
+                table: "Item",
+                column: "BrokerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -260,16 +282,16 @@ namespace HomeFinder.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "UserItemInterests");
+                name: "InterestRegistration");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Item");
 
             migrationBuilder.DropTable(
-                name: "Item");
+                name: "AspNetUsers");
         }
     }
 }

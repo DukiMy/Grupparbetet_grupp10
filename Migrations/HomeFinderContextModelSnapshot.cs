@@ -144,7 +144,6 @@ namespace HomeFinder.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ConstructionYear")
