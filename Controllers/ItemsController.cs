@@ -22,24 +22,22 @@ namespace HomeFinder.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
 
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly ItemRepository _itemRepository = null;
+        private readonly IItemRepository _itemRepository = null;
 
 
-        public ItemsController(UserManager<ApplicationUser> userManager, ItemRepository itemRepository, IWebHostEnvironment webHostEnvironment)
+        public ItemsController(UserManager<ApplicationUser> userManager, IItemRepository itemRepository, IWebHostEnvironment webHostEnvironment)
         {
             _userManager = userManager;
             _itemRepository = itemRepository;
             _webHostEnvironment = webHostEnvironment;
         }
 
-
         public async Task<IActionResult> Index(string searchString, string itemType, int nrOfRooms, string minNrOfRooms,
                                                string maxNrOfRooms, string minPrice, string maxPrice, string minArea,
                                                string maxArea, string displayOrder)
         {
 
-
-            var items = _itemRepository.GetAllItems();
+            var items = _itemRepository.GetAllItemsAsModel();
             // Use LINQ to get list of genres.
             IQueryable<string> itemTypeQuery = from i in items
                                                orderby i.ItemType
@@ -110,7 +108,7 @@ namespace HomeFinder.Controllers
             }
 
 
-            var itemVM = new ItemViewModel
+            var itemVM = new ItemListViewModel
             {
 
                 ItemTypesVM = new SelectList(await itemTypeQuery.Distinct().ToListAsync()),
@@ -169,104 +167,97 @@ namespace HomeFinder.Controllers
 
 
 
-        //// GET: Items/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Items/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var item = await _context.Item.FindAsync(id);
-        //    if (item == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(item);
-        //}
-
-
-
-
-        //// POST: Items/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,ItemType,Address,Price,NrOfRoom,Description,LivingArea,GrossFloorArea,PlotArea,ConstructionYear,ListingDate")] Item item)
-        //{
-        //    if (id != item.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(item);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!ItemExists(item.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(item);
-        //}
-
-
-
-        //// GET: Items/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var item = await _context.Item
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (item == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(item);
-        //}
-
-
-
-        //// POST: Items/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var item = await _context.Item.FindAsync(id);
-        //    _context.Item.Remove(item);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-        //private bool ItemExists(int id)
-        //{
-        //    return _context.Item.Any(e => e.Id == id);
-        //}
+            var item = await _itemRepository.GetItemById(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return View(item);
+        }
 
 
 
 
+        // POST: Items/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ItemType,Address,ZipCode,Price,NrOfRoom,Description,LivingArea,GrossFloorArea,PlotArea,ConstructionYear,ListingDate,MainImageUrl,Images,BrokerFirstName,BrokerLastName,BrokerEmail")] ItemViewModel item)
+        {
+            var broker = await _userManager.GetUserAsync(User);
+
+            if (id != item.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _itemRepository.Update(item, broker);
+                    //_context.Update(item);
+                    //await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_itemRepository.ItemExists(item.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(item);
+        }
+
+
+
+        // GET: Items/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var item = await _itemRepository.GetItemById(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            return View(item);
+        }
+
+
+
+        // POST: Items/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _itemRepository.DeleteById(id);
+            return RedirectToAction(nameof(Index));
+        }
+
+       
         //====================================================
 
-        public List<Item> SortList(List<Item> itemList, string displayOrder)
+        public List<ItemViewModel> SortList(List<ItemViewModel> itemList, string displayOrder)
         {
            // List<Item> sortedList = new();
 
@@ -306,8 +297,6 @@ namespace HomeFinder.Controllers
 
             return numString;
         }
-
-
         
         public (SelectList, SelectList) SetAreaSpan(IQueryable<double> areaQuery, int step)
         {
@@ -348,9 +337,6 @@ namespace HomeFinder.Controllers
             return (new SelectList(lowerAreaSpanQuery.Distinct()), new SelectList(higherAreaSpanQuery.Distinct()));
         }
 
-        //--------------
-
-
         public ViewResult AddNewItem(bool isSuccess = false, int itemId = 0)
         {
             ViewBag.IsSuccess = isSuccess;
@@ -359,35 +345,37 @@ namespace HomeFinder.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewItem(Item item)
+        public async Task<IActionResult> AddNewItem(ItemViewModel itemModel)
         {
+
+            var broker = await _userManager.GetUserAsync(User);
 
             if (ModelState.IsValid)
             {
-                if (item.MainPhoto != null)
+                if (itemModel.MainPhoto != null)
                 {
                     string folder = "img/";
-                    item.MainImageUrl = await UploadImage(folder, item.MainPhoto);
+                    itemModel.MainImageUrl = await UploadImage(folder, itemModel.MainPhoto);
                 }
 
-                if (item.GalleryFiles != null)
+                if (itemModel.ImageFiles != null)
                 {
                     string folder = "img/";
 
-                    item.Gallery = new List<GalleryModel>();
+                    itemModel.Images = new List<Image>();
 
-                    foreach (var file in item.GalleryFiles)
+                    foreach (var file in itemModel.ImageFiles)
                     {
-                        var gallery = new GalleryModel()
+                        var gallery = new Image()
                         {
-                            Name = file.FileName,
+                            Title = file.FileName,
                             URL = await UploadImage(folder, file)
                         };
-                        item.Gallery.Add(gallery);
+                        itemModel.Images.Add(gallery);
                     }
                 }
 
-                int id = _itemRepository.AddNewItem(item);
+                int id = _itemRepository.AddNewItemFromModel(itemModel, broker);
                 if (id > 0)
                 {
                     return RedirectToAction(nameof(AddNewItem), new { isSuccess = true, itemId = id });
@@ -400,7 +388,7 @@ namespace HomeFinder.Controllers
         [Route("all-items")]
         public ViewResult GetAllItems()
         {
-            var data = _itemRepository.GetAllItems();
+            var data = _itemRepository.GetAllItemsAsModel();
 
             return View(data);
         }
@@ -420,20 +408,19 @@ namespace HomeFinder.Controllers
 
 
         //// GET: Items/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    var item = await _context.Item.Include(i => i.Broker)
-        //.FirstOrDefaultAsync(m => m.Id == id);
-           
-        //    if (item == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Details(int? id)
+        {
+            var item = await _itemRepository.GetItemById(id);
+
+            if (item == null)
+            {
+                return NotFound();
+            }
 
 
 
-        //    return View(item);
-        //}
+            return View(item);
+        }
 
         private async Task<string> UploadImage(string folderPath, IFormFile file)
         {

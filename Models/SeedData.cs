@@ -62,7 +62,7 @@ namespace HomeFinder.Models
                 GrossFloorArea = Generator.SetGrosFloorArea(),
                 PlotArea = Generator.SetPlotArea(),
                 Price = Generator.SetPrice(),
-                ImgPath = Generator.SetImage(),
+                MainImageUrl = Generator.SetImage(),
                 ConstructionYear = DateTime.Now,
                 ListingDate = DateTime.Now
             };

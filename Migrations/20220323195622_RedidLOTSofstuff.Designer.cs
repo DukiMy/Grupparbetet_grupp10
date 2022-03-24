@@ -21,7 +21,7 @@ namespace HomeFinder.Migrations
                 .HasAnnotation("ProductVersion", "5.0.15")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("HomeFinder.Data.ItemGallery", b =>
+            modelBuilder.Entity("HomeFinder.Data.Images", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -41,7 +41,7 @@ namespace HomeFinder.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("ItemGallery");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("HomeFinder.Models.ApplicationUser", b =>
@@ -371,7 +371,7 @@ namespace HomeFinder.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("HomeFinder.Data.ItemGallery", b =>
+            modelBuilder.Entity("HomeFinder.Data.Images", b =>
                 {
                     b.HasOne("HomeFinder.Models.Item", "Item")
                         .WithMany("itemGallery")

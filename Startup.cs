@@ -36,7 +36,7 @@ namespace HomeFinder
                 .AddEntityFrameworkStores<HomeFinderContext>();
             services.AddControllersWithViews();
 
-            services.AddScoped<ItemRepository, ItemRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
 
             services.AddAuthentication().AddGoogle(options =>
             {

@@ -1,16 +1,21 @@
 ﻿<link rel="stylesheet" href="./css/item.css">
-@model HomeFinder.ViewModels.ItemViewModel
+@using Microsoft.AspNetCore.Identity
+
+@model HomeFinder.ViewModels.ItemListViewModel
 @{
     ViewData["Title"] = "Index";
 }
+@inject SignInManager<ApplicationUser> signInManager
 
 <h1>Fastigheter</h1>
 
-
+@if (signInManager.IsSignedIn(User))
+{
 <p>
     <a asp-controller="Items" asp-action="AddNewItem">Lägg till ny bostad <i class="fa-solid fa-plus"></i></a>
     @*<a asp-action="Create">Create new <i class="fa-solid fa-plus"></i></a>*@
 </p>
+}
 <p>
     <a asp-controller="Items" asp-action="getallitems">Alla lägenheter</a>
 </p>
@@ -164,7 +169,7 @@
                 
                 <tr>
                     <td>
-                        <img src="@Url.Content(item.ImgPath)" alt="Loading image">
+                        <img src="@Url.Content(item.MainImageUrl)" alt="Loading image">
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Id)
@@ -202,7 +207,7 @@
                 <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
             }*@
                         <a asp-action="Edit" asp-route-id="@item.Id">Ändra</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Info</a> |
+                        <a asp-action="GetItem" asp-route-id="@item.Id">Info</a> |
                         <a asp-action="Delete" asp-route-id="@item.Id">Ta bort</a>
                     </td>
                 </tr>

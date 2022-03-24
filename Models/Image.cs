@@ -15,12 +15,7 @@ namespace HomeFinder.Models
         public string Title { get; set; }
 
         [DisplayName("Bild-titel")]
-        public string ImgPath { get; set; }
-
-        [NotMapped]
-        [DisplayName("Ladda upp bild")]
-        public IFormFile ImageFile { get; set; }
-
+        public string URL { get; set; }
         public Item Item { get; set; }
 
     }
