@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using HomeFinder.Data;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
@@ -63,7 +65,25 @@ namespace HomeFinder.Models
 
         public string ImgPath { get; set; }
 
-        public ICollection<Image> Images { get; set; }
+        //public ICollection<Image> Images { get; set; }
+
+
+        [Display(Name = "Välj profilbild till ditt objekt")]
+        [Required]
+        [NotMapped]
+        public IFormFile MainPhoto { get; set; }
+        public string MainImageUrl { get; set; }
+
+        [Display(Name = "Välj bilder till ditt objekt")]
+        [Required]
+        [NotMapped]
+        public IFormFileCollection GalleryFiles { get; set; }
+
+        public List<GalleryModel> Gallery { get; set; }
+
+        public ICollection<ItemGallery> itemGallery { get; set; }
+
+
 
         //public ItemType MyProperty { get; set; }
 

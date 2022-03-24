@@ -12,6 +12,7 @@ using HomeFinder.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using HomeFinder.Models;
+using HomeFinder.Repository;
 
 namespace HomeFinder
 {
@@ -34,6 +35,8 @@ namespace HomeFinder
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<HomeFinderContext>();
             services.AddControllersWithViews();
+
+            services.AddScoped<ItemRepository, ItemRepository>();
 
             services.AddAuthentication().AddGoogle(options =>
             {
@@ -70,7 +73,7 @@ namespace HomeFinder
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Items}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
