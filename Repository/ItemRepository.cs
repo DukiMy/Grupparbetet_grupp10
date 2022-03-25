@@ -29,7 +29,9 @@ namespace HomeFinder.Repository
                 GrossFloorArea = model.GrossFloorArea,
                 PlotArea = model.PlotArea,
                 ConstructionYear = model.ConstructionYear,
-                ListingDate = model.ListingDate
+                ListingDate = model.ListingDate,
+                MainImageUrl = model.MainImageUrl,
+                //Broker = model.Broker
             };
 
             newItem.itemGallery = new List<ItemGallery>();
@@ -90,7 +92,7 @@ namespace HomeFinder.Repository
                   //     ConstructionYear = item.ConstructionYear,
                   //     ListingDate = item.ListingDate,
                   //     MainImageUrl = item.MainImageUrl
-                  //});
+                  // });
         }
 
         //public IQueryable<Item> GetAllItemsAsModel()

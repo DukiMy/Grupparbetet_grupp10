@@ -61,13 +61,6 @@ namespace HomeFinder.Models
         [DataType(DataType.Date)]
         public DateTime ListingDate { get; set; }
 
-        //public List<User> Intressee { get; set; }
-
-        public string ImgPath { get; set; }
-
-        //public ICollection<Image> Images { get; set; }
-
-
         [Display(Name = "Välj profilbild till ditt objekt")]
         [Required]
         [NotMapped]
@@ -82,8 +75,6 @@ namespace HomeFinder.Models
         public List<GalleryModel> Gallery { get; set; }
 
         public ICollection<ItemGallery> itemGallery { get; set; }
-
-
 
         //public ItemType MyProperty { get; set; }
 

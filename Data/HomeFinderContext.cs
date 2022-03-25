@@ -16,8 +16,5 @@ namespace HomeFinder.Data
         public DbSet<ItemGallery> ItemGallery { get; set; }
 
 
-
-        public DbSet<Image> Image { get; set; }
-
     }
 }

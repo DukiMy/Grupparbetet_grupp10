@@ -68,7 +68,6 @@ namespace HomeFinder.ViewModels
         [Required]
         public IFormFileCollection ImageFiles { get; set; }
 
-        public List<Image> Images { get; set; }
 
         public string BrokerId { get; set; }
     }
