@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HomeFinder.Migrations
 {
-    public partial class init : Migration
+    public partial class RedidLOTSofstuff : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -170,6 +170,7 @@ namespace HomeFinder.Migrations
                     ConstructionYear = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ListingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ImgPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MainImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BrokerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -179,6 +180,27 @@ namespace HomeFinder.Migrations
                         name: "FK_Item_AspNetUsers_BrokerId",
                         column: x => x.BrokerId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GalleryModel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    URL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ItemId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GalleryModel", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GalleryModel_Item_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Item",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -230,6 +252,27 @@ namespace HomeFinder.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ItemId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    URL = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemGallery", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ItemGallery_Item_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Item",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -270,6 +313,11 @@ namespace HomeFinder.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GalleryModel_ItemId",
+                table: "GalleryModel",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Image_ItemId",
                 table: "Image",
                 column: "ItemId");
@@ -288,6 +336,11 @@ namespace HomeFinder.Migrations
                 name: "IX_Item_BrokerId",
                 table: "Item",
                 column: "BrokerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemGallery_ItemId",
+                table: "Images",
+                column: "ItemId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -308,10 +361,16 @@ namespace HomeFinder.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "GalleryModel");
+
+            migrationBuilder.DropTable(
                 name: "Image");
 
             migrationBuilder.DropTable(
                 name: "InterestRegistration");
+
+            migrationBuilder.DropTable(
+                name: "Images");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

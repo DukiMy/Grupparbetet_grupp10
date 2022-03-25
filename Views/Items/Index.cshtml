@@ -1,18 +1,28 @@
 ﻿<link rel="stylesheet" href="./css/item.css">
-@model HomeFinder.ViewModels.ItemViewModel
+@using Microsoft.AspNetCore.Identity
+
+@model HomeFinder.ViewModels.ItemListViewModel
 @{
     ViewData["Title"] = "Index";
 }
+@inject SignInManager<ApplicationUser> signInManager
 
 <h1>Fastigheter</h1>
 
-@if (User.Identity.IsAuthenticated)
+@if (signInManager.IsSignedIn(User))
 {
-    <p>
-        <a asp-action="Create">Create new <i class="fa-solid fa-plus"></i></a>
-    </p>
+<p>
+    <a asp-controller="Items" asp-action="AddNewItem">Lägg till ny bostad <i class="fa-solid fa-plus"></i></a>
+    @*<a asp-action="Create">Create new <i class="fa-solid fa-plus"></i></a>*@
+</p>
 }
-    @*Nya tabellen*@
+<p>
+    <a asp-controller="Items" asp-action="getallitems">Alla lägenheter</a>
+</p>
+
+
+
+@*Filter-lista*@
 
 <h3>
     Filtrera sökning
@@ -61,148 +71,78 @@
                 </select>
             </div>
             @*<div class="my-1">
-                <select asp-for="DisplayOrder" asp-items="Model.DisplayOrderVM">
-                    <option value="">Alla objekt</option>
-                </select>
-            </div>*@
-        <select asp-for="DisplayOrder">
-            <option value="Pris_Stigande">Pris - stigande</option>
-            <option value="Pris_Fallande">Pris - fallande</option>
-            <option value="Datum_Nyast">Nyast</option>
-            <option value="Datum_Äldst">Äldst</option>
-        </select>
+                    <select asp-for="DisplayOrder" asp-items="Model.DisplayOrderVM">
+                        <option value="">Alla objekt</option>
+                    </select>
+                </div>*@
+            <select asp-for="DisplayOrder">
+                <option value="Pris_Stigande">Pris - stigande</option>
+                <option value="Pris_Fallande">Pris - fallande</option>
+                <option value="Datum_Nyast">Nyast</option>
+                <option value="Datum_Äldst">Äldst</option>
+            </select>
 
             <input type="submit" value="Sök" class="btn btn-primary btn-sm" />
             <a asp-action="Index" class="btn btn-secondary btn-sm float-right">Rensa</a>
         </div>
     </form>
 </div>
- 
 
-@*<div class="row">
-    @foreach (var item in Model.Items)
-    {
-    <div class="col-12">
-        <div class="card">
-            <a class="a-cleanup" asp-controller="Items" asp-action="Details" asp-route-id="@item.Id">
-                <div class="col-6">
-                    <img src="@Url.Content(item.ImgPath)" alt="Loading image" class="card-img-bottom">
-                </div>
-                <div class="col-6">
-                    <div class="card-body" style="height: 5em;">
-                        <h5 class="mb-3">@item.ItemType</h5>
-                    </div>
-                    <div class="card-body">
-                        <span class="card-text">@item.Price.ToString("c")</span>
-                        <a asp-controller="" asp-action="" asp-route-id="@item.Id" class="btn btn-primary float-rigth"><i class="fa-solid fa-cart-plus"></i></a>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
-    }
-</div>
 
-<div class="card mb-3" style="max-width: 540px;">
-    <div class="row g-0">
-        <div class="col-md-4">
-            <img src="..." class="img-fluid rounded-start" alt="...">
-        </div>
-        <div class="col-md-8">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+@*--- Partial view ---*@
+
+<div class="container">
+    <h3 class="display-4">All items</h3>
+    <div class="row">
+        @foreach (var item in Model.Items)
+        {
+            <div class="col-md-8">
+                <partial name="_itemThumbnail" model="@item" />
             </div>
-        </div>
-    </div>
-</div>*@
-
-<div class="row">
-    <div class="col-6">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Items[0].Id)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Items[0].ItemType)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Items[0].City)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Items[0].Address)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Items[0].Price)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Items[0].NrOfRoom)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Items[0].LivingArea)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Items[0].Description)
-                    </th>
-                   
-                    
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Items)
-                {
-                
-                <tr>
-                    <td>
-                        <img src="@Url.Content(item.ImgPath)" alt="Loading image">
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ItemType)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.City)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Address)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price) SEK
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NrOfRoom)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LivingArea) m²
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                  
-                    <td>
-                        @*@if (User.Identity.IsAuthenticated)
-            {
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
-            }
-            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success"><i class="fa-solid fa-circle-info"></i></a>
-            @if (User.Identity.IsAuthenticated)
-            {
-                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
-            }*@
-                        <a asp-action="Edit" asp-route-id="@item.Id">Ändra</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Info</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Ta bort</a>
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
+        }
     </div>
 </div>
+
+
+@*---  Vanlig view ---*@
+
+
+<div class="container">
+    <h3 class="display-4">Hela listan</h3>
+    <div class="row">
+        @foreach (var item in Model.Items)
+        {
+            <div class="col-md-6">
+
+                <h3 class="card-title">@(string.IsNullOrEmpty(item.Address) ? "Address is not available" : item.Address)</h3>
+                <h5 class="card-text">@(string.IsNullOrEmpty(item.City) ? "City is not availabe" : item.City)</h5>
+                <img src="@Url.Content(item.MainImageUrl)" alt="Loading image"> @*width = "250"*@
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>@item.Price</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-primary">
+                        <span class="monospaced">@item.Description</span>
+                    </div>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item"><span class="font-weight-bold">Visningsdatum - </span> @item.ListingDate</li>
+                    <li class="list-group-item"><span class="font-weight-bold">Boyta - </span> @item.LivingArea</li>
+                    <li class="list-group-item"><span class="font-weight-bold">Antal rum - </span> @item.NrOfRoom</li>
+                </ul>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a asp-route="itemDetailsRoute" asp-route-id="@item.Id"
+                           class="btn btn-sm btn-outline-secondary">Till objektsidan</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+

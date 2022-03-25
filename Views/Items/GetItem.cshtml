@@ -1,0 +1,88 @@
+﻿@using HomeFinder.ViewModels
+
+@{
+    ViewData["Title"] = "Item detail " + Model.Address;
+}
+@model ItemViewModel
+
+
+<div class="container">
+    <h3 class="display-4">Objektdetaljer</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+
+                    @for (int i = 0; i < Model.Images.Count(); i++)
+                    {
+                        <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="@(i==0 ? "active" : "") "></li>
+                    }
+                </ol>
+                <div class="carousel-inner">
+                    @for (int i = 0; i < Model.Images.Count(); i++)
+                    {
+                        <div class="@(i==0 ? "carousel-item active" : "carousel-item") ">
+                            <img class="d-block w-100" src="@Model.Images[i].URL" alt="@Model.Images[i].Title">
+                        </div>
+                    }
+
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>@Model.Address</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-primary">
+                    <span class="label label-primary">In: </span>
+                    <span class="monospaced">@Model.City</span>
+                </div>
+            </div>
+
+            @*<div class="row">
+                <div class="col-md-12">
+                    <p class="description">
+                        @Model.Description
+                    </p>
+                </div>
+            </div>*@
+
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="description">
+                        Mäklare: @Model.BrokerEmail
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <a class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal">
+                        Read now
+                    </a>
+                </div>
+            </div>
+
+            <hr />
+
+            <ul class="list-group">
+                <li class="list-group-item"><span class="font-weight-bold">Price - </span> @Model.Price</li>
+                <li class="list-group-item"><span class="font-weight-bold">Boyta - </span> @Model.LivingArea</li>
+                <li class="list-group-item"><span class="font-weight-bold">Antal rum - </span> @Model.NrOfRoom</li>
+            </ul>
+        </div>
+    </div>
+    
+</div>
