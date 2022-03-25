@@ -61,6 +61,7 @@ namespace HomeFinder.Repository
                      ItemType = item.ItemType,
                      Address = item.Address,
                      Price = item.Price,
+                     City = item.City,
                      NrOfRoom = item.NrOfRoom,
                      Description = item.Description,
                      LivingArea = item.LivingArea,
@@ -85,6 +86,7 @@ namespace HomeFinder.Repository
                 ItemType = item.ItemType,
                 Address = item.Address,
                 Price = item.Price,
+                City = item.City,
                 NrOfRoom = item.NrOfRoom,
                 Description = item.Description,
                 LivingArea = item.LivingArea,
@@ -95,6 +97,7 @@ namespace HomeFinder.Repository
                 BrokerFirstName = item.Broker.FirstName,
                 BrokerLastName = item.Broker.LastName,
                 BrokerEmail = item.Broker.Email,
+                MainImageUrl = item.MainImageUrl,
                 Images = item.itemGallery.ToList()
             }); 
         }
@@ -113,6 +116,7 @@ namespace HomeFinder.Repository
                 Id = itemModel.Id,
                 ItemType = itemModel.ItemType,
                 FormOfLease = itemModel.FormOfLease,
+                City = itemModel.City,
                 Address = itemModel.Address,
                 ZipCode = itemModel.ZipCode,
                 Price = itemModel.Price,
