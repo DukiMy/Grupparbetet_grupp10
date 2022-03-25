@@ -20,13 +20,19 @@ namespace HomeFinder.Models
         [DisplayName("Fastighetstyp")]
         public string ItemType { get; set; }
 
+        [DisplayName("Upplåtelseform")]
+        public string FormOfLease { get; set; }
+
         [Required]
         [DisplayName("Adress")]
         public string Address { get; set; }
 
+        [DisplayName("Postnummer")]
+        public string ZipCode { get; set; }
+
         //[Required]
         [DisplayName("Stad")]
-        public string? City { get; set; } = string.Empty;
+        public string City { get; set; }
 
         [Required]
         [DisplayName("Pris")]
@@ -34,12 +40,11 @@ namespace HomeFinder.Models
         public decimal Price { get; set; }
 
         [Required]
-        [DisplayName("Antal rum")]
-        public int NrOfRoom { get; set; }
-
-        [Required]
         [DisplayName("Beskrivning")]
         public string Description { get; set; }
+        [Required]
+        [DisplayName("Antal rum")]
+        public int NrOfRoom { get; set; }
 
         [Required]
         [DisplayName("Boarea")]
@@ -57,28 +62,12 @@ namespace HomeFinder.Models
         public DateTime ConstructionYear { get; set; }
 
         [Required]
-        [DisplayName("Utlagd")]
+        [DisplayName("Visningsdatum")]
         [DataType(DataType.Date)]
         public DateTime ListingDate { get; set; }
 
-        [Display(Name = "Välj profilbild till ditt objekt")]
-        [Required]
-        [NotMapped]
-        public IFormFile MainPhoto { get; set; }
+        public ICollection<Image> itemGallery { get; set; }
         public string MainImageUrl { get; set; }
-
-        [Display(Name = "Välj bilder till ditt objekt")]
-        [Required]
-        [NotMapped]
-        public IFormFileCollection GalleryFiles { get; set; }
-
-        public List<GalleryModel> Gallery { get; set; }
-
-        public ICollection<ItemGallery> itemGallery { get; set; }
-
-        //public ItemType MyProperty { get; set; }
-
-        // public string FormOfLease { get; set; }
 
         public ApplicationUser Broker { get; set; }
         public ICollection<InterestRegistration> InterestRegistrations { get; set; }

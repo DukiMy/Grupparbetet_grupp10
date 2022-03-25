@@ -1,15 +1,21 @@
 ﻿<link rel="stylesheet" href="./css/item.css">
-@model HomeFinder.ViewModels.ItemViewModel
+@using Microsoft.AspNetCore.Identity
+
+@model HomeFinder.ViewModels.ItemListViewModel
 @{
     ViewData["Title"] = "Index";
 }
+@inject SignInManager<ApplicationUser> signInManager
 
 <h1>Fastigheter</h1>
 
-
+@if (signInManager.IsSignedIn(User))
+{
 <p>
     <a asp-controller="Items" asp-action="AddNewItem">Lägg till ny bostad <i class="fa-solid fa-plus"></i></a>
+    @*<a asp-action="Create">Create new <i class="fa-solid fa-plus"></i></a>*@
 </p>
+}
 <p>
     <a asp-controller="Items" asp-action="getallitems">Alla lägenheter</a>
 </p>

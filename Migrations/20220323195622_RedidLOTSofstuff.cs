@@ -253,7 +253,7 @@ namespace HomeFinder.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItemGallery",
+                name: "Images",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -339,7 +339,7 @@ namespace HomeFinder.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_ItemGallery_ItemId",
-                table: "ItemGallery",
+                table: "Images",
                 column: "ItemId");
         }
 
@@ -370,7 +370,7 @@ namespace HomeFinder.Migrations
                 name: "InterestRegistration");
 
             migrationBuilder.DropTable(
-                name: "ItemGallery");
+                name: "Images");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

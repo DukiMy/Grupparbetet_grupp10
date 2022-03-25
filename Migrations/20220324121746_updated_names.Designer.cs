@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomeFinder.Migrations
 {
     [DbContext(typeof(HomeFinderContext))]
-    [Migration("20220323195622_RedidLOTSofstuff")]
-    partial class RedidLOTSofstuff
+    [Migration("20220324121746_updated_names")]
+    partial class updated_names
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,29 +20,6 @@ namespace HomeFinder.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.15")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("HomeFinder.Data.Images", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("URL")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("Images");
-                });
 
             modelBuilder.Entity("HomeFinder.Models.ApplicationUser", b =>
                 {
@@ -153,6 +130,29 @@ namespace HomeFinder.Migrations
                     b.HasIndex("ItemId");
 
                     b.ToTable("Image");
+                });
+
+            modelBuilder.Entity("HomeFinder.Models.Images", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("URL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("ItemGallery");
                 });
 
             modelBuilder.Entity("HomeFinder.Models.InterestRegistration", b =>
@@ -371,17 +371,6 @@ namespace HomeFinder.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("HomeFinder.Data.Images", b =>
-                {
-                    b.HasOne("HomeFinder.Models.Item", "Item")
-                        .WithMany("itemGallery")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Item");
-                });
-
             modelBuilder.Entity("HomeFinder.Models.GalleryModel", b =>
                 {
                     b.HasOne("HomeFinder.Models.Item", null)
@@ -394,6 +383,17 @@ namespace HomeFinder.Migrations
                     b.HasOne("HomeFinder.Models.Item", "Item")
                         .WithMany()
                         .HasForeignKey("ItemId");
+
+                    b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("HomeFinder.Models.Images", b =>
+                {
+                    b.HasOne("HomeFinder.Models.Item", "Item")
+                        .WithMany("itemGallery")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Item");
                 });
