@@ -4,14 +4,16 @@ using HomeFinder.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HomeFinder.Migrations
 {
     [DbContext(typeof(HomeFinderContext))]
-    partial class HomeFinderContextModelSnapshot : ModelSnapshot
+    [Migration("20220324122731_updated_names_part2")]
+    partial class updated_names_part2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,12 +39,6 @@ namespace HomeFinder.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -88,6 +84,29 @@ namespace HomeFinder.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("HomeFinder.Models.GalleryModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("URL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("GalleryModel");
                 });
 
             modelBuilder.Entity("HomeFinder.Models.Image", b =>
@@ -159,11 +178,11 @@ namespace HomeFinder.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FormOfLease")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double?>("GrossFloorArea")
                         .HasColumnType("float");
+
+                    b.Property<string>("ImgPath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ItemType")
                         .IsRequired()
@@ -186,9 +205,6 @@ namespace HomeFinder.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("ZipCode")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -332,6 +348,13 @@ namespace HomeFinder.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("HomeFinder.Models.GalleryModel", b =>
+                {
+                    b.HasOne("HomeFinder.Models.Item", null)
+                        .WithMany("Gallery")
+                        .HasForeignKey("ItemId");
+                });
+
             modelBuilder.Entity("HomeFinder.Models.Image", b =>
                 {
                     b.HasOne("HomeFinder.Models.Item", "Item")
@@ -423,6 +446,8 @@ namespace HomeFinder.Migrations
 
             modelBuilder.Entity("HomeFinder.Models.Item", b =>
                 {
+                    b.Navigation("Gallery");
+
                     b.Navigation("InterestRegistrations");
 
                     b.Navigation("itemGallery");

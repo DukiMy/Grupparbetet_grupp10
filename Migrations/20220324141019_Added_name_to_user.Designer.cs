@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomeFinder.Migrations
 {
     [DbContext(typeof(HomeFinderContext))]
-    [Migration("20220323093649_init")]
-    partial class init
+    [Migration("20220324141019_Added_name_to_user")]
+    partial class Added_name_to_user
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,6 +39,12 @@ namespace HomeFinder.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -93,13 +99,13 @@ namespace HomeFinder.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ImgPath")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("ItemId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("URL")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -158,9 +164,6 @@ namespace HomeFinder.Migrations
                     b.Property<double?>("GrossFloorArea")
                         .HasColumnType("float");
 
-                    b.Property<string>("ImgPath")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ItemType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -170,6 +173,9 @@ namespace HomeFinder.Migrations
 
                     b.Property<double>("LivingArea")
                         .HasColumnType("float");
+
+                    b.Property<string>("MainImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("NrOfRoom")
                         .HasColumnType("int");
@@ -325,7 +331,7 @@ namespace HomeFinder.Migrations
             modelBuilder.Entity("HomeFinder.Models.Image", b =>
                 {
                     b.HasOne("HomeFinder.Models.Item", "Item")
-                        .WithMany("Images")
+                        .WithMany("itemGallery")
                         .HasForeignKey("ItemId");
 
                     b.Navigation("Item");
@@ -413,9 +419,9 @@ namespace HomeFinder.Migrations
 
             modelBuilder.Entity("HomeFinder.Models.Item", b =>
                 {
-                    b.Navigation("Images");
-
                     b.Navigation("InterestRegistrations");
+
+                    b.Navigation("itemGallery");
                 });
 #pragma warning restore 612, 618
         }
