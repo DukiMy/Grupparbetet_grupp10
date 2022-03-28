@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HomeFinder.Models;
 using Microsoft.CodeAnalysis;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HomeFinder.ViewModels
 {
@@ -21,8 +22,10 @@ namespace HomeFinder.ViewModels
         public string ItemType { get; set; }
 
         public SelectList NrOfRoomsVM { get; set; }
-        public int MinNrOfRooms { get; set; }
-        public int MaxNrOfRooms { get; set; }
+        //public int MinNrOfRooms { get; set; }
+        //public int MaxNrOfRooms { get; set; }
+        public string MinNrOfRooms { get; set; }
+        public string MaxNrOfRooms { get; set; }
 
         public SelectList AreaVM { get; set; }
         public string MinArea { get; set; }
@@ -36,8 +39,13 @@ namespace HomeFinder.ViewModels
         public SelectList LowerPriceSpan { get; set; }
         public SelectList HigherPriceSpan { get; set; }
 
-       
-
+        //public static SortList SortList { get; set; }
+       // public IEnumerable<SelectListItem> SortList { get; set; } = GetEnumSelectList<TagBuilder>();
+        //public static IEnumerable<SelectListItem> GetEnumSelectList<T>()
+        //{
+        //    return (Enum.GetValues(typeof(SortList)).Cast<T>().Select(
+        //        enu => new SelectListItem() { Text = enu.ToString(), Value = enu.ToString() })).ToList();
+        //}
 
     }
 }

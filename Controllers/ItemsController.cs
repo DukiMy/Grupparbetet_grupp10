@@ -25,7 +25,7 @@ namespace HomeFinder.Controllers
         }
 
         
-        public async Task<IActionResult> Index(string searchString, string itemType, int nrOfRooms, string minNrOfRooms, 
+        public async Task<IActionResult> Index(string searchString, string itemType, string nrOfRooms, string minNrOfRooms, 
                                                string maxNrOfRooms, string minPrice, string maxPrice, string minArea, 
                                                string maxArea, string displayOrder)
         {

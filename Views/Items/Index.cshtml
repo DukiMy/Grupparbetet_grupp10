@@ -61,16 +61,24 @@
                 </select>
             </div>
             @*<div class="my-1">
-                <select asp-for="DisplayOrder" asp-items="Model.DisplayOrderVM">
-                    <option value="">Alla objekt</option>
-                </select>
-            </div>*@
-        <select asp-for="DisplayOrder">
-            <option value="Pris_Stigande">Pris - stigande</option>
-            <option value="Pris_Fallande">Pris - fallande</option>
-            <option value="Datum_Nyast">Nyast</option>
-            <option value="Datum_Äldst">Äldst</option>
-        </select>
+            <select asp-for="DisplayOrder" asp-items="Model.DisplayOrderVM">
+                <option value="">Alla objekt</option>
+            </select>
+        </div>*@
+            <select asp-for="DisplayOrder">
+                <option value="Pris_Stigande">Pris - stigande</option>
+                <option value="Pris_Fallande">Pris - fallande</option>
+                <option value="Datum_Nyast">Nyast</option>
+                <option value="Datum_Äldst">Äldst</option>
+            </select>
+
+            @*Värdet fastnar ej till nästa sökomgång*@
+            @*<select asp-items="Html.GetEnumSelectList<SortList>()"></select>*@
+           
+            @*<select asp-for="DisplayOrder" asp-items="Model.SortList">
+            <option value="">Visa efter</option>
+        </select>*@
+
 
             <input type="submit" value="Sök" class="btn btn-primary btn-sm" />
             <a asp-action="Index" class="btn btn-secondary btn-sm float-right">Rensa</a>
