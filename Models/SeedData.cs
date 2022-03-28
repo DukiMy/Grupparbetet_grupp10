@@ -27,7 +27,7 @@ namespace HomeFinder.Models
 
                 //========================< INFO >=============================
                 // Ange hur många objekt du vill skapa i numberOfItems
-                int numberOfItems = 100;
+                int numberOfItems = 50;
 
                 for (int i = 0; i < numberOfItems; i++)
                 {
@@ -193,27 +193,27 @@ namespace HomeFinder.Models
         {
             if (Generator.GenItemType == "Lägenhet")
             {
-                return "~/img/lägenhet.jpg";
+                return "~/placeholderimg/lägenhet.jpg";
             }
             else if (Generator.GenItemType == "Radhus")
             {
-                return "~/img/radhus.jpg";
+                return "~/placeholderimg/radhus.jpg";
             }
 
             else if (Generator.GenItemType == "Villa")
             {
-                return "~/img/villa.jpg";
+                return "~/placeholderimg/villa.jpg";
             }
 
             else if (Generator.GenItemType == "Gård")
             {
-                return "~/img/gård.jpg";
+                return "~/placeholderimg/gård.jpg";
             }
             else if (Generator.GenItemType == "Fritidsboende")
             {
-                return "~/img/fritidsboende.jpg";
+                return "~/placeholderimg/fritidsboende.jpg";
             }
-            return "~/img/fritidsboende.jpg";
+            return "~/placeholderimg/fritidsboende.jpg";
 
         }
     }
