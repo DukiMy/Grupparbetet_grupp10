@@ -1,6 +1,7 @@
 ﻿using HomeFinder.Data;
 using HomeFinder.Models;
 using HomeFinder.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,15 @@ namespace HomeFinder.Repository
             _context = context;
         }
 
+        // ---- Konverterar datan från databasen till en struktur och ett format som sedan accepterars av views och controllers
+
         public int AddNewItemFromModel(ItemViewModel model, ApplicationUser broker)
         {
+            var itemType = _context.ItemTypes.FirstOrDefault(it => it.Name == model.ItemType);
+
             var newItem = new Item()
             {
-                ItemType = model.ItemType,
+                ItemType = itemType,
                 FormOfLease = model.FormOfLease,
                 Address = model.Address,
                 ZipCode = model.ZipCode,
@@ -47,7 +52,7 @@ namespace HomeFinder.Repository
                     URL = file.URL
                 });
             }
-            _context.Item.Add(newItem);
+            _context.Items.Add(newItem);
             _context.SaveChanges();
 
             return newItem.Id;
@@ -55,10 +60,10 @@ namespace HomeFinder.Repository
 
         public async Task<ItemViewModel> GetItemById(int? id)
         {
-            return await _context.Item.Where(x => x.Id == id)
+            return await _context.Items.Include(i => i.ItemType).Where(x => x.Id == id)
                  .Select(item => new ItemViewModel()
                  {
-                     ItemType = item.ItemType,
+                     ItemType = item.ItemType.Name,
                      Address = item.Address,
                      Price = item.Price,
                      City = item.City,
@@ -79,11 +84,14 @@ namespace HomeFinder.Repository
 
         public IQueryable<ItemViewModel> GetAllItemsAsModel()
         {
-            return _context.Item.Include(item => item.itemGallery).Include(item => item.Broker)
+            return _context.Items
+                .Include(item => item.itemGallery)
+                .Include(item => item.Broker)
+                .Include(item => item.ItemType)
             .Select(item => new ItemViewModel()
             {
                 Id = item.Id,
-                ItemType = item.ItemType,
+                ItemType = item.ItemType.Name,
                 Address = item.Address,
                 Price = item.Price,
                 City = item.City,
@@ -104,17 +112,19 @@ namespace HomeFinder.Repository
 
         public async Task DeleteById(int id)
         {
-            var item = await _context.Item.FindAsync(id);
-            _context.Item.Remove(item);
+            var item = await _context.Items.FindAsync(id);
+            _context.Items.Remove(item);
             await _context.SaveChangesAsync();
         }
 
         public async Task Update(ItemViewModel itemModel, ApplicationUser broker)
         {
+            var itemType = _context.ItemTypes.FirstOrDefault(it => it.Name == itemModel.ItemType);
+
             var item = new Item()
             {
                 Id = itemModel.Id,
-                ItemType = itemModel.ItemType,
+                ItemType = itemType,
                 FormOfLease = itemModel.FormOfLease,
                 City = itemModel.City,
                 Address = itemModel.Address,
@@ -149,9 +159,15 @@ namespace HomeFinder.Repository
             await _context.SaveChangesAsync();
         }
 
+        public SelectList GetItemTypeSelectList()
+        {
+            IQueryable<string> itemTypeQuery = _context.ItemTypes.OrderBy(s => s.Name).Select(s => s.Name);
+            return new SelectList(itemTypeQuery.Distinct().ToList());
+        }
+
         public bool ItemExists(int id)
         {
-            return _context.Item.Any(e => e.Id == id);
+            return _context.Items.Any(e => e.Id == id);
         }
     }
 }

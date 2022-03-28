@@ -110,7 +110,7 @@ namespace HomeFinder.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("Image");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("HomeFinder.Models.InterestRegistration", b =>
@@ -165,9 +165,8 @@ namespace HomeFinder.Migrations
                     b.Property<double?>("GrossFloorArea")
                         .HasColumnType("float");
 
-                    b.Property<string>("ItemType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ItemTypeId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ListingDate")
                         .HasColumnType("datetime2");
@@ -194,7 +193,24 @@ namespace HomeFinder.Migrations
 
                     b.HasIndex("BrokerId");
 
-                    b.ToTable("Item");
+                    b.HasIndex("ItemTypeId");
+
+                    b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("HomeFinder.Models.ItemType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ItemTypes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -360,7 +376,13 @@ namespace HomeFinder.Migrations
                         .WithMany("OwnedItems")
                         .HasForeignKey("BrokerId");
 
+                    b.HasOne("HomeFinder.Models.ItemType", "ItemType")
+                        .WithMany()
+                        .HasForeignKey("ItemTypeId");
+
                     b.Navigation("Broker");
+
+                    b.Navigation("ItemType");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

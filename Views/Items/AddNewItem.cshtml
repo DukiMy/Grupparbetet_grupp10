@@ -22,11 +22,17 @@
 <form method="post" enctype="multipart/form-data" asp-action="AddNewItem" asp-controller="Items">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="form-group">
+    <div class="my-1">
+        <select asp-for="ItemType" asp-items="Model.ItemTypeList">
+            <option value="">Alla objekt</option>
+        </select>
+    </div>
+
+    @*<div class="form-group">
         <label asp-for="ItemType" class="control-label"></label>
         <input asp-for="ItemType" class="form-control" />
         <span asp-validation-for="ItemType" class="text-danger"></span>
-    </div>
+    </div>*@
 
     <div class="form-group">
         <label asp-for="Address" class="control-label"></label>
@@ -47,22 +53,22 @@
     </div>
 
     <div class="form-group">
-            <label asp-for="MainPhoto" class="control-label"></label>
-            <div class="custom-file">
-                <input asp-for="MainPhoto" class="custom-file-input" id="customFile">
-                <label class="custom-file-label" for="customFile">Choose file</label>
-            </div>
-            <span asp-validation-for="MainPhoto" class="text-danger"></span>
+        <label asp-for="MainPhoto" class="control-label"></label>
+        <div class="custom-file">
+            <input asp-for="MainPhoto" class="custom-file-input" id="customFile">
+            <label class="custom-file-label" for="customFile">Choose file</label>
         </div>
+        <span asp-validation-for="MainPhoto" class="text-danger"></span>
+    </div>
 
-        <div class="form-group">
-            <label asp-for="ImageFiles" class="control-label"></label>
-            <div class="custom-file">
-                <input asp-for="ImageFiles" class="custom-file-input" id="customFile">
-                <label class="custom-file-label" for="customFile">Choose file</label>
-            </div>
-            <span asp-validation-for="ImageFiles" class="text-danger"></span>
+    <div class="form-group">
+        <label asp-for="ImageFiles" class="control-label"></label>
+        <div class="custom-file">
+            <input asp-for="ImageFiles" class="custom-file-input" id="customFile">
+            <label class="custom-file-label" for="customFile">Choose file</label>
         </div>
+        <span asp-validation-for="ImageFiles" class="text-danger"></span>
+    </div>
 
 
     <div class="form-group">

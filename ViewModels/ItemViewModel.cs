@@ -10,9 +10,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HomeFinder.ViewModels
 {
+   
     public class ItemViewModel
     {
         public int Id { get; set; }
@@ -20,6 +22,7 @@ namespace HomeFinder.ViewModels
         //[Required]
         [DisplayName("Fastighetstyp")]
         public string ItemType { get; set; }
+        public SelectList ItemTypeList { get; set; }
 
         [DisplayName("Upplåtelseform")]
         public string FormOfLease { get; set; }
