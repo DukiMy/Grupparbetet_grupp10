@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomeFinder.Migrations
 {
     [DbContext(typeof(HomeFinderContext))]
-    [Migration("20220324141019_Added_name_to_user")]
-    partial class Added_name_to_user
+    [Migration("20220328193953_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -112,7 +112,7 @@ namespace HomeFinder.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("Image");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("HomeFinder.Models.InterestRegistration", b =>
@@ -161,12 +161,14 @@ namespace HomeFinder.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FormOfLease")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double?>("GrossFloorArea")
                         .HasColumnType("float");
 
-                    b.Property<string>("ItemType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ItemTypeId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ListingDate")
                         .HasColumnType("datetime2");
@@ -186,11 +188,31 @@ namespace HomeFinder.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("ZipCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BrokerId");
 
-                    b.ToTable("Item");
+                    b.HasIndex("ItemTypeId");
+
+                    b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("HomeFinder.Models.ItemType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ItemTypes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -356,7 +378,13 @@ namespace HomeFinder.Migrations
                         .WithMany("OwnedItems")
                         .HasForeignKey("BrokerId");
 
+                    b.HasOne("HomeFinder.Models.ItemType", "ItemType")
+                        .WithMany()
+                        .HasForeignKey("ItemTypeId");
+
                     b.Navigation("Broker");
+
+                    b.Navigation("ItemType");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

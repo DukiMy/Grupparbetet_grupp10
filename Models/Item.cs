@@ -18,7 +18,7 @@ namespace HomeFinder.Models
         
         [Required]
         [DisplayName("Fastighetstyp")]
-        public string ItemType { get; set; }
+        public ItemType ItemType { get; set; }
 
         [DisplayName("Upplåtelseform")]
         public string FormOfLease { get; set; }

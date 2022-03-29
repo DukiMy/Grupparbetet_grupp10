@@ -21,8 +21,8 @@ namespace HomeFinder.ViewModels
         public string ItemType { get; set; }
 
         public SelectList NrOfRoomsVM { get; set; }
-        public int MinNrOfRooms { get; set; }
-        public int MaxNrOfRooms { get; set; }
+        public string MinNrOfRooms { get; set; }
+        public string MaxNrOfRooms { get; set; }
 
         public SelectList AreaVM { get; set; }
         public string MinArea { get; set; }

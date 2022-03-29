@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Net;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using System.Collections.Generic;
 
 namespace HomeFinder.Models
 {
@@ -25,14 +26,26 @@ namespace HomeFinder.Models
                 context.Database.EnsureDeleted();
                 context.Database.Migrate();
 
+
+                var itemType1 = new ItemType() { Name = "Fritidsboende" };
+                var itemType2 = new ItemType() { Name = "Gård" }; 
+                var itemType3 = new ItemType() { Name = "Lägenhet" };
+                var itemType4 = new ItemType() { Name = "Radhus" }; 
+                var itemType5 = new ItemType() { Name = "Villa" }; 
+
+                context.AddRange(itemType1, itemType2, itemType3, itemType4, itemType5);
+                context.SaveChanges();
+                Generator.GenContext = context;
+
+
                 //========================< INFO >=============================
                 // Ange hur många objekt du vill skapa i numberOfItems
-                int numberOfItems = 100;
+                int numberOfItems = 50;
 
                 for (int i = 0; i < numberOfItems; i++)
                 {
                     var newItem = CreateNewItem();
-                    context.Item.AddRange(newItem);
+                    context.Items.AddRange(newItem);
                 }
 
                 var newUser = CreateNewApplicationUser();
@@ -53,6 +66,7 @@ namespace HomeFinder.Models
         {
             return new Item
             {
+                FormOfLease = Generator.SetFormOfLease(),
                 ItemType = Generator.SetItemType(),
                 Address = Generator.SetAddress(),
                 NrOfRoom = Generator.SetNrOfRooms(),
@@ -78,16 +92,40 @@ namespace HomeFinder.Models
         public static double GenLivingArea { get; set; }
         public static double? GenGrosFloorArea { get; set; }
         public static double? GenPlotArea { get; set; }
-        
+        public static HomeFinderContext GenContext { get; set; }
+
 
         //=====properties i klassen Item=======
         // int Id, string ItemType, string Address, string City, decimal Price, int NrOfRoom, string Description,
         // double LivingArea, double? GrosFloorArea, double? PlotArea, DataType.Date ConstructionYear, DataType.Date ListingDate
+        //public static string SetItemType()
+        //{
+        //    int num = Random.Next(1, 6);
 
-        public static string SetItemType()
+        //    return GenItemType = num == 1 ? "Villa" : num == 2 ? "Lägenhet" : num == 3 ? "Radhus" : num == 4 ? "Gård" : "Fritidsboende";
+        //}
+
+        public static ItemType SetItemType()
         {
             int num = Random.Next(1, 6);
-            return GenItemType = num == 1 ? "Villa" : num == 2 ? "Lägenhet" : num == 3 ? "Radhus" : num == 4 ? "Gård" : "Fritidsboende";
+            var itemTypes = GenContext.ItemTypes.FirstOrDefault(i => i.Id == num);
+            GenItemType = itemTypes.Name;
+
+            return itemTypes;
+        }
+
+        public static string SetFormOfLease()
+        {
+            if (GenItemType == "Lägenhet" || GenItemType == "Radhus")
+            {
+                int num = Random.Next(1, 3);
+                return num == 1 ? "Hyresrätt" : "Bostadsrätt";
+            }
+            else
+            {
+                return "Äganderätt";
+            }
+
         }
 
         public static string SetAddress()
@@ -193,27 +231,27 @@ namespace HomeFinder.Models
         {
             if (Generator.GenItemType == "Lägenhet")
             {
-                return "~/img/lägenhet.jpg";
+                return "~/placeholderimg/lägenhet.jpg";
             }
             else if (Generator.GenItemType == "Radhus")
             {
-                return "~/img/radhus.jpg";
+                return "~/placeholderimg/radhus.jpg";
             }
 
             else if (Generator.GenItemType == "Villa")
             {
-                return "~/img/villa.jpg";
+                return "~/placeholderimg/villa.jpg";
             }
 
             else if (Generator.GenItemType == "Gård")
             {
-                return "~/img/gård.jpg";
+                return "~/placeholderimg/gård.jpg";
             }
             else if (Generator.GenItemType == "Fritidsboende")
             {
-                return "~/img/fritidsboende.jpg";
+                return "~/placeholderimg/fritidsboende.jpg";
             }
-            return "~/img/fritidsboende.jpg";
+            return "~/placeholderimg/fritidsboende.jpg";
 
         }
     }

@@ -1,5 +1,6 @@
 ﻿using HomeFinder.Models;
 using HomeFinder.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,5 +19,6 @@ namespace HomeFinder.Repository
 
         public Task Update(ItemViewModel itemModel, ApplicationUser broker);
 
+        public SelectList GetItemTypeSelectList();
     }
 }

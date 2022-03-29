@@ -32,7 +32,7 @@ namespace HomeFinder.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<IActionResult> Index(string searchString, string itemType, int nrOfRooms, string minNrOfRooms,
+        public async Task<IActionResult> Index(string searchString, string itemType, string nrOfRooms, string minNrOfRooms,
                                                string maxNrOfRooms, string minPrice, string maxPrice, string minArea,
                                                string maxArea, string displayOrder)
         {
@@ -108,7 +108,7 @@ namespace HomeFinder.Controllers
             }
 
 
-            var itemVM = new ItemListViewModel
+            var itemLVM = new ItemListViewModel
             {
 
                 ItemTypesVM = new SelectList(await itemTypeQuery.Distinct().ToListAsync()),
@@ -125,13 +125,13 @@ namespace HomeFinder.Controllers
             //(itemVM.LowerAreaSpan, itemVM.HigherAreaSpan) = SetAreaSpan((IQueryable<int>)areaQuery, 25);
             //(itemVM.LowerPriceSpan, itemVM.HigherPriceSpan) = SetPriceSpan((IQueryable<int>)priceQuery, 250000);
 
-            (itemVM.LowerAreaSpan, itemVM.HigherAreaSpan) = SetAreaSpan(areaQuery, 25);
-            (itemVM.LowerPriceSpan, itemVM.HigherPriceSpan) = SetPriceSpan(priceQuery, 250000);
+            (itemLVM.LowerAreaSpan, itemLVM.HigherAreaSpan) = SetAreaSpan(areaQuery, 25);
+            (itemLVM.LowerPriceSpan, itemLVM.HigherPriceSpan) = SetPriceSpan(priceQuery, 250000);
 
-            itemVM.Items = SortList(itemVM.Items, displayOrder);
+            itemLVM.Items = SortList(itemLVM.Items, displayOrder);
 
 
-            return View(itemVM);
+            return View(itemLVM);
         }
 
 
@@ -339,9 +339,12 @@ namespace HomeFinder.Controllers
 
         public ViewResult AddNewItem(bool isSuccess = false, int itemId = 0)
         {
+            ItemViewModel itemModel = new ItemViewModel();
+            itemModel.ItemTypeList = _itemRepository.GetItemTypeSelectList();
+
             ViewBag.IsSuccess = isSuccess;
             ViewBag.ItemId = itemId;
-            return View();
+            return View(itemModel);
         }
 
         [HttpPost]
