@@ -30,6 +30,7 @@ namespace HomeFinder.Repository
                 FormOfLease = model.FormOfLease,
                 Address = model.Address,
                 ZipCode = model.ZipCode,
+                City = model.City,
                 Price = model.Price,
                 NrOfRoom = model.NrOfRoom,
                 Description = model.Description,
@@ -65,6 +66,7 @@ namespace HomeFinder.Repository
                  {
                      ItemType = item.ItemType.Name,
                      Address = item.Address,
+                     ZipCode = item.ZipCode,
                      Price = item.Price,
                      City = item.City,
                      NrOfRoom = item.NrOfRoom,
@@ -95,6 +97,7 @@ namespace HomeFinder.Repository
                 Address = item.Address,
                 Price = item.Price,
                 City = item.City,
+                ZipCode = item.ZipCode,
                 NrOfRoom = item.NrOfRoom,
                 Description = item.Description,
                 LivingArea = item.LivingArea,

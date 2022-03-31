@@ -83,6 +83,28 @@
                 <li class="list-group-item"><span class="font-weight-bold">Antal rum - </span> @Model.NrOfRoom</li>
             </ul>
         </div>
+
+        <div class="col-md-6">
+            <div id="map" style="height:400px; width:600px;"></div>
+            <script>
+                var map;
+                function initMap() {
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        center: { lat: 59.4112, lng: 17.9153 },
+                        zoom: 15
+                    });
+
+
+                    //var marker = new google.maps.Marker({
+                    //    position: uluru,
+                    //    map: map,
+                    //});
+
+                }
+            </script>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsCQjSsJVPTxY8NNo5b31TFpBLAZOpMWE&callback=initMap&v=weekly"
+            async></script>
+   
+        </div>
     </div>
-    
 </div>

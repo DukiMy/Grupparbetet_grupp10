@@ -191,7 +191,7 @@ namespace HomeFinder.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ItemType,Address,ZipCode,Price,NrOfRoom,Description,LivingArea,GrossFloorArea,PlotArea,ConstructionYear,ListingDate,MainImageUrl,Images,BrokerFirstName,BrokerLastName,BrokerEmail")] ItemViewModel item)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ItemType,Address,ZipCode, City, Price,NrOfRoom,Description,LivingArea,GrossFloorArea,PlotArea,ConstructionYear,ListingDate,MainImageUrl,Images,BrokerFirstName,BrokerLastName,BrokerEmail")] ItemViewModel item)
         {
             var broker = await _userManager.GetUserAsync(User);
 
