@@ -117,7 +117,6 @@ namespace HomeFinder.Controllers
 
                 PriceVM = new SelectList(await priceQuery.Distinct().ToListAsync()),
 
-
                 Items = await items.ToListAsync()
             };
 
