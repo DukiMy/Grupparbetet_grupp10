@@ -32,18 +32,17 @@ namespace HomeFinder.Repository
 
         public IQueryable<ItemViewModel> GetAllItemsAsModel()
         {
-            var itemViewModels = _context.Items
+            return _context.Items
                 .Include(item => item.itemGallery)
                 .Include(item => item.Broker)
                 .Include(item => item.ItemType)
                 .SelectItemAsViewModel();
-
-            return itemViewModels;
         }
 
         public int AddNewItemFromModel(ItemViewModel model, ApplicationUser broker)
         {
-            Item item = ItemViewModelToItem(model, broker);
+            var itemType = GetItemType(model.ItemType);
+            Item item = ViewModelToModelConverter.CreateItem(model, itemType, broker); 
             _context.Items.Add(item);
             _context.SaveChanges();
 
@@ -52,11 +51,14 @@ namespace HomeFinder.Repository
 
         public async Task Update(ItemViewModel model, ApplicationUser broker)
         {
-            Item item = ItemViewModelToItem(model, broker);
+            var itemType = GetItemType(model.ItemType);
+            Item item = ViewModelToModelConverter.CreateItem(model, itemType, broker);
 
             _context.Update(item);
+            
             await _context.SaveChangesAsync();
         }
+
         public async Task DeleteById(int id)
         {
             var item = await _context.Items.FindAsync(id);
@@ -75,47 +77,9 @@ namespace HomeFinder.Repository
             return _context.Items.Any(e => e.Id == id);
         }
 
-        private Item ItemViewModelToItem(ItemViewModel model, ApplicationUser broker)
+        private ItemType GetItemType(string itemType)
         {
-            var itemType = _context.ItemTypes.FirstOrDefault(it => it.Name == model.ItemType);
-
-            var newItem = new Item()
-            {
-                ItemType = itemType,
-                Price = model.Price,
-                FormOfLease = model.FormOfLease,
-
-                Address = model.Address,
-                City = model.City,
-                ZipCode = model.ZipCode,
-
-                Description = model.Description,
-
-                NrOfRoom = model.NrOfRoom,
-                LivingArea = model.LivingArea,
-                GrossFloorArea = model.GrossFloorArea,
-                PlotArea = model.PlotArea,
-
-                ConstructionYear = model.ConstructionYear,
-                ListingDate = model.ListingDate,
-
-                MainImageUrl = model.MainImageUrl,
-
-                Broker = broker
-            };
-
-            newItem.itemGallery = new List<Image>();
-
-            foreach (var file in model.Images)
-            {
-                newItem.itemGallery.Add(new Image()
-                {
-                    Title = file.Title,
-                    URL = file.URL
-                });
-            }
-
-            return newItem;
+            return _context.ItemTypes.FirstOrDefault(it => it.Name == itemType);
         }
     }
 }
