@@ -43,7 +43,10 @@
     </div>
 </div>
 
+@if (!string.IsNullOrEmpty(Model.PortraitURL))
+{
 <img src="@Url.Content(Model.PortraitURL)" width="250" alt="Loading image">
+}
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
