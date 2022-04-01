@@ -12,7 +12,6 @@ namespace HomeFinder.Data
 
         }
         public DbSet<Item> Items { get; set; }
-
         public DbSet<Image> Images { get; set; }
         public DbSet<ItemType> ItemTypes { get; set; }
 

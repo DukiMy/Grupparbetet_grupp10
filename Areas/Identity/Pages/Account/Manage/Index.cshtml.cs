@@ -30,6 +30,8 @@ namespace HomeFinder.Areas.Identity.Pages.Account.Manage
         }
 
         public string Username { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string PortraitURL { get; set; }
 
         [TempData]
@@ -59,13 +61,13 @@ namespace HomeFinder.Areas.Identity.Pages.Account.Manage
             var lastName = user.LastName;
 
             Username = userName;
+            FirstName = firstName;
+            LastName = lastName;
             PortraitURL = user.PortraitURL;
 
             Input = new InputModel
             {
                 PhoneNumber = phoneNumber,
-                FirstName = firstName,
-                LastName = lastName
             };
         }
 
@@ -106,14 +108,12 @@ namespace HomeFinder.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            var firstName = user.FirstName;
-            if (Input.FirstName != firstName)
+            if (string.IsNullOrEmpty(user.FirstName))
             {
                 user.FirstName = Input.FirstName;
             }
 
-            var lastName = user.LastName;
-            if (Input.LastName != lastName)
+            if (string.IsNullOrEmpty(user.LastName))
             {
                 user.LastName = Input.LastName;
             }

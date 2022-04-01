@@ -26,7 +26,6 @@ namespace HomeFinder.Models
                 context.Database.EnsureDeleted();
                 context.Database.Migrate();
 
-
                 var itemType1 = new ItemType() { Name = "Fritidsboende" };
                 var itemType2 = new ItemType() { Name = "Gård" }; 
                 var itemType3 = new ItemType() { Name = "Lägenhet" };
@@ -36,7 +35,6 @@ namespace HomeFinder.Models
                 context.AddRange(itemType1, itemType2, itemType3, itemType4, itemType5);
                 context.SaveChanges();
                 Generator.GenContext = context;
-
 
                 //========================< INFO >=============================
                 // Ange hur många objekt du vill skapa i numberOfItems
@@ -93,7 +91,6 @@ namespace HomeFinder.Models
         public static double? GenGrosFloorArea { get; set; }
         public static double? GenPlotArea { get; set; }
         public static HomeFinderContext GenContext { get; set; }
-
 
         //=====properties i klassen Item=======
         // int Id, string ItemType, string Address, string City, decimal Price, int NrOfRoom, string Description,
