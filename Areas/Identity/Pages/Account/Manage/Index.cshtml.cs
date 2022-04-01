@@ -29,9 +29,8 @@ namespace HomeFinder.Areas.Identity.Pages.Account.Manage
             _webHostEnvironment = webHostEnvironment;
         }
 
+        [Display(Name = "Användarnamn")]
         public string Username { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
         public string PortraitURL { get; set; }
 
         [TempData]
@@ -61,13 +60,13 @@ namespace HomeFinder.Areas.Identity.Pages.Account.Manage
             var lastName = user.LastName;
 
             Username = userName;
-            FirstName = firstName;
-            LastName = lastName;
             PortraitURL = user.PortraitURL;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber,
+                FirstName = firstName,
+                LastName = lastName,
+                PhoneNumber = phoneNumber
             };
         }
 

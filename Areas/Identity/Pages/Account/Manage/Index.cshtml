@@ -15,32 +15,16 @@
                 <label asp-for="Username"></label>
                 <input asp-for="Username" class="form-control" disabled />
             </div>
-            @if (string.IsNullOrEmpty(Model.FirstName))
-            {
                 <div class="form-group">
                     <label asp-for="Input.FirstName"></label>
                     <input asp-for="Input.FirstName" class="form-control" />
                     <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                 </div>
-            }
-            else
-            {
-                <label asp-for="FirstName"></label>
-                <input asp-for="FirstName" class="form-control" disabled />
-            }
-            @if (string.IsNullOrEmpty(Model.LastName))
-            {
                 <div class="form-group">
                     <label asp-for="Input.LastName"></label>
                     <input asp-for="Input.LastName" class="form-control" />
                     <span asp-validation-for="Input.LastName" class="text-danger"></span>
                 </div>
-            }
-            else
-            {
-                <label asp-for="LastName"></label>
-                <input asp-for="LastName" class="form-control" disabled />
-            }
             <div class="form-group">
                 <label asp-for="Input.PhoneNumber"></label>
                 <input asp-for="Input.PhoneNumber" class="form-control" />
@@ -49,7 +33,8 @@
             <div class="form-group">
                 <label asp-for="Input.Portrait" class="control-label"></label>
                 <div class="custom-file">
-                    <input type="file" asp-for="Input.Portrait">
+                    <input type="file" asp-for="Input.Portrait" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Välj fil</label>
                 </div>
                 <span asp-validation-for="Input.Portrait" class="text-danger"></span>
             </div>
