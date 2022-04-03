@@ -1,5 +1,5 @@
-﻿<link rel="stylesheet" href="./css/item.css">
-@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
+
 
 @model HomeFinder.ViewModels.ItemListViewModel
 @{
@@ -16,13 +16,6 @@
     @*<a asp-action="Create">Create new <i class="fa-solid fa-plus"></i></a>*@
 </p>
 }
-
-@* Vad är tanken med den här? *@
-<p>
-    <a asp-controller="Items" asp-action="GetAllItems">Alla lägenheter</a>
-</p>
-
-
 
 @*Filter-lista*@
 
@@ -146,5 +139,7 @@
         }
     </div>
 </div>
+
+<link rel="stylesheet" href="./css/item.css">
 
 

@@ -43,8 +43,6 @@ namespace HomeFinder.Controllers
                                                orderby i.ItemType
                                                select i.ItemType;
 
-
-
             IQueryable<int> nrOfRoomsQuery = from i in items
                                              orderby i.NrOfRoom
                                              select i.NrOfRoom;
@@ -107,7 +105,6 @@ namespace HomeFinder.Controllers
                 items = items.Where(i => i.LivingArea <= max);
             }
 
-
             var itemLVM = new ItemListViewModel
             {
 
@@ -117,10 +114,8 @@ namespace HomeFinder.Controllers
 
                 PriceVM = new SelectList(await priceQuery.Distinct().ToListAsync()),
 
-
                 Items = await items.ToListAsync()
             };
-
 
             //(itemVM.LowerAreaSpan, itemVM.HigherAreaSpan) = SetAreaSpan((IQueryable<int>)areaQuery, 25);
             //(itemVM.LowerPriceSpan, itemVM.HigherPriceSpan) = SetPriceSpan((IQueryable<int>)priceQuery, 250000);
@@ -130,21 +125,14 @@ namespace HomeFinder.Controllers
 
             itemLVM.Items = SortList(itemLVM.Items, displayOrder);
 
-
             return View(itemLVM);
         }
 
-
-
         // GET: Items/Create
-
-
         public IActionResult Create()
         {
             return View();
         }
-
-
 
         //// POST: Items/Create
         //// To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -191,7 +179,7 @@ namespace HomeFinder.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ItemType,Address,ZipCode,Price,NrOfRoom,Description,LivingArea,GrossFloorArea,PlotArea,ConstructionYear,ListingDate,MainImageUrl,Images,BrokerFirstName,BrokerLastName,BrokerEmail")] ItemViewModel item)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ItemType,Address,ZipCode, City, Price,NrOfRoom,Description,LivingArea,GrossFloorArea,PlotArea,ConstructionYear,ListingDate,MainImageUrl,Images,BrokerFirstName,BrokerLastName,BrokerEmail")] ItemViewModel item)
         {
             var broker = await _userManager.GetUserAsync(User);
 
@@ -205,8 +193,6 @@ namespace HomeFinder.Controllers
                 try
                 {
                     await _itemRepository.Update(item, broker);
-                    //_context.Update(item);
-                    //await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -223,8 +209,6 @@ namespace HomeFinder.Controllers
             }
             return View(item);
         }
-
-
 
         // GET: Items/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -243,8 +227,6 @@ namespace HomeFinder.Controllers
             return View(item);
         }
 
-
-
         // POST: Items/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -259,8 +241,6 @@ namespace HomeFinder.Controllers
 
         public List<ItemViewModel> SortList(List<ItemViewModel> itemList, string displayOrder)
         {
-           // List<Item> sortedList = new();
-
             if (displayOrder == "Pris_Stigande")
             {
                return itemList.OrderBy(i => i.Price).ToList();
@@ -284,8 +264,6 @@ namespace HomeFinder.Controllers
                 return itemList.OrderBy(i => i.ListingDate).ToList();
             }
 
-
-
             return itemList;
         }
         public string RemoveChar(string numString)
@@ -297,7 +275,6 @@ namespace HomeFinder.Controllers
 
             return numString;
         }
-        
         public (SelectList, SelectList) SetAreaSpan(IQueryable<double> areaQuery, int step)
         {
             List<string> lowerAreaSpanQuery = new();
@@ -383,7 +360,6 @@ namespace HomeFinder.Controllers
                 {
                     return RedirectToAction(nameof(AddNewItem), new { isSuccess = true, itemId = id });
                 }       
-
             }
             return View();
         }
@@ -399,11 +375,6 @@ namespace HomeFinder.Controllers
         [Route("item-details/{id:int:min(1)}", Name = "itemDetailsRoute")]
         public async Task<ViewResult> GetItem(int id)
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
             var data = await _itemRepository.GetItemById(id);
 
             return View(data);
@@ -420,14 +391,11 @@ namespace HomeFinder.Controllers
                 return NotFound();
             }
 
-
-
             return View(item);
         }
 
         private async Task<string> UploadImage(string folderPath, IFormFile file)
         {
-
             folderPath += Guid.NewGuid().ToString() + "_" + file.FileName;
 
             string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folderPath);
@@ -436,7 +404,5 @@ namespace HomeFinder.Controllers
 
             return "/" + folderPath;
         }
-
-
     }
 }
