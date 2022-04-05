@@ -81,6 +81,8 @@ namespace HomeFinder.ViewModels
 
         public List<Image> Images { get; set; }
 
+        public List<GetInterestRegistrationViewModel> InterestRegistrations { get; set; }
+
         public string BrokerFirstName { get; set; }
         public string BrokerLastName { get; set; }
         public string BrokerEmail { get; set; }

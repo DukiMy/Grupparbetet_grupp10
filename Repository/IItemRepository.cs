@@ -20,5 +20,7 @@ namespace HomeFinder.Repository
         public Task Update(ItemViewModel itemModel, ApplicationUser broker);
 
         public SelectList GetItemTypeSelectList();
+
+        public Task<int> AddInterestRegistrationFromModel(AddInterestRegistrationViewModel model); 
     }
 }

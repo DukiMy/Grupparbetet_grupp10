@@ -1,6 +1,7 @@
 ﻿using HomeFinder.Data;
 using HomeFinder.Models;
 using HomeFinder.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,9 +14,11 @@ namespace HomeFinder.Repository
     public class ItemRepository : IItemRepository
     {
         private readonly HomeFinderContext _context = null;
-        public ItemRepository(HomeFinderContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public ItemRepository(HomeFinderContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // ---- Konverterar datan från databasen till en struktur och ett format som sedan accepteras av views och controllers
@@ -114,6 +117,21 @@ namespace HomeFinder.Repository
             }
 
             return item;
+        }
+
+        public async Task<int> AddInterestRegistrationFromModel(AddInterestRegistrationViewModel model)
+        {
+            var item = _context.Items.FirstOrDefault(it => it.Id == model.ItemId);
+            var user = await _userManager.FindByIdAsync(model.UserId);
+            var interestRegistration = new InterestRegistration()
+            {
+                Item = item,
+                User = user
+            };
+            _context.InterestRegistrations.Add(interestRegistration);
+            _context.SaveChanges();
+
+            return interestRegistration.Id;
         }
     }
 }

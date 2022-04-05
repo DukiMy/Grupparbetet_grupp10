@@ -404,5 +404,18 @@ namespace HomeFinder.Controllers
 
             return "/" + folderPath;
         }
+
+
+        public async Task<IActionResult> RegisterInterest(int itemId)
+        {
+            var interestRegistrationModel = new AddInterestRegistrationViewModel();
+            var user = await _userManager.GetUserAsync(User);
+            interestRegistrationModel.UserId = user.Id;
+            interestRegistrationModel.ItemId = itemId;
+
+            await _itemRepository.AddInterestRegistrationFromModel(interestRegistrationModel);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
