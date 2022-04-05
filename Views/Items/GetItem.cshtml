@@ -78,8 +78,11 @@
             <div class="container">
                 <h3 class="display-4">All items</h3>
                 <div class="row">
-                        <partial name="_addInterestRegistration" model="@Model" />
-                </div>
+                    <form asp-action="RegisterInterest">
+                        <input type="hidden" asp-for="Id" />
+                        <input type="submit" value="Anmäl intresse" class="btn btn-danger" /> |
+                    </form>
+</div>
             </div>
 
             <hr />

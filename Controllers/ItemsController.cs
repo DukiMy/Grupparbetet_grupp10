@@ -405,13 +405,13 @@ namespace HomeFinder.Controllers
             return "/" + folderPath;
         }
 
-
-        public async Task<IActionResult> RegisterInterest(int itemId)
+        [HttpPost, ActionName("RegisterInterest")]
+        public async Task<IActionResult> RegisterInterest(int id)
         {
             var interestRegistrationModel = new AddInterestRegistrationViewModel();
             var user = await _userManager.GetUserAsync(User);
             interestRegistrationModel.UserId = user.Id;
-            interestRegistrationModel.ItemId = itemId;
+            interestRegistrationModel.ItemId = id;
 
             await _itemRepository.AddInterestRegistrationFromModel(interestRegistrationModel);
 

@@ -24,13 +24,15 @@ namespace HomeFinder.Repository
         // ---- Konverterar datan från databasen till en struktur och ett format som sedan accepteras av views och controllers
         public async Task<ItemViewModel> GetItemById(int? id)
         {
-            return await _context.Items
+            var item = await _context.Items
                 .Include(item => item.ItemType)
                 .Include(item => item.itemGallery)
                 .Include(item => item.Broker)
                 .Where(item => item.Id == id)
                 .SelectItemAsViewModel()
                 .FirstOrDefaultAsync();
+
+            return item;
         }
 
         public IQueryable<ItemViewModel> GetAllItemsAsModel()
