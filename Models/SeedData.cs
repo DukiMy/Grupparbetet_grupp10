@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeFinder.Models
 {
@@ -47,7 +48,8 @@ namespace HomeFinder.Models
                 }
 
                 var newUser = CreateNewApplicationUser();
-                context.SaveChanges();
+                //using (var _userManager = new UserManager<ApplicationUser>()
+                    context.SaveChanges();
             }
         }
 

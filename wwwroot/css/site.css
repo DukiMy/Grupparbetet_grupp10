@@ -75,3 +75,9 @@ body {
 .custom-file-input:lang(en) ~ .custom-file-label::after {
     content: "Bläddra";
 }
+
+.card {
+    background-color: #cce0fc;
+    border: none;
+
+}
