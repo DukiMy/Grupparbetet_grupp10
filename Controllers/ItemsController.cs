@@ -415,7 +415,7 @@ namespace HomeFinder.Controllers
 
             await _itemRepository.AddInterestRegistrationFromModel(interestRegistrationModel);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(GetItem), new { id = id });
         }
     }
 }
