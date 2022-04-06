@@ -373,7 +373,7 @@ namespace HomeFinder.Controllers
         }
 
         [Route("item-details/{id:int:min(1)}", Name = "itemDetailsRoute")]
-        public async Task<ViewResult> GetItem(int id)
+        public async Task<IActionResult> GetItem(int id)
         {
             var data = await _itemRepository.GetItemById(id);
 
@@ -405,17 +405,38 @@ namespace HomeFinder.Controllers
             return "/" + folderPath;
         }
 
+        //public async Task<IActionResult> RegisterInterest(int id)
+        //{
+
+        //    return View();
+        //}
+
         [HttpPost, ActionName("RegisterInterest")]
         public async Task<IActionResult> RegisterInterest(int id)
         {
-            var interestRegistrationModel = new AddInterestRegistrationViewModel();
             var user = await _userManager.GetUserAsync(User);
-            interestRegistrationModel.UserId = user.Id;
-            interestRegistrationModel.ItemId = id;
 
-            await _itemRepository.AddInterestRegistrationFromModel(interestRegistrationModel);
+            if(user != null)
+            {
+            var model = new AddInterestRegistrationViewModel()
+            {
+                UserId = user.Id,
+                ItemId = id
+            };
 
-            return RedirectToAction(nameof(GetItem), new { id = id });
+                await _itemRepository.AddInterestRegistrationFromModel(model);
+            }
+
+            return RedirectToAction(nameof(GetItem), new { id });
+        }
+
+
+        public async Task<IActionResult> GetInterestRegistrations(int id)
+        {
+            var itemModel = await _itemRepository.GetItemById(id);
+
+                var interestRegistrations = await _itemRepository.GetInterestRegistrationsAsViewModel(id);
+                return View(interestRegistrations);
         }
     }
 }

@@ -123,17 +123,29 @@ namespace HomeFinder.Repository
 
         public async Task<int> AddInterestRegistrationFromModel(AddInterestRegistrationViewModel model)
         {
-            var item = _context.Items.FirstOrDefault(it => it.Id == model.ItemId);
-            var user = await _userManager.FindByIdAsync(model.UserId);
             var interestRegistration = new InterestRegistration()
             {
-                Item = item,
-                User = user
+                Item = _context.Items.FirstOrDefault(it => it.Id == model.ItemId),
+                User = await _userManager.FindByIdAsync(model.UserId)
             };
+
             _context.InterestRegistrations.Add(interestRegistration);
             _context.SaveChanges();
 
             return interestRegistration.Id;
+        }
+
+        public async Task<InterestRegistrationsViewModel> GetInterestRegistrationsAsViewModel(int itemId)
+        {
+
+            var interestRegistrations = await _context.InterestRegistrations
+                .Where(i => i.Item.Id == itemId)
+                .Select(i => i.User.Email).ToListAsync();
+
+            var model = new InterestRegistrationsViewModel();
+            model.UserEmails=interestRegistrations;
+
+            return model;
         }
     }
 }
