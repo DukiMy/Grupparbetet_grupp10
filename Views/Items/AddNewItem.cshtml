@@ -53,15 +53,21 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="Lat" class="control-label"></label>
-        <input asp-for="Lat" class="form-control" />
-        <span asp-validation-for="Lat" class="text-danger"></span>
+        <label asp-for="LivingArea" class="control-label"></label>
+        <input asp-for="LivingArea" class="form-control" />
+        <span asp-validation-for="LivingArea" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="Lng" class="control-label"></label>
-        <input asp-for="Lng" class="form-control" />
-        <span asp-validation-for="Lng" class="text-danger"></span>
+        <label asp-for="NrOfRoom" class="control-label"></label>
+        <input asp-for="NrOfRoom" class="form-control" />
+        <span asp-validation-for="NrOfRoom" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="FormOfLease" class="control-label"></label>
+        <input asp-for="FormOfLease" class="form-control" />
+        <span asp-validation-for="FormOfLease" class="text-danger"></span>
     </div>
 
     <div class="form-group">
@@ -74,6 +80,18 @@
         <label asp-for="Description" class="control-label"></label>
         <textarea asp-for="Description" class="form-control"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ConstructionYear" class="control-label"></label>
+        <input asp-for="ConstructionYear" class="form-control" />
+        <span asp-validation-for="ConstructionYear" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ListingDate" class="control-label"></label>
+        <input asp-for="ListingDate" class="form-control" />
+        <span asp-validation-for="ListingDate" class="text-danger"></span>
     </div>
 
     <div class="form-group">
@@ -100,3 +118,7 @@
     </div>
 </form>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
