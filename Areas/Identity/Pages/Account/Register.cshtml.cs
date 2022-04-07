@@ -47,19 +47,19 @@ namespace HomeFinder.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
+            [EmailAddress(ErrorMessage = "E-postadressen har ett ogiltigt format.")]
+            [Display(Name = "E-postadress")]
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "Lösenordet måste bestå av minst {2} och max {1} tecken.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Lösenord")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Bekräfta lösenord")]
+            [Compare("Password", ErrorMessage = "Matchar ej lösenordet.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -89,8 +89,8 @@ namespace HomeFinder.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Bekräfta din e-postadress",
+                        $"Vänligen bekräfta ditt konto genom att <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>klicka här</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

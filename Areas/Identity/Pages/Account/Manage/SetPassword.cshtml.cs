@@ -39,7 +39,7 @@ namespace HomeFinder.Areas.Identity.Pages.Account.Manage
 
             [DataType(DataType.Password)]
             [Display(Name = "Bekräfta nytt lösenord")]
-            [Compare("NewPassword", ErrorMessage = "Matchar ej lösenordet.")]
+            [Compare("NewPassword", ErrorMessage = "Matchar ej det nya lösenordet.")]
             public string ConfirmPassword { get; set; }
         }
 
