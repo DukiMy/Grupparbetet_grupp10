@@ -52,12 +52,12 @@
             </div>
 
             @*<div class="row">
-                <div class="col-md-12">
-                    <p class="description">
-                        @Model.Description
-                    </p>
-                </div>
-            </div>*@
+                    <div class="col-md-12">
+                        <p class="description">
+                            @Model.Description
+                        </p>
+                    </div>
+                </div>*@
 
             <div class="row">
                 <div class="col-md-12">
@@ -81,30 +81,102 @@
                 <li class="list-group-item"><span class="font-weight-bold">Price - </span> @Model.Price</li>
                 <li class="list-group-item"><span class="font-weight-bold">Boyta - </span> @Model.LivingArea</li>
                 <li class="list-group-item"><span class="font-weight-bold">Antal rum - </span> @Model.NrOfRoom</li>
+                <li class="list-group-item"><span class="font-weight-bold">Adress- </span> @Model.Address</li>
             </ul>
         </div>
-
         <div class="col-md-6">
-            <div id="map" style="height:400px; width:600px;"></div>
-            <script>
-                var map;
-                function initMap() {
-                    map = new google.maps.Map(document.getElementById('map'), {
-                        center: { lat: 59.4112, lng: 17.9153 },
-                        zoom: 15
-                    });
-
-
-                    //var marker = new google.maps.Marker({
-                    //    position: uluru,
-                    //    map: map,
-                    //});
-
-                }
-            </script>
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsCQjSsJVPTxY8NNo5b31TFpBLAZOpMWE&callback=initMap&v=weekly"
-            async></script>
    
+            <div id="map" style="height:400px; width:600px;"></div>
+
+            <script>
+
+                @*function initMap()
+                {
+                    var geocoder = new google.maps.Geocoder();
+                    geocodeAddress(geocoder, 'address');
+                }
+
+                function geocodeAddress(geocoder, address)
+                {
+                   
+
+                    var modeladdress = "@Model.Address";
+
+                    var address = new google.maps.geocodeAddress(modeladdress);
+                    geocoder.geocode(
+                        { 'address': address }, function (results, status){
+                            if (status == google.maps.GeocoderStatus.OK)
+                            {
+                                var map = new google.maps.Map(document.getElementById('map'),
+                                    {
+                                        zoom: 15,
+                                        center: results[0].geometry.location
+                                    });
+                                var marker = new google.maps.Marker(
+                                    {
+                                        position: results[0].geometry.location,
+                                        map: map,
+                                    });
+                            }
+                            else
+                            {
+                            alert('Geocode was not successful for the following reason: ' + status);
+                            }
+                        });
+                }*@
+
+
+                //var geocoder;
+                //var map;
+                //function initialize() {
+                //    geocoder = new google.maps.Geocoder();
+                //    var latlng = new google.maps.LatLng(-34.397, 150.644);
+                //    var mapOptions = {
+                //        zoom: 8,
+                //        center: latlng
+                //    }
+                //    map = new google.maps.Map(document.getElementById('map'), mapOptions);
+                //}
+
+                //function codeAddress() {
+                //    var address = document.getElementById('address').value;
+                //    geocoder.geocode({ 'address': address }, function (results, status) {
+                //        if (status == 'OK') {
+                //            map.setCenter(results[0].geometry.location);
+                //            var marker = new google.maps.Marker({
+                //                map: map,
+                //                position: results[0].geometry.location
+                //            });
+                //        } else {
+                //            alert('Geocode was not successful for the following reason: ' + status);
+                //        }
+                //    });
+                //}
+
+
+                var map;
+
+                function initMap() {
+
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        center: { lat: @Model.Lat, lng: @Model.Lng },
+                        zoom: 18
+                });
+
+                marker = new google.maps.Marker({
+                    position: { lat: @Model.Lat, lng: @Model.Lng },
+                    map: map,
+                });
+            }
+
+
+
+            </script>
+
+
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsCQjSsJVPTxY8NNo5b31TFpBLAZOpMWE&callback=initMap&v=weekly"
+                    async></script>
+
         </div>
     </div>
 </div>

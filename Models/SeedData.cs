@@ -26,7 +26,6 @@ namespace HomeFinder.Models
                 context.Database.EnsureDeleted();
                 context.Database.Migrate();
 
-
                 var itemType1 = new ItemType() { Name = "Fritidsboende" };
                 var itemType2 = new ItemType() { Name = "Gård" }; 
                 var itemType3 = new ItemType() { Name = "Lägenhet" };
@@ -78,7 +77,9 @@ namespace HomeFinder.Models
                 Price = Generator.SetPrice(),
                 MainImageUrl = Generator.SetImage(),
                 ConstructionYear = DateTime.Now,
-                ListingDate = DateTime.Now
+                ListingDate = DateTime.Now,
+                Lat = "59.4112",
+                Lng = "17.9153"
             };
         }
     }

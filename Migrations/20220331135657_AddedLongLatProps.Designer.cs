@@ -4,14 +4,16 @@ using HomeFinder.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HomeFinder.Migrations
 {
     [DbContext(typeof(HomeFinderContext))]
-    partial class HomeFinderContextModelSnapshot : ModelSnapshot
+    [Migration("20220331135657_AddedLongLatProps")]
+    partial class AddedLongLatProps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,8 +170,8 @@ namespace HomeFinder.Migrations
                     b.Property<int?>("ItemTypeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Lat")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("Lat")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("ListingDate")
                         .HasColumnType("datetime2");
@@ -177,8 +179,8 @@ namespace HomeFinder.Migrations
                     b.Property<double>("LivingArea")
                         .HasColumnType("float");
 
-                    b.Property<string>("Lng")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("Lng")
+                        .HasColumnType("float");
 
                     b.Property<string>("MainImageUrl")
                         .HasColumnType("nvarchar(max)");
