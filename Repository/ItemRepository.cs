@@ -1,6 +1,7 @@
 ﻿using HomeFinder.Data;
 using HomeFinder.Models;
 using HomeFinder.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,21 +14,25 @@ namespace HomeFinder.Repository
     public class ItemRepository : IItemRepository
     {
         private readonly HomeFinderContext _context = null;
-        public ItemRepository(HomeFinderContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public ItemRepository(HomeFinderContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // ---- Konverterar datan från databasen till en struktur och ett format som sedan accepteras av views och controllers
         public async Task<ItemViewModel> GetItemById(int? id)
         {
-            return await _context.Items
+            var item = await _context.Items
                 .Include(item => item.ItemType)
                 .Include(item => item.itemGallery)
                 .Include(item => item.Broker)
                 .Where(item => item.Id == id)
                 .SelectItemAsViewModel()
                 .FirstOrDefaultAsync();
+
+            return item;
         }
 
         public IQueryable<ItemViewModel> GetAllItemsAsModel()
@@ -114,6 +119,30 @@ namespace HomeFinder.Repository
             }
 
             return item;
+        }
+
+        public async Task<int> AddInterestRegistrationFromModel(InterestRegistrationViewModel model)
+        {
+            var interestRegistration = new InterestRegistration()
+            {
+                Item = _context.Items.FirstOrDefault(it => it.Id == model.ItemId),
+                User = await _userManager.FindByIdAsync(model.UserId)
+            };
+
+            _context.InterestRegistrations.Add(interestRegistration);
+            _context.SaveChanges();
+
+            return interestRegistration.Id;
+        }
+
+        public IQueryable<InterestRegistrationViewModel> GetInterestRegistrationsAsViewModel(int itemId)
+        {
+
+            var interestRegistrations = _context.InterestRegistrations
+                .Where(i => i.Item.Id == itemId)
+                .Select(i => new InterestRegistrationViewModel() { UserEmail = i.User.Email });
+
+            return interestRegistrations;
         }
     }
 }

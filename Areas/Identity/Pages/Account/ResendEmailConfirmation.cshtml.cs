@@ -32,7 +32,8 @@ namespace HomeFinder.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "E-postadressen har ett ogiltigt format.")]
+            [Display(Name = "E-postadress")]
             public string Email { get; set; }
         }
 

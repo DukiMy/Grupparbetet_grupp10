@@ -22,6 +22,7 @@ namespace HomeFinder.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
@@ -47,19 +48,54 @@ namespace HomeFinder.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Förnamn")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Efternamn")]
+            public string LastName { get; set; }
+
+            //[Required]
+            //[DataType(DataType.Text)]
+            //[Display(Name = "Company Name")]
+            //public string CompanyName { get; set; }
+
+            //[Required]
+            //[DataType(DataType.Text)]
+            //[Display(Name = "Address")]
+            //public string Address { get; set; }
+
+            //[Required]
+            //[DataType(DataType.Text)]
+            //[Display(Name = "Zip Code")]
+            //public string ZipCode { get; set; }
+
+            //[Required]
+            //[DataType(DataType.Text)]
+            //[Display(Name = "City")]
+            //public string City { get; set; }
+
+            //[Required]
+            //[DataType(DataType.Text)]
+            //[Display(Name = "Phone Number")]
+            //public string PhoneNumber { get; set; }
+
+            [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = "E-postadress")]
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "Lösenordet måste bestå av minst {2} och max {1} tecken.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Lösenord")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Bekräfta lösenord")]
+            [Compare("Password", ErrorMessage = "Matchar ej lösenordet.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -75,8 +111,19 @@ namespace HomeFinder.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser {
+                    UserName = Input.Email,
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName,
+                    //PhoneNumber = Input.PhoneNumber,
+                    //CompanyName = Input.CompanyName,
+                    Email = Input.Email,
+                    //Address = Input.Address,
+                    //ZipCode = Input.ZipCode,
+                    //City = Input.City,
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                await _userManager.AddToRoleAsync((ApplicationUser)user, "Customer");
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -89,8 +136,8 @@ namespace HomeFinder.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Bekräfta din e-postadress",
+                        $"Vänligen bekräfta ditt konto genom att <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>klicka här</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

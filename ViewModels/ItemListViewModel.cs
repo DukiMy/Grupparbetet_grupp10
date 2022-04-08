@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HomeFinder.Models;
 using Microsoft.CodeAnalysis;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeFinder.ViewModels
 {

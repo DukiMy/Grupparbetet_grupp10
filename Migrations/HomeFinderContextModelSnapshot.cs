@@ -27,6 +27,15 @@ namespace HomeFinder.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -76,9 +85,15 @@ namespace HomeFinder.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("UserCreationDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("ZipCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -123,19 +138,19 @@ namespace HomeFinder.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int?>("ItemId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("InterestRegistration");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("InterestRegistrations");
                 });
 
             modelBuilder.Entity("HomeFinder.Models.Item", b =>
@@ -362,15 +377,17 @@ namespace HomeFinder.Migrations
 
             modelBuilder.Entity("HomeFinder.Models.InterestRegistration", b =>
                 {
-                    b.HasOne("HomeFinder.Models.ApplicationUser", null)
-                        .WithMany("InterestRegistrations")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("HomeFinder.Models.Item", "Item")
                         .WithMany("InterestRegistrations")
                         .HasForeignKey("ItemId");
 
+                    b.HasOne("HomeFinder.Models.ApplicationUser", "User")
+                        .WithMany("InterestRegistrations")
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Item");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HomeFinder.Models.Item", b =>

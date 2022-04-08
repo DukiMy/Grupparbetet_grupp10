@@ -29,9 +29,9 @@ namespace HomeFinder.Areas.Identity.Pages.Account.Manage
             _webHostEnvironment = webHostEnvironment;
         }
 
-        [Display(Name = "Användarnamn")]
-        public string Username { get; set; }
+        public string FirstName { get; set; }
         public string PortraitURL { get; set; }
+        public string Username { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -41,31 +41,60 @@ namespace HomeFinder.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            [Display(Name = "Foto")]
+            public IFormFile Portrait { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Förnamn")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Efternamn")]
+            public string LastName { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Mäklarfirma")]
+            public string CompanyName { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Adress")]
+            public string Address { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Postkod")]
+            public string ZipCode { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Ort")]
+            public string City { get; set; }
+
             [Phone]
             [Display(Name = "Telefonnummer")]
             public string PhoneNumber { get; set; }
-            [Display(Name = "Förnamn")]
-            public string FirstName { get; set; }
-            [Display(Name = "Efternamn")]
-            public string LastName { get; set; }
-            [Display(Name = "Foto")]
-            public IFormFile Portrait { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            var firstName = user.FirstName;
-            var lastName = user.LastName;
-
+            
             Username = userName;
             PortraitURL = user.PortraitURL;
 
             Input = new InputModel
             {
-                FirstName = firstName,
-                LastName = lastName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                CompanyName = user.CompanyName,
+                Address = user.Address,
+                ZipCode = user.ZipCode,
+                City = user.City,
                 PhoneNumber = phoneNumber
             };
         }
@@ -106,29 +135,46 @@ namespace HomeFinder.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
-
-            if (string.IsNullOrEmpty(user.FirstName))
-            {
-                user.FirstName = Input.FirstName;
-            }
-
-            if (string.IsNullOrEmpty(user.LastName))
-            {
-                user.LastName = Input.LastName;
-            }
-
             if (Input.Portrait != null)
             {
                 string folder = "img/";
                 user.PortraitURL = await UploadImage(folder, Input.Portrait);
             }
+            if (Input.FirstName != user.FirstName)
+            {
+                user.FirstName = Input.FirstName;
+            }
 
+            if (Input.LastName != user.LastName)
+            {
+                user.LastName = Input.LastName;
+            }
+            if (Input.CompanyName != user.CompanyName)
+            {
+                user.CompanyName = Input.CompanyName;
+            }
+            if (Input.Address != user.Address)
+            {
+                user.Address = Input.Address;
+            }
+            if (Input.ZipCode != user.ZipCode)
+            {
+                user.ZipCode = Input.ZipCode;
+            }
+            if (Input.City != user.City)
+            {
+                user.City = Input.City;
+            }
+            if (Input.PhoneNumber != user.PhoneNumber)
+            {
+                user.PhoneNumber = Input.PhoneNumber;
+            }
             await _userManager.UpdateAsync(user);
+
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Din profil har uppdaterats";
             return RedirectToPage();
         }
-
         private async Task<string> UploadImage(string folderPath, IFormFile file)
         {
             folderPath += Guid.NewGuid().ToString() + "_" + file.FileName;

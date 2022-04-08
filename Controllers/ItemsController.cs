@@ -13,9 +13,11 @@ using HomeFinder.Repository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HomeFinder.Controllers
 {
+    
     public class ItemsController : Controller
     {
         //private readonly HomeFinderContext _context;
@@ -129,6 +131,8 @@ namespace HomeFinder.Controllers
         }
 
         // GET: Items/Create
+
+
         public IActionResult Create()
         {
             return View();
@@ -324,6 +328,7 @@ namespace HomeFinder.Controllers
             return View(itemModel);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddNewItem(ItemViewModel itemModel)
         {
@@ -373,7 +378,7 @@ namespace HomeFinder.Controllers
         }
 
         [Route("item-details/{id:int:min(1)}", Name = "itemDetailsRoute")]
-        public async Task<ViewResult> GetItem(int id)
+        public async Task<IActionResult> GetItem(int id)
         {
             var data = await _itemRepository.GetItemById(id);
 
@@ -404,5 +409,7 @@ namespace HomeFinder.Controllers
 
             return "/" + folderPath;
         }
-    }
+
+
+        }
 }

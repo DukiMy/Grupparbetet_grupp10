@@ -9,7 +9,7 @@
 
 <h1>Fastigheter</h1>
 
-@if (signInManager.IsSignedIn(User))
+@if (User.IsInRole("Broker") || User.IsInRole("Admin") )
 {
 <p>
     <a asp-controller="Items" asp-action="AddNewItem">Lägg till ny bostad <i class="fa-solid fa-plus"></i></a>
@@ -91,9 +91,7 @@
     <div class="row">
         @foreach (var item in Model.Items)
         {
-            <div class="col-md-8">
-                <partial name="_itemThumbnail" model="@item" />
-            </div>
+            <partial name="_itemThumbnail" model="@item" />
         }
     </div>
 </div>

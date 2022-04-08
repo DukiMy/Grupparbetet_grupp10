@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using HomeFinder.Models;
 using HomeFinder.Repository;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using HomeFinder.Services;
 
 namespace HomeFinder
 {
@@ -29,13 +31,14 @@ namespace HomeFinder
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
             services.AddDbContext<HomeFinderContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HomeFinderContext")));
             services.AddRazorPages();
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<HomeFinderContext>();
-            services.AddControllersWithViews();
-
+            
+            //services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IItemRepository, ItemRepository>();
 
             services.AddAuthentication().AddGoogle(options =>
@@ -49,7 +52,12 @@ namespace HomeFinder
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(
+            IApplicationBuilder app, 
+            IWebHostEnvironment env,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager
+            )
         {
             if (env.IsDevelopment())
             {
@@ -69,13 +77,17 @@ namespace HomeFinder
             app.UseAuthentication();
             app.UseAuthorization();
 
+            SeedIdentity.Seed(userManager, roleManager);
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Items}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
+
+
     }
 }
