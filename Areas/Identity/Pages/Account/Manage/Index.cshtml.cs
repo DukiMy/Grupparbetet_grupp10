@@ -32,7 +32,6 @@ namespace HomeFinder.Areas.Identity.Pages.Account.Manage
         public string FirstName { get; set; }
         public string PortraitURL { get; set; }
         public string Username { get; set; }
-        public string PortraitURL { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }

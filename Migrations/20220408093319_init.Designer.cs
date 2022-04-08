@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomeFinder.Migrations
 {
     [DbContext(typeof(HomeFinderContext))]
-    [Migration("20220405081123_IdentityNew")]
-    partial class IdentityNew
+    [Migration("20220408093319_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -140,19 +140,19 @@ namespace HomeFinder.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int?>("ItemId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("InterestRegistration");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("InterestRegistrations");
                 });
 
             modelBuilder.Entity("HomeFinder.Models.Item", b =>
@@ -379,15 +379,17 @@ namespace HomeFinder.Migrations
 
             modelBuilder.Entity("HomeFinder.Models.InterestRegistration", b =>
                 {
-                    b.HasOne("HomeFinder.Models.ApplicationUser", null)
-                        .WithMany("InterestRegistrations")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("HomeFinder.Models.Item", "Item")
                         .WithMany("InterestRegistrations")
                         .HasForeignKey("ItemId");
 
+                    b.HasOne("HomeFinder.Models.ApplicationUser", "User")
+                        .WithMany("InterestRegistrations")
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Item");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HomeFinder.Models.Item", b =>

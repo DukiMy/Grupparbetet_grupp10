@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HomeFinder.Migrations
 {
-    public partial class IdentityNew : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -234,25 +234,25 @@ namespace HomeFinder.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InterestRegistration",
+                name: "InterestRegistrations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ItemId = table.Column<int>(type: "int", nullable: true),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InterestRegistration", x => x.Id);
+                    table.PrimaryKey("PK_InterestRegistrations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_InterestRegistration_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
+                        name: "FK_InterestRegistrations_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_InterestRegistration_Items_ItemId",
+                        name: "FK_InterestRegistrations_Items_ItemId",
                         column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "Id",
@@ -304,14 +304,14 @@ namespace HomeFinder.Migrations
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InterestRegistration_ApplicationUserId",
-                table: "InterestRegistration",
-                column: "ApplicationUserId");
+                name: "IX_InterestRegistrations_ItemId",
+                table: "InterestRegistrations",
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InterestRegistration_ItemId",
-                table: "InterestRegistration",
-                column: "ItemId");
+                name: "IX_InterestRegistrations_UserId",
+                table: "InterestRegistrations",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Items_BrokerId",
@@ -345,7 +345,7 @@ namespace HomeFinder.Migrations
                 name: "Images");
 
             migrationBuilder.DropTable(
-                name: "InterestRegistration");
+                name: "InterestRegistrations");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
