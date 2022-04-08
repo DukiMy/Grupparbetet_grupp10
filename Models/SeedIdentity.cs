@@ -1,9 +1,9 @@
 ﻿using HomeFinder.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace HomeFinder
+namespace HomeFinder.Models
 {
-    public static class SeedData
+    public static class SeedIdentity
     {
         public static void Seed(UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager)

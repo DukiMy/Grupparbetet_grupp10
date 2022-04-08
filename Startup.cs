@@ -77,7 +77,7 @@ namespace HomeFinder
             app.UseAuthentication();
             app.UseAuthorization();
 
-            SeedData.Seed(userManager, roleManager);
+            SeedIdentity.Seed(userManager, roleManager);
 
             app.UseEndpoints(endpoints =>
             {
