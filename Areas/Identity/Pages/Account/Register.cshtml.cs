@@ -49,42 +49,42 @@ namespace HomeFinder.Areas.Identity.Pages.Account
         {
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name ="First Name")]
+            [Display(Name = "Förnamn")]
             public string FirstName { get; set; }
 
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "Last Name")]
+            [Display(Name = "Efternamn")]
             public string LastName { get; set; }
 
-            [Required]
-            [DataType(DataType.Text)]
-            [Display(Name = "Company Name")]
-            public string CompanyName { get; set; }
+            //[Required]
+            //[DataType(DataType.Text)]
+            //[Display(Name = "Company Name")]
+            //public string CompanyName { get; set; }
 
-            [Required]
-            [DataType(DataType.Text)]
-            [Display(Name = "Address")]
-            public string Address { get; set; }
+            //[Required]
+            //[DataType(DataType.Text)]
+            //[Display(Name = "Address")]
+            //public string Address { get; set; }
 
-            [Required]
-            [DataType(DataType.Text)]
-            [Display(Name = "Zip Code")]
-            public string ZipCode { get; set; }
+            //[Required]
+            //[DataType(DataType.Text)]
+            //[Display(Name = "Zip Code")]
+            //public string ZipCode { get; set; }
 
-            [Required]
-            [DataType(DataType.Text)]
-            [Display(Name = "City")]
-            public string City { get; set; }
+            //[Required]
+            //[DataType(DataType.Text)]
+            //[Display(Name = "City")]
+            //public string City { get; set; }
 
-            [Required]
-            [DataType(DataType.Text)]
-            [Display(Name = "Phone Number")]
-            public string PhoneNumber { get; set; }
+            //[Required]
+            //[DataType(DataType.Text)]
+            //[Display(Name = "Phone Number")]
+            //public string PhoneNumber { get; set; }
 
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = "E-postadress")]
             public string Email { get; set; }
 
             [Required]
@@ -115,12 +115,12 @@ namespace HomeFinder.Areas.Identity.Pages.Account
                     UserName = Input.Email,
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
-                    PhoneNumber = Input.PhoneNumber,
-                    CompanyName = Input.CompanyName,
+                    //PhoneNumber = Input.PhoneNumber,
+                    //CompanyName = Input.CompanyName,
                     Email = Input.Email,
-                    Address = Input.Address,
-                    ZipCode = Input.ZipCode,
-                    City = Input.City,
+                    //Address = Input.Address,
+                    //ZipCode = Input.ZipCode,
+                    //City = Input.City,
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 await _userManager.AddToRoleAsync((ApplicationUser)user, "Customer");

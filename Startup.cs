@@ -38,7 +38,7 @@ namespace HomeFinder
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<HomeFinderContext>();
             
-            services.AddTransient<IEmailSender, EmailSender>();
+            //services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IItemRepository, ItemRepository>();
 
             services.AddAuthentication().AddGoogle(options =>

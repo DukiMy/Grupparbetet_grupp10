@@ -41,41 +41,41 @@ namespace HomeFinder.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Display(Name = "Photo")]
+            [Display(Name = "Foto")]
             public IFormFile Portrait { get; set; }
 
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "First Name")]
+            [Display(Name = "Förnamn")]
             public string FirstName { get; set; }
 
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "Last Name")]
+            [Display(Name = "Efternamn")]
             public string LastName { get; set; }
 
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "Company Name")]
+            [Display(Name = "Mäklarfirma")]
             public string CompanyName { get; set; }
 
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "Address")]
+            [Display(Name = "Adress")]
             public string Address { get; set; }
 
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "Zip Code")]
+            [Display(Name = "Postkod")]
             public string ZipCode { get; set; }
 
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "City")]
+            [Display(Name = "Ort")]
             public string City { get; set; }
 
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Telefonnummer")]
             public string PhoneNumber { get; set; }
         }
 
