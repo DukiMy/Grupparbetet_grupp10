@@ -19,7 +19,7 @@ namespace HomeFinder.ViewModels
     {
         public int Id { get; set; }
 
-        //[Required]
+        [Required]
         [DisplayName("Fastighetstyp")]
         public string ItemType { get; set; }
         public SelectList ItemTypeList { get; set; }
@@ -27,7 +27,7 @@ namespace HomeFinder.ViewModels
         [DisplayName("Upplåtelseform")]
         public string FormOfLease { get; set; }
 
-        //[Required]
+        [Required]
         [DisplayName("Adress")]
         public string Address { get; set; }
 
@@ -80,6 +80,8 @@ namespace HomeFinder.ViewModels
         public IFormFileCollection ImageFiles { get; set; }
 
         public List<Image> Images { get; set; }
+
+        //public List<InterestRegistrationViewModel> InterestRegistrations { get; set; }
 
         public string BrokerFirstName { get; set; }
         public string BrokerLastName { get; set; }

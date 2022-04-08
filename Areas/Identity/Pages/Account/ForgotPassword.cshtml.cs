@@ -32,7 +32,8 @@ namespace HomeFinder.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "E-postadressen har ett ogiltigt format.")]
+            [Display(Name = "E-postadress")]
             public string Email { get; set; }
         }
 
@@ -59,8 +60,8 @@ namespace HomeFinder.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(
                     Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    "Återställ lösenord",
+                    $"Återställ ditt lösenord genom att <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>klicka här</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

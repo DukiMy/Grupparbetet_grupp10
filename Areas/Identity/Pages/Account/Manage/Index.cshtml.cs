@@ -32,6 +32,7 @@ namespace HomeFinder.Areas.Identity.Pages.Account.Manage
         public string FirstName { get; set; }
         public string PortraitURL { get; set; }
         public string Username { get; set; }
+        public string PortraitURL { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -172,7 +173,7 @@ namespace HomeFinder.Areas.Identity.Pages.Account.Manage
             await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Din profil har uppdaterats";
             return RedirectToPage();
         }
         private async Task<string> UploadImage(string folderPath, IFormFile file)

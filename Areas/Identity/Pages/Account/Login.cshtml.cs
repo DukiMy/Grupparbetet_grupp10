@@ -44,14 +44,16 @@ namespace HomeFinder.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "E-postadressen har ett ogiltigt format.")]
+            [Display(Name = "E-postadress")]
             public string Email { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
+            [Display(Name = "Lösenord")]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Kom ihåg mig!")]
             public bool RememberMe { get; set; }
         }
 
@@ -99,7 +101,7 @@ namespace HomeFinder.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Fel användarnamn eller lösenord.");
                     return Page();
                 }
             }

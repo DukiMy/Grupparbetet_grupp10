@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
         public Item Item { get; set; }
-        ApplicationUser User { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }
