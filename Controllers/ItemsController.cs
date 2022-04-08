@@ -411,32 +411,5 @@ namespace HomeFinder.Controllers
         //    return View();
         //}
 
-        [HttpPost, ActionName("RegisterInterest")]
-        public async Task<IActionResult> RegisterInterest(int id)
-        {
-            var user = await _userManager.GetUserAsync(User);
-
-            if(user != null)
-            {
-            var model = new AddInterestRegistrationViewModel()
-            {
-                UserId = user.Id,
-                ItemId = id
-            };
-
-                await _itemRepository.AddInterestRegistrationFromModel(model);
-            }
-
-            return RedirectToAction(nameof(GetItem), new { id });
         }
-
-
-        public async Task<IActionResult> GetInterestRegistrations(int id)
-        {
-            var itemModel = await _itemRepository.GetItemById(id);
-
-                var interestRegistrations = await _itemRepository.GetInterestRegistrationsAsViewModel(id);
-                return View(interestRegistrations);
-        }
-    }
 }

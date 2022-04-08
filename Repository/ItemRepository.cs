@@ -121,7 +121,7 @@ namespace HomeFinder.Repository
             return item;
         }
 
-        public async Task<int> AddInterestRegistrationFromModel(AddInterestRegistrationViewModel model)
+        public async Task<int> AddInterestRegistrationFromModel(InterestRegistrationViewModel model)
         {
             var interestRegistration = new InterestRegistration()
             {
@@ -135,17 +135,14 @@ namespace HomeFinder.Repository
             return interestRegistration.Id;
         }
 
-        public async Task<InterestRegistrationsViewModel> GetInterestRegistrationsAsViewModel(int itemId)
+        public IQueryable<InterestRegistrationViewModel> GetInterestRegistrationsAsViewModel(int itemId)
         {
 
-            var interestRegistrations = await _context.InterestRegistrations
+            var interestRegistrations = _context.InterestRegistrations
                 .Where(i => i.Item.Id == itemId)
-                .Select(i => i.User.Email).ToListAsync();
+                .Select(i => new InterestRegistrationViewModel() { UserEmail = i.User.Email });
 
-            var model = new InterestRegistrationsViewModel();
-            model.UserEmails=interestRegistrations;
-
-            return model;
+            return interestRegistrations;
         }
     }
 }

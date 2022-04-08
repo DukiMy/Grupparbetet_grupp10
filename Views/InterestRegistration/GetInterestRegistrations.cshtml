@@ -1,18 +1,20 @@
 ﻿@using HomeFinder.ViewModels
 
-@model InterestRegistrationsViewModel
+@model InterestRegistrationsListViewModel
 
 <div class="container">
     <h4 class="display-4">Alla intresseanmälningar</h4>
     <div class="row justify-content-center">
         <div class="col-6">
             <table class="table-hover">
-                <th>E-postadress</th>
-                @foreach (var EmailAdress in Model.UserEmails)
+                <tr>
+                    <th>E-postadress</th>
+                </tr>
+                @foreach (var interestRegistration in Model.InterestRegistrations)
                 {
                     <tr>
                         <td>
-                            @EmailAdress
+                            @interestRegistration.UserEmail
                         </td>
                     </tr>
                 }
