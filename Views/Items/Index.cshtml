@@ -9,7 +9,7 @@
 
 <h1>Fastigheter</h1>
 
-@if (signInManager.IsSignedIn(User))
+@if (User.IsInRole("Broker") || User.IsInRole("Admin") )
 {
 <p>
     <a asp-controller="Items" asp-action="AddNewItem">Lägg till ny bostad <i class="fa-solid fa-plus"></i></a>
