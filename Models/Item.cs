@@ -33,11 +33,10 @@ namespace HomeFinder.Models
         //[Required]
         [DisplayName("Stad")]
         public string City { get; set; }
-
+               
         [Required]
         [DisplayName("Pris")]
-        [Column(TypeName = "decimal(18, 2)")]
-        public decimal Price { get; set; }
+        public int Price { get; set; }
 
         [Required]
         [DisplayName("Beskrivning")]
@@ -62,9 +61,14 @@ namespace HomeFinder.Models
         public DateTime ConstructionYear { get; set; }
 
         [Required]
-        [DisplayName("Visningsdatum")]
+        [DisplayName("Utlagd")]
         [DataType(DataType.Date)]
         public DateTime ListingDate { get; set; }
+        
+        [Required]
+        [DisplayName("Visningsdatum")]
+        [DataType(DataType.Date)]
+        public DateTime ShowingDate { get; set; }
 
         public ICollection<Image> itemGallery { get; set; }
         public string MainImageUrl { get; set; }

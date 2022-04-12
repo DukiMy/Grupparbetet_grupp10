@@ -8,5 +8,6 @@ namespace HomeFinder.Models
         public int Id { get; set; }
         public string Name { get; set; }
         ICollection<Item> Items { get; set; }
+       
     }
 }

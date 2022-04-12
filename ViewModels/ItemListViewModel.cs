@@ -37,7 +37,11 @@ namespace HomeFinder.ViewModels
         public SelectList LowerPriceSpan { get; set; }
         public SelectList HigherPriceSpan { get; set; }
 
-       
+        public string MinPriceTEST { get; set; }
+        public string MaxPriceTEST { get; set; }
+
+
+
 
 
     }

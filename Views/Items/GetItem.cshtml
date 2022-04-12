@@ -1,17 +1,19 @@
-﻿@using HomeFinder.ViewModels
-
-@{
+﻿@using HomeFinder.ViewModels@{
     ViewData["Title"] = "Item detail " + Model.Address;
 }
-@model ItemViewModel
-
+@model ItemViewModel 
 <div class="container">
-    <h3 class="display-4">Objektdetaljer</h3>
-    <div class="row">
-        <div class="col-md-6">
+<h3 class="display-4">Objektdetaljer</h3>
+<div class="row">
+    <div class="col-md-6">
+        @if (Model.Images.Count == 0)
+        {
+            <img src="@Url.Content(Model.MainImageUrl)" width="500" alt="Loading image">
+        }
+        else
+        {
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
-
                     @for (int i = 0; i < Model.Images.Count(); i++)
                     {
                         <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="@(i==0 ? "active" : "") "></li>
@@ -24,7 +26,6 @@
                             <img class="d-block w-100" src="@Model.Images[i].URL" alt="@Model.Images[i].Title">
                         </div>
                     }
-
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -35,6 +36,72 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+        }
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>@Model.Address</h1>
+            </div>
+        </div> <div class="row">
+            <div class="col-md-12 text-primary">
+                <span class="label label-primary">In: </span>
+                <span class="monospaced">@Model.City</span>
+            </div>
+        </div> <div class="row">
+            <div class="col-md-12">
+                <p class="description">
+                    @Model.Description
+                </p>
+            </div>
+        </div> <div class="row">
+            <div class="col-md-12">
+                <p class="description">
+                    Mäklare: @Model.BrokerEmail
+                </p>
+            </div>
+        </div> <hr /> <ul class="list-group">
+    <li class="list-group-item"><span class="font-weight-bold">Pris: </span> @Model.Price.ToString("c0")</li>
+    <li class="list-group-item"><span class="font-weight-bold">Boarea: </span> @Model.LivingArea</li>
+    <li class="list-group-item"><span class="font-weight-bold">Antal rum: </span> @Model.NrOfRoom</li>
+    <li class="list-group-item"><span class="font-weight-bold">Fastighetstyp: </span> @Model.ItemType</li>
+    <li class="list-group-item"><span class="font-weight-bold">Upplåtelseform: </span> @Model.FormOfLease</li>
+    <li class="list-group-item"><span class="font-weight-bold">Byggår: </span> @Model.ConstructionYear.ToString("yyyy")</li>
+    <li class="list-group-item"><span class="font-weight-bold">Utlagd: </span> @Model.ListingDate.ToString("yyyy/MM/dd")</li>
+    <li class="list-group-item"><span class="font-weight-bold">Visningsdatum: </span> @Model.ShowingDate.ToString("yyyy/MM/dd")</li>
+</ul>
+    </div>
+    <div class="col-md-6">
+        <script>
+ var geocoder;
+var map;
+var marker;
+var address; function initMap() {
+geocoder = new google.maps.Geocoder();
+var latlng = new google.maps.LatLng(59.334591, 18.063240);
+var mapOptions = {
+zoom: 17,
+center: latlng
+}
+map = new google.maps.Map(document.getElementById('map'), mapOptions);
+} function codeAddress() {
+address = "@Model.Address"+", "+"@Model.ZipCode"+" "+"@Model.City";
+geocoder.geocode({ 'address': address }, function (results, status) {
+if (status == 'OK') {
+map.setCenter(results[0].geometry.location);
+marker = new google.maps.Marker({
+map: map,
+position: results[0].geometry.location
+});
+} else {
+alert('Geocode was not successful for the following reason: ' + status);
+}
+});
+} </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEaMfKvxtMmnrBB0elA5kTV0RQ0I_wLII&callback=initMap&v=weekly"
+                async></script>
+    </div>
+</div>
         </div>
         <div class="col-md-6">
             <div class="row">
@@ -130,3 +197,6 @@
         </div>
     </div>
 </div>
+<body onload="codeAddress()">
+    <div id="map" class="my-3" style="width: 500px; height: 400px;"></div>
+</body>
