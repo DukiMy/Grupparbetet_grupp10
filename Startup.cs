@@ -46,8 +46,10 @@ namespace HomeFinder
                 //IConfigurationSection googleAuthNSection =
                 //    Configuration.GetSection("Authentication:Google");
 
-                options.ClientId = "647277621048-aba8vqvo395blm6eq1llq8km3hocied2.apps.googleusercontent.com";
-                options.ClientSecret = "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";
+                //options.ClientId = "647277621048-aba8vqvo395blm6eq1llq8km3hocied2.apps.googleusercontent.com";
+                //options.ClientSecret = "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"; 
+                options.ClientId = Configuration["Google:ClientId"];
+                options.ClientSecret = Configuration["Google:ClientSecret"];
             }); 
         }
 

@@ -19,34 +19,37 @@ namespace HomeFinder.Controllers
             _itemRepository = itemRepository;
         }
 
-        //public async Task<IActionResult> RegisterInterest(int id)
-        //{
-
-        //    return View();
-        //}
-
-        [HttpPost]
-        public async Task<IActionResult> RegisterInterest(int id)
+        public async Task<IActionResult> RegisterInterest(int id, string message, bool isSuccess = false )
         {
+            InterestRegistrationViewModel model = new();
+
             var user = await _userManager.GetUserAsync(User);
+
             if (user != null)
             {
-                //var userEmail = await _userManager.GetEmailAsync(user);
                 bool hasRegisteredInterest = await _itemRepository.GetInterestRegistrationsAsViewModel(id).AnyAsync(i => i.UserEmail == user.Email);
 
-                if(!hasRegisteredInterest)
+                if (!hasRegisteredInterest)
                 {
-                    var model = new InterestRegistrationViewModel()
-                    {
-                        UserId = user.Id,
-                        ItemId = id
-                    };
-
-                    await _itemRepository.AddInterestRegistrationFromModel(model);
+                    model.UserId = user.Id;
+                    model.ItemId = id;
                 }
             }
 
-            return RedirectToRoute("itemDetailsRoute", new { id });
+            ViewBag.IsSuccess = isSuccess;
+            ViewBag.Message = message;
+            ViewBag.ItemId = id;
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterInterest(InterestRegistrationViewModel model)
+        {
+            await _itemRepository.AddInterestRegistrationFromModel(model);
+
+            string message = "Tack för visat intresse.";
+
+            return RedirectToAction(nameof(RegisterInterest), new { id = model.ItemId, message = message, isSuccess = true  });
         }
 
 

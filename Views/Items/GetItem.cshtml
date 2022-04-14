@@ -51,12 +51,12 @@
             </div>
 
             @*<div class="row">
-                    <div class="col-md-12">
-                        <p class="description">
-                            @Model.Description
-                        </p>
-                    </div>
-                </div>*@
+            <div class="col-md-12">
+                <p class="description">
+                    @Model.Description
+                </p>
+            </div>
+        </div>*@
 
             <div class="row">
                 <div class="col-md-12">
@@ -74,7 +74,7 @@
                 </div>
             </div>
 
-            <div class="container">
+            @*<div class="container">
                 <div class="row">
                     <form asp-controller="InterestRegistration"
                           asp-action="RegisterInterest">
@@ -84,6 +84,15 @@
                                value="Anmäl intresse"
                                class="btn btn-outline-primary" />
                     </form>
+                </div>
+            </div>*@
+
+            <div class="container">
+                <div class="row">
+                    <a class="btn btn-outline-primary"
+                       asp-controller="InterestRegistration"
+                       asp-action="RegisterInterest"
+                       asp-route-id="@Model.Id">Intresseanmälan</a>
                 </div>
             </div>
 

@@ -11,8 +11,8 @@
     @if (ViewBag.IsSuccess == true)
     {
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Congratulations</strong> Du har nu skapat ditt objekt <br />
-            Click <a asp-controller="Items" asp-action="GetItem" asp-route-id="@ViewBag.ItemId">here</a> to view the details
+            <strong>Grattis!</strong> Du har nu lagt upp ditt nya objekt. <br />
+            Klicka <a asp-controller="Items" asp-action="GetItem" asp-route-id="@ViewBag.ItemId">här</a> för att visa
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

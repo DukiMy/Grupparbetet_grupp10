@@ -175,9 +175,6 @@ namespace HomeFinder.Controllers
             return View(item);
         }
 
-
-
-
         // POST: Items/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -240,8 +237,8 @@ namespace HomeFinder.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-       
-        //====================================================
+
+        #region Filter functions
 
         public List<ItemViewModel> SortList(List<ItemViewModel> itemList, string displayOrder)
         {
@@ -318,6 +315,8 @@ namespace HomeFinder.Controllers
             return (new SelectList(lowerAreaSpanQuery.Distinct()), new SelectList(higherAreaSpanQuery.Distinct()));
         }
 
+        #endregion
+
         public ViewResult AddNewItem(bool isSuccess = false, int itemId = 0)
         {
             ItemViewModel itemModel = new ItemViewModel();
@@ -328,7 +327,7 @@ namespace HomeFinder.Controllers
             return View(itemModel);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Broker")]
         [HttpPost]
         public async Task<IActionResult> AddNewItem(ItemViewModel itemModel)
         {
@@ -409,7 +408,5 @@ namespace HomeFinder.Controllers
 
             return "/" + folderPath;
         }
-
-
-        }
+    }
 }
