@@ -412,37 +412,37 @@ namespace HomeFinder.Controllers
 
 
         //// GET: Items/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            var item = await _itemRepository.GetItemById(id);
-            List<Recommendation> currentUserRecommendations = (List<Recommendation>)Generator.CurrentUser.Recommendations;
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    var item = await _itemRepository.GetItemById(id);
+        //    List<Recommendation> currentUserRecommendations = (List<Recommendation>)Generator.CurrentUser.Recommendations;
       
-            bool addNewRecommendation = true;
-            foreach (var recommendation in currentUserRecommendations)
-            {
-                if (recommendation.Id == id)
-                {
-                    recommendation.Cue++;
-                    addNewRecommendation = false;
-                    break;
-                }
-             }
+        //    bool addNewRecommendation = true;
+        //    foreach (var recommendation in currentUserRecommendations)
+        //    {
+        //        if (recommendation.Id == id)
+        //        {
+        //            recommendation.Cue++;
+        //            addNewRecommendation = false;
+        //            break;
+        //        }
+        //     }
 
-            if (addNewRecommendation == true)
-            {
-                var recommendation = new Recommendation();
-                recommendation.Id = id;
-            }
+        //    if (addNewRecommendation == true)
+        //    {
+        //        var recommendation = new Recommendation();
+        //        recommendation.Id = id;
+        //    }
 
             
 
-            if (item == null)
-            {
-                return NotFound();
-            }
+        //    if (item == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(item);
-        }
+        //    return View(item);
+        //}
 
         private async Task<string> UploadImage(string folderPath, IFormFile file)
         {
