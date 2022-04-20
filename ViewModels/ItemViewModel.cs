@@ -38,13 +38,14 @@ namespace HomeFinder.ViewModels
         [DisplayName("Stad")]
         public string City { get; set; }
 
-        public string Lat { get; set; }
-        public string Lng { get; set; }
-
+        //[Required]
+        //[DisplayName("Pris")]
+        //[Column(TypeName = "decimal(18, 2)")]
+        //public decimal Price { get; set; }
         [Required]
         [DisplayName("Pris")]
-        [Column(TypeName = "decimal(18, 2)")]
-        public decimal Price { get; set; }
+        
+        public int Price { get; set; }
 
         //[Required]
         [DisplayName("Antal rum")]
@@ -70,9 +71,13 @@ namespace HomeFinder.ViewModels
         public DateTime ConstructionYear { get; set; }
 
         //[Required]
-        [DisplayName("Visnings datum")]
+        [DisplayName("Utlagd")]
         [DataType(DataType.Date)]
         public DateTime ListingDate { get; set; }
+
+        [DisplayName("Visningsdatum")]
+        [DataType(DataType.Date)]
+        public DateTime ShowingDate { get; set; }
 
         public IFormFile MainPhoto { get; set; }
 

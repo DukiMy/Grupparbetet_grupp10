@@ -36,7 +36,7 @@ namespace HomeFinder.Controllers
 
         public async Task<IActionResult> Index(string searchString, string itemType, string nrOfRooms, string minNrOfRooms,
                                                string maxNrOfRooms, string minPrice, string maxPrice, string minArea,
-                                               string maxArea, string displayOrder)
+                                               string maxArea, string displayOrder, string maxPriceTEST, string minPriceTEST)
         {
             var items = _itemRepository.GetAllItemsAsModel();
             // Use LINQ to get list of genres.
@@ -52,9 +52,14 @@ namespace HomeFinder.Controllers
                                            orderby i.LivingArea
                                            select i.LivingArea;
 
-            IQueryable<decimal> priceQuery = from i in items
+            IQueryable<int> priceQuery = from i in items
                                              orderby i.Price
                                              select i.Price;
+
+
+            //var lowHighPrice = items.OrderBy(i => i.Price).Take(1).TakeLast(1);
+            //( minPriceTEST,  maxPriceTEST) = GetPriceSpan(lowHighPrice);
+
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -81,14 +86,14 @@ namespace HomeFinder.Controllers
             if (!string.IsNullOrEmpty(minPrice))
             {
                 minPrice = RemoveChar(minPrice);
-                var min = decimal.Parse(minPrice);
+                var min = int.Parse(minPrice);
                 items = items.Where(i => i.Price >= min);
             }
 
             if (!string.IsNullOrEmpty(maxPrice))
             {
                 maxPrice = RemoveChar(maxPrice);
-                var max = decimal.Parse(maxPrice);
+                var max = int.Parse(maxPrice);
                 items = items.Where(i => i.Price <= max);
             }
 
@@ -108,6 +113,8 @@ namespace HomeFinder.Controllers
 
             var itemLVM = new ItemListViewModel
             {
+            //    MinPriceTEST = minPriceTEST,
+            //    MaxPriceTEST = maxPriceTEST,
 
                 ItemTypesVM = new SelectList(await itemTypeQuery.Distinct().ToListAsync()),
                 NrOfRoomsVM = new SelectList(await nrOfRoomsQuery.Distinct().ToListAsync()),
@@ -171,8 +178,29 @@ namespace HomeFinder.Controllers
             {
                 return NotFound();
             }
+            
+
             return View(item);
         }
+
+        //public async Task<IActionResult> Recommendations(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+
+        //    var item = await _itemRepository
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (movie == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(movie);
+        //}
+
 
         // POST: Items/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -239,6 +267,12 @@ namespace HomeFinder.Controllers
 
         #region Filter functions
 
+        public static (string, string) GetPriceSpan(IQueryable<ItemViewModel> lowHighPrice)
+        {
+            ItemViewModel lowPrice = lowHighPrice.ElementAt(0);
+            ItemViewModel highPrice = lowHighPrice.ElementAt(1);
+            return (lowPrice.Price.ToString(), highPrice.Price.ToString());
+        }
         public List<ItemViewModel> SortList(List<ItemViewModel> itemList, string displayOrder)
         {
             if (displayOrder == "Pris_Stigande")
@@ -294,24 +328,24 @@ namespace HomeFinder.Controllers
 
             return (new SelectList(lowerAreaSpanQuery.Distinct()), new SelectList(higherAreaSpanQuery.Distinct()));
         }
-        public (SelectList, SelectList) SetPriceSpan(IQueryable<decimal> areaQuery, int step)
+        public (SelectList, SelectList) SetPriceSpan(IQueryable<int> priceQuery, int step)
         {
-            List<string> lowerAreaSpanQuery = new();
-            List<string> higherAreaSpanQuery = new();
+            List<string> lowerPriceSpanQuery = new();
+            List<string> higherPriceSpanQuery = new();
 
-            foreach (int area in areaQuery)
+            foreach (int price in priceQuery)
             {
-                for (int i = 0; i < area; i += step)
+                for (int i = 0; i < price; i += step)
                 {
-                    if (area <= i + step)
+                    if (price <= i + step)
                     {
-                        lowerAreaSpanQuery.Add(i.ToString());
-                        higherAreaSpanQuery.Add((i + step).ToString());
+                        lowerPriceSpanQuery.Add(i.ToString());
+                        higherPriceSpanQuery.Add((i + step).ToString());
                     }
                 }
             }
 
-            return (new SelectList(lowerAreaSpanQuery.Distinct()), new SelectList(higherAreaSpanQuery.Distinct()));
+            return (new SelectList(lowerPriceSpanQuery.Distinct()), new SelectList(higherPriceSpanQuery.Distinct()));
         }
 
         #endregion
@@ -326,7 +360,7 @@ namespace HomeFinder.Controllers
             return View(itemModel);
         }
 
-        [Authorize(Roles = "Broker")]
+        [Authorize(Roles = "Admin, Broker")]
         [HttpPost]
         public async Task<IActionResult> AddNewItem(ItemViewModel itemModel)
         {
@@ -362,7 +396,7 @@ namespace HomeFinder.Controllers
                 if (id > 0)
                 {
                     return RedirectToAction(nameof(AddNewItem), new { isSuccess = true, itemId = id });
-                }       
+                }
             }
             return View();
         }
@@ -371,6 +405,7 @@ namespace HomeFinder.Controllers
         public async Task<IActionResult> GetItem(int id)
         {
             var data = await _itemRepository.GetItemById(id);
+            //var userManager = await _userManager.
 
             return View(data);
         }
@@ -380,6 +415,26 @@ namespace HomeFinder.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             var item = await _itemRepository.GetItemById(id);
+            List<Recommendation> currentUserRecommendations = (List<Recommendation>)Generator.CurrentUser.Recommendations;
+      
+            bool addNewRecommendation = true;
+            foreach (var recommendation in currentUserRecommendations)
+            {
+                if (recommendation.Id == id)
+                {
+                    recommendation.Cue++;
+                    addNewRecommendation = false;
+                    break;
+                }
+             }
+
+            if (addNewRecommendation == true)
+            {
+                var recommendation = new Recommendation();
+                recommendation.Id = id;
+            }
+
+            
 
             if (item == null)
             {

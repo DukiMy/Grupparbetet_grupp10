@@ -101,6 +101,7 @@ namespace HomeFinder.Repository
 
                 ConstructionYear = model.ConstructionYear,
                 ListingDate = model.ListingDate,
+                ShowingDate = model.ShowingDate,
 
                 MainImageUrl = model.MainImageUrl,
 

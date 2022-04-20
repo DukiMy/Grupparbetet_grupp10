@@ -33,5 +33,9 @@ namespace HomeFinder.Models
 
         public ICollection<Item> OwnedItems { get; set; }
         public ICollection<InterestRegistration> InterestRegistrations { get; set; }
+        
+
+        public ICollection<Recommendation> Recommendations { get; set; }
+
     }
 }

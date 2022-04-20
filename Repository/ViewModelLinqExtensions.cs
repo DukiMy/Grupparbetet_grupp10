@@ -28,6 +28,7 @@ namespace System.Linq
 
                 ConstructionYear = item.ConstructionYear,
                 ListingDate = item.ListingDate,
+                ShowingDate = item.ShowingDate,
 
                 BrokerFirstName = item.Broker.FirstName,
                 BrokerLastName = item.Broker.LastName,

@@ -7,7 +7,9 @@ using System.Linq;
 using System.Net;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using System.Collections.Generic;
+//using HomeFinder.Migrations;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace HomeFinder.Models
 {
@@ -18,8 +20,8 @@ namespace HomeFinder.Models
             using (var context = new HomeFinderContext(
                 serviceProvider.GetRequiredService<DbContextOptions<HomeFinderContext>>()))
             {
-                //// Look for any movies.
-                //if (context.Item.Any())
+                // Look for any movies.
+                //if (context.Items.Any())
                 //{
                 //    return;   // DB has been seeded
                 //}
@@ -39,17 +41,17 @@ namespace HomeFinder.Models
 
                 //========================< INFO >=============================
                 // Ange hur många objekt du vill skapa i numberOfItems
-                int numberOfItems = 50;
+                int numberOfItems = 250;
 
                 for (int i = 0; i < numberOfItems; i++)
                 {
                     var newItem = CreateNewItem();
                     context.Items.AddRange(newItem);
                 }
-
-                var newUser = CreateNewApplicationUser();
-                //using (var _userManager = new UserManager<ApplicationUser>()
-                    context.SaveChanges();
+                //var newUser = CreateNewApplicationUser();
+                //var user = new ApplicationUser { UserName = "testmail@gmail.com", Email = "testmail@gmail.com" };
+                //var result = using (var userManager new UserManager()) _userManager.CreateAsync(user, "Superpassword-2022");
+                context.SaveChanges();
             }
         }
 
@@ -58,45 +60,50 @@ namespace HomeFinder.Models
             return new ApplicationUser
             {
                 UserName = "",
-                Email = "petter.berelin@gmail.com",
-                PasswordHash = "Superpassword-2022"
+                Email = "testmail@gmail.com",
+                PasswordHash = "Superpassword-2022",
+                EmailConfirmed = true
+                
             };
         }
         public static Item CreateNewItem()
         {
             return new Item
             {
-                FormOfLease = Generator.SetFormOfLease(),
                 ItemType = Generator.SetItemType(),
-                //Address = Generator.SetAddress(),
-                Address = "Egilsvägen 10",
-                ZipCode = "16856",
+                FormOfLease = Generator.SetFormOfLease(),
+                City = Generator.SetCity(),
+                Address = Generator.SetAddress(),
                 NrOfRoom = Generator.SetNrOfRooms(),
-                //City = Generator.SetCity(),
-                City = "Bromma",
                 Description = Generator.SetDescription(),
                 LivingArea = Generator.SetLivingArea(),
                 GrossFloorArea = Generator.SetGrosFloorArea(),
                 PlotArea = Generator.SetPlotArea(),
                 Price = Generator.SetPrice(),
                 MainImageUrl = Generator.SetImage(),
-                ConstructionYear = DateTime.Now,
-                ListingDate = DateTime.Now,
-                Lat = "59.4112",
-                Lng = "17.9153"
+                ConstructionYear = Generator.SetConstructionYear(),
+                //ListingDate = DateTime.Now,
+                ListingDate = Generator.SetListingDate(),
+                ShowingDate = Generator.SetShowingDate()
             };
         }
     }
 
     class Generator
     {
+        public static ApplicationUser CurrentUser { get; set; } = new();
         public static Random Random { get; set; } = new Random();
 
+        public static string GenCity { get; set; }
+        public static string GenAddress { get; set; }
         public static string GenItemType { get; set; }
         public static int GenNrOfRooms { get; set; }
         public static double GenLivingArea { get; set; }
         public static double? GenGrosFloorArea { get; set; }
         public static double? GenPlotArea { get; set; }
+        public static DateTime GenConstructionYear { get; set; }
+        public static DateTime GenListingDate { get; set; }
+        public static DateTime GenShowingDate { get; set; }
         public static HomeFinderContext GenContext { get; set; }
 
         //=====properties i klassen Item=======
@@ -131,25 +138,52 @@ namespace HomeFinder.Models
             }
 
         }
-
-        public static string SetAddress()
-        {
-            int num = Random.Next(1, 6);
-            var prefix = num == 1 ? "Äppel" : num == 2 ? "Päron" : num == 3 ? "Körsbärs" : num == 4 ? "Melon" : "Banan";
-
-            num = Random.Next(1, 6);
-            var sufix = num == 1 ? "vägen " : num == 2 ? "gatan " : num == 3 ? "stigen " : num == 4 ? "plan " : "allé ";
-
-            num = Random.Next(1, 101);
-            
-            return prefix + sufix + num;
-        }
-
+       
         public static string SetCity()
         {
-            int num = Random.Next(1, 6);
-            return num == 1 ? "Stockholm" : num == 2 ? "Göteborg" : num == 3 ? "Malmö" : num == 4 ? "Finspång" : "Korpilombolo";
+            int num = Random.Next(0, 5);
+            return GenCity = Enum.GetName(typeof(City), num);
+            //return GenCity = num == 1 ? "Stockholm" : num == 2 ? "Göteborg" : num == 3 ? "Malmö" : num == 4 ? "Uppsala" : "Umeå";
         }
+        public static string SetAddress()
+        {
+            int num = Random.Next(0, 5);
+           
+            if (GenCity == "Stockholm")
+            {
+                GenAddress = Enum.GetName(typeof(Stockholm), num);
+            }
+
+           else if (GenCity == "Malmö")
+            {
+                GenAddress = Enum.GetName(typeof(Malmö), num);
+            }
+
+            else if(GenCity == "Göteborg")
+            {
+                GenAddress = Enum.GetName(typeof(Göteborg), num);
+            }
+
+            else if (GenCity == "Umeå")
+            {
+                GenAddress = Enum.GetName(typeof(Umeå), num);
+            }
+
+            else if (GenCity == "Uppsala")
+            {
+                GenAddress = Enum.GetName(typeof(Uppsala), num);
+            }
+
+            int addressNum = Random.Next(1, 51);
+            return GenAddress + " " + addressNum.ToString();
+        }
+
+        //public static string SetZipCode()
+        //{
+
+        //} 
+       
+      
 
         public static int SetNrOfRooms()
         {
@@ -205,7 +239,7 @@ namespace HomeFinder.Models
             return 0;
         }
 
-        public static decimal SetPrice()
+        public static int SetPrice()
         {
             int price = ((int)GenNrOfRooms * 500000); 
                 //* ((int)GenLivingArea / 100);
@@ -215,22 +249,36 @@ namespace HomeFinder.Models
                 price += ((int)GenGrosFloorArea + (int)GenPlotArea) * 1000;
             }
 
+
             return price;
         }
 
         public static DateTime SetConstructionYear()
         {
             DateTime start = new DateTime(1900, 1, 1);
-            int range = (DateTime.Today - start).Days;
+            //DateTime end = DateTime.Now;
+            int range = (DateTime.Now - start).Days;
             return start.AddDays(Random.Next(range));
         }
         public static DateTime SetListingDate()
         {
             DateTime start = DateTime.Now.AddDays(-30);
-            int range = (DateTime.Today - start).Days;
-            return start.AddDays(Random.Next(range));
+            int range = (DateTime.Now - start).Days;
+            return GenListingDate = start.AddDays(Random.Next( range +1));
         }
-        
+        public static DateTime SetShowingDate()
+        {
+
+            //// DateTime end = new DateTime(2022, 1, 1);
+            // DateTime end = GenListingDate.AddDays(14);
+            // int range = (end - GenListingDate).Days;
+            // //return GenListingDate.AddDays(Random.Next(range));
+
+           
+            //return GenListingDate.AddDays(Random.Next(7,21));
+            return GenListingDate.AddDays(Random.Next(7, 21));
+        }
+
         public static string SetImage()
         {
             if (Generator.GenItemType == "Lägenhet")
@@ -258,5 +306,59 @@ namespace HomeFinder.Models
             return "~/placeholderimg/fritidsboende.jpg";
 
         }
+               
+    }
+    public enum City
+    {
+        Stockholm,
+        Malmö,
+        Göteborg,
+        Uppsala,
+        Umeå
+    }
+
+    enum Stockholm
+    {
+        Drottninggatan,
+        Sveavägen,
+        Storgatan,
+        Vasagatan,
+        Odengatan
+    }
+
+    enum Malmö
+    {
+        Drottninggatan,
+        Storgatan,
+        Vasagatan,
+        Vaktgatan,
+        Auravägen
+    }
+
+    enum Göteborg
+    {
+        Ullevigatan,
+        Fiskhamnsgatan,
+        Byalagsgatan,
+        Önskevädersgatan,
+        Smögengatan
+    }
+
+    enum Umeå
+    {
+        Bölevägen,
+        Backenvägen,
+        Dirigentstråket,
+        Fläktvägen,
+        Klintvägen
+    }
+
+    enum Uppsala
+    {
+        Storgatan,
+        Drottninggatan,
+        Kungsgatan,
+        Skolgatan,
+        Götgatan
     }
 }

@@ -207,8 +207,11 @@ namespace HomeFinder.Migrations
                     b.Property<double?>("PlotArea")
                         .HasColumnType("float");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ShowingDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ZipCode")
                         .HasColumnType("nvarchar(max)");
@@ -235,6 +238,26 @@ namespace HomeFinder.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ItemTypes");
+                });
+
+            modelBuilder.Entity("HomeFinder.Models.Recommendation", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Cue")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Recommendations");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -411,6 +434,15 @@ namespace HomeFinder.Migrations
                     b.Navigation("ItemType");
                 });
 
+            modelBuilder.Entity("HomeFinder.Models.Recommendation", b =>
+                {
+                    b.HasOne("HomeFinder.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("Recommendations")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.Navigation("ApplicationUser");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -467,6 +499,8 @@ namespace HomeFinder.Migrations
                     b.Navigation("InterestRegistrations");
 
                     b.Navigation("OwnedItems");
+
+                    b.Navigation("Recommendations");
                 });
 
             modelBuilder.Entity("HomeFinder.Models.Item", b =>

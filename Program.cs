@@ -30,7 +30,7 @@ namespace HomeFinder
 
                 try
                 {
-                    Models.SeedData.Initialize(services);
+                    SeedData.Initialize(services);
                 }
                 catch (Exception ex)
                 {

@@ -5,43 +5,47 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
-                <img class="card-img-bottom"src="@Url.Content(Model.MainImageUrl)" alt="Loading image">
+                <img class="card-img-bottom" src="@Url.Content(Model.MainImageUrl)" alt="Loading image">
             </div>
             <div class="col-md-6">
-        <div class="row">
-            <div class="col">
-                <h4 class="card-title">@(string.IsNullOrEmpty(Model.Address) ? "Address is not available" : Model.Address)</h4>
-                <h5 class="card-title">@(string.IsNullOrEmpty(Model.City) ? "City is not availabe": Model.City)</h5>
-            </div>
-        </div>
                 <div class="row">
-                    <div class="col-sm">
-                        <ul class="list-group">
-                            <li class="list-group-item"><span class="font-weight-bold">Pris - </span> @Model.Price</li>
-                            <li class="list-group-item"><span class="font-weight-bold">Boyta - </span> @Model.LivingArea</li>
-                            <li class="list-group-item"><span class="font-weight-bold">Antal rum - </span> @Model.NrOfRoom</li>
-                        </ul>
-                    </div>
-                    <div class="col-sm">
-                        <ul class="list-group">
-                            <li class="list-group-item"><span class="font-weight-bold">Fastighetstyp - </span> @Model.ItemType</li>
-                            <li class="list-group-item"><span class="font-weight-bold">Tomtarea - </span> @Model.PlotArea</li>
-                            <li class="list-group-item"><span class="font-weight-bold">Biarea - </span> @Model.GrossFloorArea</li>
-                        </ul>
+                    <div class="col">
+                        <h4 class="card-title">@(string.IsNullOrEmpty(Model.Address) ? "Address is not available" : Model.Address)</h4>
+                        <h5 class="card-title">@(string.IsNullOrEmpty(Model.City) ? "City is not availabe": Model.City)</h5>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-12">
-                <h4>@Model.Description</h4>
-            </div>
-            <div class="d-flex justify-content-between align-items-center">
-                <a asp-route="itemDetailsRoute" asp-route-id="@Model.Id"
-                   class="btn btn-sm btn-outline-secondary">Till objektsidan</a>
-            </div>
 
+                <div >
+                    <div class="row">
+                        <div class="col-sm">
+                            <ul class="list-group">
+                                <li class="list-group-item"><span class="font-weight-bold">Pris - </span> @Model.Price.ToString("c0")</li>
+                                <li class="list-group-item"><span class="font-weight-bold">Boyta - </span> @Model.LivingArea</li>
+                                <li class="list-group-item"><span class="font-weight-bold">Antal rum - </span> @Model.NrOfRoom</li>
+                            </ul>
+                        </div>
+                        <div class="col-sm">
+                            <ul class="list-group">
+                                <li class="list-group-item"><span class="font-weight-bold">Fastighetstyp - </span> @Model.ItemType</li>
+                                <li class="list-group-item"><span class="font-weight-bold">Tomtarea - </span> @Model.PlotArea</li>
+                                <li class="list-group-item"><span class="font-weight-bold">Biarea - </span> @Model.GrossFloorArea</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <h4>@Model.Description</h4>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a asp-route="itemDetailsRoute" asp-route-id="@Model.Id"
+                           class="btn btn-sm btn-outline-secondary">Till objektsidan</a>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
 
 
