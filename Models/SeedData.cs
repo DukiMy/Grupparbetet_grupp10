@@ -70,8 +70,8 @@ namespace HomeFinder.Models
         {
             return new Item
             {
-                FormOfLease = Generator.SetFormOfLease(),
                 ItemType = Generator.SetItemType(),
+                FormOfLease = Generator.SetFormOfLease(),
                 City = Generator.SetCity(),
                 Address = Generator.SetAddress(),
                 NrOfRoom = Generator.SetNrOfRooms(),
@@ -154,22 +154,22 @@ namespace HomeFinder.Models
                 GenAddress = Enum.GetName(typeof(Stockholm), num);
             }
 
-            if (GenCity == "Malmö")
+           else if (GenCity == "Malmö")
             {
                 GenAddress = Enum.GetName(typeof(Malmö), num);
             }
 
-            if (GenCity == "Göteborg")
+            else if(GenCity == "Göteborg")
             {
                 GenAddress = Enum.GetName(typeof(Göteborg), num);
             }
 
-            if (GenCity == "Umeå")
+            else if (GenCity == "Umeå")
             {
                 GenAddress = Enum.GetName(typeof(Umeå), num);
             }
 
-            if (GenCity == "Uppsala")
+            else if (GenCity == "Uppsala")
             {
                 GenAddress = Enum.GetName(typeof(Uppsala), num);
             }

@@ -359,7 +359,7 @@ namespace HomeFinder.Controllers
             return View(itemModel);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Broker")]
         [HttpPost]
         public async Task<IActionResult> AddNewItem(ItemViewModel itemModel)
         {
