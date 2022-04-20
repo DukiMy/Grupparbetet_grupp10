@@ -53,6 +53,24 @@
     </div>
 
     <div class="form-group">
+        <label asp-for="LivingArea" class="control-label"></label>
+        <input asp-for="LivingArea" class="form-control" />
+        <span asp-validation-for="LivingArea" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NrOfRoom" class="control-label"></label>
+        <input asp-for="NrOfRoom" class="form-control" />
+        <span asp-validation-for="NrOfRoom" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="FormOfLease" class="control-label"></label>
+        <input asp-for="FormOfLease" class="form-control" />
+        <span asp-validation-for="FormOfLease" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
         <label asp-for="Price" class="control-label"></label>
         <input asp-for="Price" class="form-control" />
         <span asp-validation-for="Price" class="text-danger"></span>
@@ -62,6 +80,18 @@
         <label asp-for="Description" class="control-label"></label>
         <textarea asp-for="Description" class="form-control"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ConstructionYear" class="control-label"></label>
+        <input asp-for="ConstructionYear" class="form-control" />
+        <span asp-validation-for="ConstructionYear" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ListingDate" class="control-label"></label>
+        <input asp-for="ListingDate" class="form-control" />
+        <span asp-validation-for="ListingDate" class="text-danger"></span>
     </div>
 
     <div class="form-group">
@@ -88,3 +118,7 @@
     </div>
 </form>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

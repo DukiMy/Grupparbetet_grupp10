@@ -368,14 +368,6 @@ namespace HomeFinder.Controllers
             return View();
         }
 
-        [Route("all-items")]
-        public ViewResult GetAllItems()
-        {
-            var data = _itemRepository.GetAllItemsAsModel();
-
-            return View(data);
-        }
-
         [Route("item-details/{id:int:min(1)}", Name = "itemDetailsRoute")]
         public async Task<IActionResult> GetItem(int id)
         {

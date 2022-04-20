@@ -34,6 +34,9 @@ namespace HomeFinder.Models
         [DisplayName("Stad")]
         public string City { get; set; }
 
+        public string Lat { get; set; }
+        public string Lng { get; set; }
+
         [Required]
         [DisplayName("Pris")]
         [Column(TypeName = "decimal(18, 2)")]

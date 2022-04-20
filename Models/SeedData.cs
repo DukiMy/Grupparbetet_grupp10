@@ -68,9 +68,12 @@ namespace HomeFinder.Models
             {
                 FormOfLease = Generator.SetFormOfLease(),
                 ItemType = Generator.SetItemType(),
-                Address = Generator.SetAddress(),
+                //Address = Generator.SetAddress(),
+                Address = "Egilsvägen 10",
+                ZipCode = "16856",
                 NrOfRoom = Generator.SetNrOfRooms(),
-                City = Generator.SetCity(),
+                //City = Generator.SetCity(),
+                City = "Bromma",
                 Description = Generator.SetDescription(),
                 LivingArea = Generator.SetLivingArea(),
                 GrossFloorArea = Generator.SetGrosFloorArea(),
@@ -78,7 +81,9 @@ namespace HomeFinder.Models
                 Price = Generator.SetPrice(),
                 MainImageUrl = Generator.SetImage(),
                 ConstructionYear = DateTime.Now,
-                ListingDate = DateTime.Now
+                ListingDate = DateTime.Now,
+                Lat = "59.4112",
+                Lng = "17.9153"
             };
         }
     }
