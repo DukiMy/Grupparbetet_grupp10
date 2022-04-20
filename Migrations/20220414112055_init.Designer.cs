@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomeFinder.Migrations
 {
     [DbContext(typeof(HomeFinderContext))]
-    [Migration("20220408093319_init")]
+    [Migration("20220414112055_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -188,11 +188,17 @@ namespace HomeFinder.Migrations
                     b.Property<int?>("ItemTypeId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Lat")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("ListingDate")
                         .HasColumnType("datetime2");
 
                     b.Property<double>("LivingArea")
                         .HasColumnType("float");
+
+                    b.Property<string>("Lng")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MainImageUrl")
                         .HasColumnType("nvarchar(max)");

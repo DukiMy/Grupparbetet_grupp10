@@ -38,7 +38,6 @@ namespace HomeFinder.Controllers
                                                string maxNrOfRooms, string minPrice, string maxPrice, string minArea,
                                                string maxArea, string displayOrder)
         {
-
             var items = _itemRepository.GetAllItemsAsModel();
             // Use LINQ to get list of genres.
             IQueryable<string> itemTypeQuery = from i in items
