@@ -19,25 +19,29 @@ namespace HomeFinder.Controllers
             _itemRepository = itemRepository;
         }
 
-        public async Task<IActionResult> RegisterInterest(int id, string message, bool hasRegisteredInterest = false)
+        public async Task<IActionResult> InterestRegistration(int id, string message, bool isSuccess = false)
         {
             InterestRegistrationViewModel model = new();
 
             var user = await _userManager.GetUserAsync(User);
 
-            hasRegisteredInterest = await _itemRepository.GetInterestRegistrationsAsViewModel(id).AnyAsync(i => i.UserEmail == user.Email);
-
-            if (user != null && !hasRegisteredInterest)
+            if(!isSuccess)
             {
-                model.UserId = user.Id;
-                model.ItemId = id;
-            }
-            else if (hasRegisteredInterest)
-            {
-                message = "Du har redan anmält intresse för det här objektet.";
+                bool hasRegisteredInterest = await _itemRepository.GetInterestRegistrationsAsViewModel(id).AnyAsync(i => i.UserEmail == user.Email);
+
+                if (user != null && !hasRegisteredInterest)
+                {
+                    model.UserId = user.Id;
+                    model.ItemId = id;
+                }
+                else if (hasRegisteredInterest)
+                {
+                    message = "Du har redan anmält intresse för det här objektet.";
+                    return RedirectToAction(nameof(InterestRegistration), new { id = id, message = message, isSuccess = true });
+                }
             }
 
-            ViewBag.HasRegisteredInterest = hasRegisteredInterest;
+            ViewBag.IsSuccess = isSuccess;
             ViewBag.Message = message;
             ViewBag.ItemId = id;
             return View(model);
@@ -45,7 +49,7 @@ namespace HomeFinder.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegisterInterest(InterestRegistrationViewModel model)
+        public async Task<IActionResult> InterestRegistration(InterestRegistrationViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -53,7 +57,7 @@ namespace HomeFinder.Controllers
 
                 string message = "Tack för visat intresse.";
 
-                return RedirectToAction(nameof(RegisterInterest), new { id = model.ItemId, message = message, hasRegisteredInterest = true });
+                return RedirectToAction(nameof(InterestRegistration), new { id = model.ItemId, message = message, isSuccess = true });
             }
 
             return View();
