@@ -58,46 +58,93 @@
 
     <div class="row">
         <div class="col-md-8">
-            @Model.Description
+            @Model.Description Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ut, tempora, illum deleniti in
+            voluptatum non veritatis sed fuga culpa consectetur atque accusamus tempore et vero veniam hic nulla laborum
+            aperiam sapiente repudiandae praesentium? Possimus, distinctio ut quis assumenda asperiores ea sequi
+            reiciendis accusantium vitae dignissimos est excepturi veniam magni repellat, aliquam quidem provident illum
+            repellendus eos architecto deleniti? Illum consequatur tempora sit, mollitia beatae atque? Inventore in
+            aliquam quibusdam neque? Consequuntur, harum? Molestiae ullam, obcaecati delectus sunt deserunt ipsum non
+            repellat dolorem facere, quod nostrum atque repellendus tempore cupiditate mollitia, culpa vitae sit.
+            Corrupti at reprehenderit nostrum impedit necessitatibus quasi a officia excepturi, provident veniam
+            voluptatibus aut vitae. Optio id nostrum nobis possimus praesentium provident ad odit ullam sequi sunt
+            facilis iusto nulla adipisci ipsam, quos delectus corrupti incidunt. Maiores mollitia obcaecati autem, omnis
+            quam, iure itaque hic officia, exercitationem non voluptate voluptatum. Aspernatur hic, quo fuga nobis
+            totam, odit officiis nisi soluta, dolorum quae ratione animi vel non rerum autem dolores quia cupiditate
+            mollitia. Nesciunt ipsa maiores repellat obcaecati, rem reprehenderit ad veniam accusantium aliquam,
+            inventore, hic facilis amet numquam accusamus! Adipisci fugiat nemo animi ex enim amet aliquam nisi omnis
+            temporibus consequatur, tempore voluptatem illum quas quaerat nihil.
         </div>
 
-        <ul class="list-group col-md-4">
+        @*
+            <ul class="list-group col-md-4">
             <li class="list-group-item"><span class="font-weight-bold">Pris: </span> @Model.Price.ToString("c0")</li>
             <li class="list-group-item">
-                <span class="font-weight-bold">Boarea: </span> @Model.LivingArea m²
-                @if (Model.GrossFloorArea != 0)
-                {
-                    <span class="font-weight-bold">/ Biarea: </span> <span> @Model.GrossFloorArea  m² </span>
-                }
-                @if (Model.PlotArea != 0)
-                {
-                    <span class="font-weight-bold">/ Tomt: </span> <span> @Model.PlotArea m² </span>
-                }
+            <span class="font-weight-bold">Boarea: </span> @Model.LivingArea m²
+            @if (Model.GrossFloorArea != 0)
+            {
+            <span class="font-weight-bold">/ Biarea: </span> <span> @Model.GrossFloorArea m² </span>
+            }
+            @if (Model.PlotArea != 0)
+            {
+            <span class="font-weight-bold">/ Tomt: </span> <span> @Model.PlotArea m² </span>
+            }
             </li>
             <li class="list-group-item"><span class="font-weight-bold">Antal rum: </span> @Model.NrOfRoom</li>
             <li class="list-group-item"><span class="font-weight-bold">Fastighetstyp: </span> @Model.ItemType</li>
             <li class="list-group-item"><span class="font-weight-bold">Upplåtelseform: </span> @Model.FormOfLease</li>
-            <li class="list-group-item"><span class="font-weight-bold">Byggår: </span> @Model.ConstructionYear.ToString("yyyy")</li>
-            <li class="list-group-item"><span class="font-weight-bold">Utlagd: </span> @Model.ListingDate.ToString("yyyy/MM/dd")</li>
-            <li class="list-group-item"><span class="font-weight-bold">Visningsdatum: </span> @Model.ShowingDate.ToString("yyyy/MM/dd")</li>
-        </ul>
+            <li class="list-group-item"><span class="font-weight-bold">Byggår: </span>
+            @Model.ConstructionYear.ToString("yyyy")</li>
+            <li class="list-group-item"><span class="font-weight-bold">Utlagd: </span>
+            @Model.ListingDate.ToString("yyyy/MM/dd")</li>
+            <li class="list-group-item"><span class="font-weight-bold">Visningsdatum: </span>
+            @Model.ShowingDate.ToString("yyyy/MM/dd")</li>
+            </ul> *@
+
+        <table class="list-group col-md-4">
+            <tr>
+                <td class="col-6">Pris:</td>
+                <td class="col-6">@Model.Price.ToString("c0")</td>
+            </tr>
+            <tr>
+                <td class="col-6">Antal rum:</td>
+                <td class="col-6">@Model.NrOfRoom</td>
+            </tr>
+            <tr>
+                <td class="col-6">Fastighetstyp:</td>
+                <td class="col-6">@Model.ItemType</td>
+            </tr>
+            <tr>
+                <td class="col-6">Upplåtelseform:</td>
+                <td class="col-6">@Model.FormOfLease</td>
+            </tr>
+            <tr>
+                <td class="col-6">Byggår:</td>
+                <td class="col-6">@Model.ConstructionYear.ToString("yyyy")</td>
+            </tr>
+            <tr>
+                <td class="col-6">Utlagd:</td>
+                <td class="col-6">@Model.ListingDate.ToString("yyyy/MM/dd")</td>
+            </tr>
+            <tr>
+                <td class="col-6">Visningsdatum:</td>
+                <td class="col-6">@Model.ShowingDate.ToString("yyyy/MM/dd")</td>
+            </tr>
+
+        </table>
     </div>
+
+
 
     <div class="row">
         <div class="col-md">
-            <a class="btn btn-outline-primary"
-               asp-controller="InterestRegistration"
-               asp-action="InterestRegistration"
-               asp-route-id="@Model.Id">Intresseanmälan</a>
+            <a class="btn btn-outline-primary" asp-controller="InterestRegistration" asp-action="InterestRegistration"
+                asp-route-id="@Model.Id">Intresseanmälan</a>
         </div>
 
         <div class="col-md">
-            <a class="btn btn-outline-primary"
-               asp-controller="InterestRegistration"
-               asp-action="GetInterestRegistrations"
-               asp-route-id="@Model.Id">Visa intresseanmälningar</a>
+            <a class="btn btn-outline-primary" asp-controller="InterestRegistration"
+                asp-action="GetInterestRegistrations" asp-route-id="@Model.Id">Visa intresseanmälningar</a>
         </div>
-
     </div>
 
     <div onload="codeAddress()" class="row justify-content-center">
@@ -123,18 +170,20 @@
         address = "@Model.Address" + ", " + "@Model.ZipCode" + " " + "@Model.City";
 
         geocoder.geocode({ 'address': address }, function (results, status) {
-        if (status == 'OK') {
-            map.setCenter(results[0].geometry.location);
-            marker = new google.maps.Marker({
-            map: map,
-            position: results[0].geometry.location
-            });
-        }
-        else {
-            alert('Geocode was not successful for the following reason: ' + status);
-        }
+            if (status == 'OK') {
+                map.setCenter(results[0].geometry.location);
+                marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location
+                });
+            }
+            else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
         });
     }
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEaMfKvxtMmnrBB0elA5kTV0RQ0I_wLII&callback=initMap&v=weekly" async></script>
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEaMfKvxtMmnrBB0elA5kTV0RQ0I_wLII&callback=initMap&v=weekly"
+    async></script>
