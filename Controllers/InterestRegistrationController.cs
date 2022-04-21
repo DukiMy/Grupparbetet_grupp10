@@ -19,57 +19,63 @@ namespace HomeFinder.Controllers
             _itemRepository = itemRepository;
         }
 
-        public async Task<IActionResult> RegisterInterest(int id, string message, bool isSuccess = false )
+        public async Task<IActionResult> RegisterInterest(int id, string message, bool hasRegisteredInterest = false)
         {
             InterestRegistrationViewModel model = new();
 
             var user = await _userManager.GetUserAsync(User);
 
-            if (user != null)
-            {
-                bool hasRegisteredInterest = await _itemRepository.GetInterestRegistrationsAsViewModel(id).AnyAsync(i => i.UserEmail == user.Email);
+            hasRegisteredInterest = await _itemRepository.GetInterestRegistrationsAsViewModel(id).AnyAsync(i => i.UserEmail == user.Email);
 
-                if (!hasRegisteredInterest)
-                {
-                    model.UserId = user.Id;
-                    model.ItemId = id;
-                }
+            if (user != null && !hasRegisteredInterest)
+            {
+                model.UserId = user.Id;
+                model.ItemId = id;
+            }
+            else if (hasRegisteredInterest)
+            {
+                message = "Du har redan anmält intresse för det här objektet.";
             }
 
-            ViewBag.IsSuccess = isSuccess;
+            ViewBag.HasRegisteredInterest = hasRegisteredInterest;
             ViewBag.Message = message;
             ViewBag.ItemId = id;
             return View(model);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterInterest(InterestRegistrationViewModel model)
         {
-            await _itemRepository.AddInterestRegistrationFromModel(model);
+            if (ModelState.IsValid)
+            {
+                await _itemRepository.AddInterestRegistrationFromModel(model);
 
-            string message = "Tack för visat intresse.";
+                string message = "Tack för visat intresse.";
 
-            return RedirectToAction(nameof(RegisterInterest), new { id = model.ItemId, message = message, isSuccess = true  });
+                return RedirectToAction(nameof(RegisterInterest), new { id = model.ItemId, message = message, hasRegisteredInterest = true });
+            }
+
+            return View();
         }
-
 
         public async Task<IActionResult> GetInterestRegistrations(int id)
         {
             var itemModel = await _itemRepository.GetItemById(id);
             var user = await _userManager.GetUserAsync(User);
 
-            if(user != null)
+            if (user != null)
             {
                 var userEmail = await _userManager.GetEmailAsync(user);
 
                 //if (userEmail == itemModel.BrokerEmail)
                 //{
-                    InterestRegistrationsListViewModel interestRegistrations = new() 
-                    { 
-                        InterestRegistrations = await _itemRepository.GetInterestRegistrationsAsViewModel(id).ToListAsync() 
-                    };
+                InterestRegistrationsListViewModel interestRegistrations = new()
+                {
+                    InterestRegistrations = await _itemRepository.GetInterestRegistrationsAsViewModel(id).ToListAsync()
+                };
 
-                    return View(interestRegistrations);
+                return View(interestRegistrations);
                 //}
             }
 

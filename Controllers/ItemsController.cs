@@ -178,29 +178,9 @@ namespace HomeFinder.Controllers
             {
                 return NotFound();
             }
-            
 
             return View(item);
         }
-
-        //public async Task<IActionResult> Recommendations(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-
-        //    var item = await _itemRepository
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (movie == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(movie);
-        //}
-
 
         // POST: Items/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -362,13 +342,12 @@ namespace HomeFinder.Controllers
 
         [Authorize(Roles = "Admin, Broker")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddNewItem(ItemViewModel itemModel)
         {
-
-            var broker = await _userManager.GetUserAsync(User);
-
             if (ModelState.IsValid)
             {
+                var broker = await _userManager.GetUserAsync(User);
                 if (itemModel.MainPhoto != null)
                 {
                     string folder = "img/";

@@ -1,128 +1,108 @@
 ﻿@using HomeFinder.ViewModels@{
-    ViewData["Title"] = "Item detail " + Model.Address;
+    ViewData["Title"] = Model.Address;
 }
 @model ItemViewModel
-<div class="container">
-    <h3 class="display-4">Objektdetaljer</h3>
+<div class="container card box-shadow">
     <div class="row">
-        <div class="col-md-6">
-            @if (Model.Images.Count == 0)
-            {
-                <img src="@Url.Content(Model.MainImageUrl)" width="500" alt="Loading image">
-            }
-            else
-            {
-                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        @for (int i = 0; i < Model.Images.Count(); i++)
-                        {
-                            <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="@(i==0 ? "active" : "") "></li>
-                        }
-                    </ol>
-                    <div class="carousel-inner">
-                        @for (int i = 0; i < Model.Images.Count(); i++)
-                        {
-                            <div class="@(i==0 ? "carousel-item active" : "carousel-item") ">
-                                <img class="d-block w-100" src="@Model.Images[i].URL" alt="@Model.Images[i].Title">
-                            </div>
-                        }
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+        @if (Model.Images.Count == 0)
+        {
+            <img src="@Url.Content(Model.MainImageUrl)" width="500" alt="Loading image">
+        }
+        else
+        {
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    @for (int i = 0; i < Model.Images.Count(); i++)
+                    {
+                        <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="@(i==0 ? "active" : "") "></li>
+                    }
+                </ol>
+                <div class="carousel-inner">
+                    @for (int i = 0; i < Model.Images.Count(); i++)
+                    {
+                        <div class="@(i==0 ? "carousel-item active" : "carousel-item") ">
+                            <img class="d-block w-100" src="@Model.Images[i].URL" alt="@Model.Images[i].Title">
+                        </div>
+                    }
                 </div>
-            }
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        }
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>@Model.Address</h1>
         </div>
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1>@Model.Address</h1>
-                </div>
-            </div> <div class="row">
-                <div class="col-md-12 text-primary">
-                    <span class="label label-primary">In: </span>
-                    <span class="monospaced">@Model.City</span>
-                </div>
-            </div> <div class="row">
-                <div class="col-md-12">
-                    <p class="description">
-                        @Model.Description
-                    </p>
-                </div>
-            </div> <div class="row">
-                <div class="col-md-12">
-                    <p class="description">
-                        Mäklare: @Model.BrokerEmail
-                    </p>
-                </div>
-            </div> <hr /> <ul class="list-group">
-                <li class="list-group-item"><span class="font-weight-bold">Pris: </span> @Model.Price.ToString("c0")</li>
-                @*<li class="list-group-item"><span class="font-weight-bold">Boarea: </span> @Model.LivingArea</li>*@
-                <li class="list-group-item">
-                    <span class="font-weight-bold">Boarea: </span> @Model.LivingArea m²
-                    @if (Model.GrossFloorArea != 0)
-                    {
-                        <span class="font-weight-bold">/ Biarea: </span> <span> @Model.GrossFloorArea  m² </span>
-                    }
-                    @if (Model.PlotArea != 0)
-                    {
-                        <span class="font-weight-bold">/ Tomt: </span> <span> @Model.PlotArea m² </span>
-                    }
-                </li>
-                <li class="list-group-item"><span class="font-weight-bold">Antal rum: </span> @Model.NrOfRoom</li>
-                <li class="list-group-item"><span class="font-weight-bold">Fastighetstyp: </span> @Model.ItemType</li>
-                <li class="list-group-item"><span class="font-weight-bold">Upplåtelseform: </span> @Model.FormOfLease</li>
-                <li class="list-group-item"><span class="font-weight-bold">Byggår: </span> @Model.ConstructionYear.ToString("yyyy")</li>
-                <li class="list-group-item"><span class="font-weight-bold">Utlagd: </span> @Model.ListingDate.ToString("yyyy/MM/dd")</li>
-                <li class="list-group-item"><span class="font-weight-bold">Visningsdatum: </span> @Model.ShowingDate.ToString("yyyy/MM/dd")</li>
-            </ul>
+        <div class="col-md-12 text-primary">
+            <span class="label label-primary">In: </span>
+            <span class="monospaced">@Model.City</span>
+        </div>
+        <div class="col-md-12">
+            <p class="description">
+                @Model.Description
+            </p>
+        </div>
+        <div class="col-md-12">
+            <p class="description">
+                Mäklare: @Model.BrokerEmail
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            @Model.Description
         </div>
 
-        <div class="col-md-6">
+        <ul class="list-group col-md-4">
+            <li class="list-group-item"><span class="font-weight-bold">Pris: </span> @Model.Price.ToString("c0")</li>
+            <li class="list-group-item">
+                <span class="font-weight-bold">Boarea: </span> @Model.LivingArea m²
+                @if (Model.GrossFloorArea != 0)
+                {
+                    <span class="font-weight-bold">/ Biarea: </span> <span> @Model.GrossFloorArea  m² </span>
+                }
+                @if (Model.PlotArea != 0)
+                {
+                    <span class="font-weight-bold">/ Tomt: </span> <span> @Model.PlotArea m² </span>
+                }
+            </li>
+            <li class="list-group-item"><span class="font-weight-bold">Antal rum: </span> @Model.NrOfRoom</li>
+            <li class="list-group-item"><span class="font-weight-bold">Fastighetstyp: </span> @Model.ItemType</li>
+            <li class="list-group-item"><span class="font-weight-bold">Upplåtelseform: </span> @Model.FormOfLease</li>
+            <li class="list-group-item"><span class="font-weight-bold">Byggår: </span> @Model.ConstructionYear.ToString("yyyy")</li>
+            <li class="list-group-item"><span class="font-weight-bold">Utlagd: </span> @Model.ListingDate.ToString("yyyy/MM/dd")</li>
+            <li class="list-group-item"><span class="font-weight-bold">Visningsdatum: </span> @Model.ShowingDate.ToString("yyyy/MM/dd")</li>
+        </ul>
+    </div>
 
-            <div class="row">
-                <div class="col-md-4">
-                    <a class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal">
-                        Read now
-                    </a>
-                </div>
-            </div>
+    <div class="row">
+        <div class="col-md">
+            <a class="btn btn-outline-primary"
+               asp-controller="InterestRegistration"
+               asp-action="RegisterInterest"
+               asp-route-id="@Model.Id">Intresseanmälan</a>
+        </div>
 
-            @*<div class="container">
-                <div class="row">
-                    <form asp-controller="InterestRegistration"
-                          asp-action="RegisterInterest">
-                        <input type="hidden"
-                               asp-for="Id" />
-                        <input type="submit"
-                               value="Anmäl intresse"
-                               class="btn btn-outline-primary" />
-                    </form>
-                </div>
-            </div>*@
+        <div class="col-md">
+            <a class="btn btn-outline-primary"
+               asp-controller="InterestRegistration"
+               asp-action="GetInterestRegistrations"
+               asp-route-id="@Model.Id">Visa intresseanmälningar</a>
+        </div>
+    </div>
 
-            <div class="container">
-                <div class="row">
-                    <a class="btn btn-outline-primary"
-                       asp-controller="InterestRegistration"
-                       asp-action="RegisterInterest"
-                       asp-route-id="@Model.Id">Intresseanmälan</a>
-                </div>
-            </div>
-
-            <div class="container">
-                <div class="row">
-                    <a class="btn btn-outline-primary"
-                       asp-controller="InterestRegistration"
-                       asp-action="GetInterestRegistrations"
-                       asp-route-id="@Model.Id">Visa intresseanmälningar</a>
-                </div>
-            </div>
+    <div onload="codeAddress()" class="row justify-content-center">
+        <div id="map" class="my-3" style="width: 500px; height: 400px;"></div>
+    </div>
+</div>
 
 
 <script>
@@ -141,7 +121,7 @@
     }
     function codeAddress() {
         address = "@Model.Address" + ", " + "@Model.ZipCode" + " " + "@Model.City";
-       
+
         geocoder.geocode({ 'address': address }, function (results, status) {
         if (status == 'OK') {
             map.setCenter(results[0].geometry.location);
@@ -156,22 +136,5 @@
         });
     }
 </script>
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEaMfKvxtMmnrBB0elA5kTV0RQ0I_wLII&callback=initMap&v=weekly"
-                    async></script>
-        </div>
-    </div>
-</div>
 
-
-
-
-
-
-        
-   
-
-
- 
-<body onload="codeAddress()">
-    <div id="map" class="my-3" style="width: 500px; height: 400px;"></div>
-</body>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEaMfKvxtMmnrBB0elA5kTV0RQ0I_wLII&callback=initMap&v=weekly" async></script>
