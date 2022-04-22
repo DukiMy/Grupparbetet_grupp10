@@ -1,9 +1,10 @@
-﻿@using HomeFinder.ViewModels@{
+﻿@{
     ViewData["Title"] = Model.Address;
 }
+
 @model ItemViewModel
 <div class="container card box-shadow">
-    <div class="row">
+    <div class="row p-2">
         @if (Model.Images.Count == 0)
         {
             <img src="@Url.Content(Model.MainImageUrl)" width="500" alt="Loading image">
@@ -36,7 +37,7 @@
             </div>
         }
     </div>
-    <div class="row">
+    <div class="row p-2">
         <div class="col-md-12">
             <h1>@Model.Address</h1>
         </div>
@@ -56,8 +57,8 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-8">
+    <div class="row p-2">
+        <div class="col">
             @Model.Description Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ut, tempora, illum deleniti in
             voluptatum non veritatis sed fuga culpa consectetur atque accusamus tempore et vero veniam hic nulla laborum
             aperiam sapiente repudiandae praesentium? Possimus, distinctio ut quis assumenda asperiores ea sequi
@@ -75,75 +76,65 @@
             temporibus consequatur, tempore voluptatem illum quas quaerat nihil.
         </div>
 
-        @*
-            <ul class="list-group col-md-4">
-            <li class="list-group-item"><span class="font-weight-bold">Pris: </span> @Model.Price.ToString("c0")</li>
-            <li class="list-group-item">
-            <span class="font-weight-bold">Boarea: </span> @Model.LivingArea m²
-            @if (Model.GrossFloorArea != 0)
-            {
-            <span class="font-weight-bold">/ Biarea: </span> <span> @Model.GrossFloorArea m² </span>
-            }
-            @if (Model.PlotArea != 0)
-            {
-            <span class="font-weight-bold">/ Tomt: </span> <span> @Model.PlotArea m² </span>
-            }
-            </li>
-            <li class="list-group-item"><span class="font-weight-bold">Antal rum: </span> @Model.NrOfRoom</li>
-            <li class="list-group-item"><span class="font-weight-bold">Fastighetstyp: </span> @Model.ItemType</li>
-            <li class="list-group-item"><span class="font-weight-bold">Upplåtelseform: </span> @Model.FormOfLease</li>
-            <li class="list-group-item"><span class="font-weight-bold">Byggår: </span>
-            @Model.ConstructionYear.ToString("yyyy")</li>
-            <li class="list-group-item"><span class="font-weight-bold">Utlagd: </span>
-            @Model.ListingDate.ToString("yyyy/MM/dd")</li>
-            <li class="list-group-item"><span class="font-weight-bold">Visningsdatum: </span>
-            @Model.ShowingDate.ToString("yyyy/MM/dd")</li>
-            </ul> *@
+        <div class="col-lg-4">
+            <table class="list-group col-12">
+                <tr class="mt-1">
+                    <td class="col-6">Boarea: </td>
+                    <td class="col-6 font-weight-bold">@Model.LivingArea m²</td>
+                </tr>
+                @if (Model.GrossFloorArea != 0)
+                {
+                    <tr class="mt-1">
+                        <td class="col-6">Biarea: </td>
+                        <td class="col-6 font-weight-bold">@Model.GrossFloorArea m²</td>
+                    </tr>
+                }
+                @if (Model.PlotArea != 0)
+                {
+                    <tr class="mt-1">
+                        <td class="col-6">Tomtarea: </td>
+                        <td class="col-6 font-weight-bold">@Model.PlotArea m²</td>
+                    </tr>
+                }
+                <tr class="mt-1">
+                    <td class="col-6">Pris:</td>
+                    <td class="col-6 font-weight-bold">@Model.Price.ToString("c0")</td>
+                </tr>
+                <tr class="mt-1">
+                    <td class="col-6">Antal rum:</td>
+                    <td class="col-6 font-weight-bold">@Model.NrOfRoom</td>
+                </tr>
+                <tr class="mt-1">
+                    <td class="col-6">Fastighetstyp:</td>
+                    <td class="col-6 font-weight-bold">@Model.ItemType</td>
+                </tr>
+                <tr class="mt-1">
+                    <td class="col-6">Upplåtelseform:</td>
+                    <td class="col-6 font-weight-bold">@Model.FormOfLease</td>
+                </tr>
+                <tr class="mt-1">
+                    <td class="col-6">Byggår:</td>
+                    <td class="col-6 font-weight-bold">@Model.ConstructionYear.ToString("yyyy")</td>
+                </tr>
+                <tr class="mt-1">
+                    <td class="col-6">Utlagd:</td>
+                    <td class="col-6 font-weight-bold">@Model.ListingDate.ToString("yyyy/MM/dd")</td>
+                </tr>
+                <tr class="mt-1">
+                    <td class="col-6">Visningsdatum:</td>
+                    <td class="col-6 font-weight-bold">@Model.ShowingDate.ToString("yyyy/MM/dd")</td>
+                </tr>
 
-        <table class="list-group col-md-4">
-            <tr>
-                <td class="col-6">Pris:</td>
-                <td class="col-6">@Model.Price.ToString("c0")</td>
-            </tr>
-            <tr>
-                <td class="col-6">Antal rum:</td>
-                <td class="col-6">@Model.NrOfRoom</td>
-            </tr>
-            <tr>
-                <td class="col-6">Fastighetstyp:</td>
-                <td class="col-6">@Model.ItemType</td>
-            </tr>
-            <tr>
-                <td class="col-6">Upplåtelseform:</td>
-                <td class="col-6">@Model.FormOfLease</td>
-            </tr>
-            <tr>
-                <td class="col-6">Byggår:</td>
-                <td class="col-6">@Model.ConstructionYear.ToString("yyyy")</td>
-            </tr>
-            <tr>
-                <td class="col-6">Utlagd:</td>
-                <td class="col-6">@Model.ListingDate.ToString("yyyy/MM/dd")</td>
-            </tr>
-            <tr>
-                <td class="col-6">Visningsdatum:</td>
-                <td class="col-6">@Model.ShowingDate.ToString("yyyy/MM/dd")</td>
-            </tr>
+            </table>
 
-        </table>
-    </div>
+            <partial name="_InterestRegistration" model="@Model.Id"/>
 
+            <a class="btn btn-outline-primary col-12 mt-2" asp-controller="InterestRegistration" asp-action="InterestRegistration"
+        asp-route-id="@Model.Id">Intresseanmälan</a>
 
+            <a class="btn btn-outline-primary col-12 mt-2" asp-controller="InterestRegistration"
+               asp-action="GetInterestRegistrations" asp-route-id="@Model.Id">Visa intresseanmälningar</a>
 
-    <div class="row">
-        <div class="col-md">
-            <a class="btn btn-outline-primary" asp-controller="InterestRegistration" asp-action="InterestRegistration"
-                asp-route-id="@Model.Id">Intresseanmälan</a>
-        </div>
-
-        <div class="col-md">
-            <a class="btn btn-outline-primary" asp-controller="InterestRegistration"
-                asp-action="GetInterestRegistrations" asp-route-id="@Model.Id">Visa intresseanmälningar</a>
         </div>
     </div>
 
@@ -151,6 +142,7 @@
         <div id="map" class="my-3" style="width: 500px; height: 400px;"></div>
     </div>
 </div>
+
 
 <script>
     var geocoder;
@@ -184,6 +176,6 @@
     }
 </script>
 
-<script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEaMfKvxtMmnrBB0elA5kTV0RQ0I_wLII&callback=initMap&v=weekly"
-    async></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEaMfKvxtMmnrBB0elA5kTV0RQ0I_wLII&callback=initMap&v=weekly"
+        async></script>
+

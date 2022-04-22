@@ -56,6 +56,7 @@ namespace HomeFinder.Repository
         public async Task Update(ItemViewModel model, ApplicationUser broker)
         {
             Item item = CreateItemFromViewModel(model, broker);
+            item.Id = model.Id;
             _context.Update(item);
             await _context.SaveChangesAsync();
         }
@@ -110,20 +111,24 @@ namespace HomeFinder.Repository
 
             item.itemGallery = new List<Image>();
 
-            foreach (var file in model.Images)
+            if (model.Images != null)
             {
-                item.itemGallery.Add(new Image()
+                foreach (var file in model.Images)
                 {
-                    Title = file.Title,
-                    URL = file.URL
-                });
+                    item.itemGallery.Add(new Image()
+                    {
+                        Title = file.Title,
+                        URL = file.URL
+                    });
+                }
             }
 
             return item;
         }
 
-        public async Task<int> AddInterestRegistrationFromModel(InterestRegistrationViewModel model)
+        public async Task<bool> AddInterestRegistrationFromModel(InterestRegistrationViewModel model)
         {
+            bool savedChanges = false;
             var interestRegistration = new InterestRegistration()
             {
                 Item = _context.Items.FirstOrDefault(it => it.Id == model.ItemId),
@@ -131,9 +136,13 @@ namespace HomeFinder.Repository
             };
 
             _context.InterestRegistrations.Add(interestRegistration);
-            _context.SaveChanges();
 
-            return interestRegistration.Id;
+            if(_context.SaveChanges()>0)
+            {
+                savedChanges = true;
+            }
+
+            return savedChanges;
         }
 
         public IQueryable<InterestRegistrationViewModel> GetInterestRegistrationsAsViewModel(int itemId)

@@ -19,48 +19,94 @@ namespace HomeFinder.Controllers
             _itemRepository = itemRepository;
         }
 
-        public async Task<IActionResult> InterestRegistration(int id, string message, bool isSuccess = false)
+        //public async Task<IActionResult> InterestRegistration(int id, string message, bool isSuccess = false)
+        //{
+        //    InterestRegistrationViewModel model = new();
+
+        //    var user = await _userManager.GetUserAsync(User);
+
+        //    if (!isSuccess)
+        //    {
+        //        bool hasRegisteredInterest = await _itemRepository.GetInterestRegistrationsAsViewModel(id).AnyAsync(i => i.UserEmail == user.Email);
+
+        //        if (user != null && !hasRegisteredInterest)
+        //        {
+        //            model.UserId = user.Id;
+        //            model.ItemId = id;
+        //        }
+        //        else if (hasRegisteredInterest)
+        //        {
+        //            message = "Du har redan anmält intresse för det här objektet.";
+        //            return RedirectToAction(nameof(InterestRegistration), new { id = id, message = message, isSuccess = true });
+        //        }
+        //    }
+
+        //    ViewBag.IsSuccess = isSuccess;
+        //    ViewBag.Message = message;
+        //    ViewBag.ItemId = id;
+        //    return View(model);
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> InterestRegistration(InterestRegistrationViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        await _itemRepository.AddInterestRegistrationFromModel(model);
+
+        //        string message = "Tack för visat intresse.";
+
+        //        return RedirectToAction(nameof(InterestRegistration), new { id = model.ItemId, message = message, isSuccess = true });
+        //    }
+
+        //    return View();
+        //}
+
+        public async Task<IActionResult> InterestRegistrationAjax(int id)
         {
-            InterestRegistrationViewModel model = new();
-
+            string message = string.Empty;
+            
             var user = await _userManager.GetUserAsync(User);
+            bool hasRegisteredInterest = await _itemRepository.GetInterestRegistrationsAsViewModel(id).AnyAsync(i => i.UserEmail == user.Email);
 
-            if(!isSuccess)
+            if (user != null && !hasRegisteredInterest)
             {
+                message = "Vill du anmäla intresse för det här objektet? Vi kommer att lämna ut ditt namn och din e-postadress till mäklaren.";
+            }
+            else if (hasRegisteredInterest)
+            {
+                message = "Du har redan anmält intresse för det här objektet.";
+            }
+
+            var result = new JsonModel(hasRegisteredInterest, message);
+
+            return Json(result);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> PostInterestRegistrationAjax(int id)
+        {
+            bool isSuccess = false;
+            if (_itemRepository.ItemExists(id))
+            {
+                var user = await _userManager.GetUserAsync(User);
                 bool hasRegisteredInterest = await _itemRepository.GetInterestRegistrationsAsViewModel(id).AnyAsync(i => i.UserEmail == user.Email);
 
                 if (user != null && !hasRegisteredInterest)
                 {
-                    model.UserId = user.Id;
-                    model.ItemId = id;
-                }
-                else if (hasRegisteredInterest)
-                {
-                    message = "Du har redan anmält intresse för det här objektet.";
-                    return RedirectToAction(nameof(InterestRegistration), new { id = id, message = message, isSuccess = true });
+                    InterestRegistrationViewModel model = new()
+                    {
+                        UserId = user.Id,
+                        ItemId = id
+                    };
+
+                    isSuccess = await _itemRepository.AddInterestRegistrationFromModel(model);
                 }
             }
 
-            ViewBag.IsSuccess = isSuccess;
-            ViewBag.Message = message;
-            ViewBag.ItemId = id;
-            return View(model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> InterestRegistration(InterestRegistrationViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                await _itemRepository.AddInterestRegistrationFromModel(model);
-
-                string message = "Tack för visat intresse.";
-
-                return RedirectToAction(nameof(InterestRegistration), new { id = model.ItemId, message = message, isSuccess = true });
-            }
-
-            return View();
+            return Json(isSuccess);
         }
 
         public async Task<IActionResult> GetInterestRegistrations(int id)
@@ -84,6 +130,18 @@ namespace HomeFinder.Controllers
             }
 
             return NotFound();
+        }
+    }
+
+    public class JsonModel
+    {
+        public bool HasRegisteredInterest { get; set; }
+        public string Message { get; set; }
+
+        public JsonModel(bool hasRegisteredInterest, string message)
+        {
+            HasRegisteredInterest = hasRegisteredInterest;
+            Message = message;
         }
     }
 }

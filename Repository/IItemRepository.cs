@@ -21,7 +21,7 @@ namespace HomeFinder.Repository
 
         public SelectList GetItemTypeSelectList();
 
-        public Task<int> AddInterestRegistrationFromModel(InterestRegistrationViewModel model);
+        public Task<bool> AddInterestRegistrationFromModel(InterestRegistrationViewModel model);
         public IQueryable<InterestRegistrationViewModel> GetInterestRegistrationsAsViewModel(int itemId);
     }
 }
