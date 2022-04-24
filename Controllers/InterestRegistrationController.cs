@@ -19,49 +19,6 @@ namespace HomeFinder.Controllers
             _itemRepository = itemRepository;
         }
 
-        //public async Task<IActionResult> InterestRegistration(int id, string message, bool isSuccess = false)
-        //{
-        //    InterestRegistrationViewModel model = new();
-
-        //    var user = await _userManager.GetUserAsync(User);
-
-        //    if (!isSuccess)
-        //    {
-        //        bool hasRegisteredInterest = await _itemRepository.GetInterestRegistrationsAsViewModel(id).AnyAsync(i => i.UserEmail == user.Email);
-
-        //        if (user != null && !hasRegisteredInterest)
-        //        {
-        //            model.UserId = user.Id;
-        //            model.ItemId = id;
-        //        }
-        //        else if (hasRegisteredInterest)
-        //        {
-        //            message = "Du har redan anmält intresse för det här objektet.";
-        //            return RedirectToAction(nameof(InterestRegistration), new { id = id, message = message, isSuccess = true });
-        //        }
-        //    }
-
-        //    ViewBag.IsSuccess = isSuccess;
-        //    ViewBag.Message = message;
-        //    ViewBag.ItemId = id;
-        //    return View(model);
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> InterestRegistration(InterestRegistrationViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        await _itemRepository.AddInterestRegistrationFromModel(model);
-
-        //        string message = "Tack för visat intresse.";
-
-        //        return RedirectToAction(nameof(InterestRegistration), new { id = model.ItemId, message = message, isSuccess = true });
-        //    }
-
-        //    return View();
-        //}
 
         public async Task<IActionResult> InterestRegistrationAjax(int id)
         {
@@ -86,9 +43,11 @@ namespace HomeFinder.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> PostInterestRegistrationAjax(int id)
         {
             bool isSuccess = false;
+            string message = string.Empty;
             if (_itemRepository.ItemExists(id))
             {
                 var user = await _userManager.GetUserAsync(User);
@@ -103,10 +62,13 @@ namespace HomeFinder.Controllers
                     };
 
                     isSuccess = await _itemRepository.AddInterestRegistrationFromModel(model);
+                    message = "Tack för din intresseanmälan.";
                 }
             }
 
-            return Json(isSuccess);
+            var result = new JsonModel(isSuccess, message);
+
+            return Json(result);
         }
 
         public async Task<IActionResult> GetInterestRegistrations(int id)
@@ -135,12 +97,12 @@ namespace HomeFinder.Controllers
 
     public class JsonModel
     {
-        public bool HasRegisteredInterest { get; set; }
+        public bool IsSuccess { get; set; }
         public string Message { get; set; }
 
-        public JsonModel(bool hasRegisteredInterest, string message)
+        public JsonModel(bool isSuccess, string message)
         {
-            HasRegisteredInterest = hasRegisteredInterest;
+            IsSuccess = isSuccess;
             Message = message;
         }
     }

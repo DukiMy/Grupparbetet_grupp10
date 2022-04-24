@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = Model.Address;
 }
 
@@ -127,10 +128,7 @@
 
             </table>
 
-            <partial name="_InterestRegistration" model="@Model.Id"/>
-
-            <a class="btn btn-outline-primary col-12 mt-2" asp-controller="InterestRegistration" asp-action="InterestRegistration"
-        asp-route-id="@Model.Id">Intresseanmälan</a>
+            <partial name="_InterestRegistration" model="@Model.Id" />
 
             <a class="btn btn-outline-primary col-12 mt-2" asp-controller="InterestRegistration"
                asp-action="GetInterestRegistrations" asp-route-id="@Model.Id">Visa intresseanmälningar</a>

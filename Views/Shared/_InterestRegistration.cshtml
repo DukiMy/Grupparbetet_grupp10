@@ -1,25 +1,43 @@
+@using Microsoft.AspNetCore.Antiforgery
 @using HomeFinder.ViewModels
 @model int
 
+@inject IAntiforgery antiforgery
+
+@{ 
+    var tokenSet = antiforgery.GetAndStoreTokens(Context);
+}
+
 <button class="btn btn-outline-primary col-12 mt-2"
+        data-toggle="modal"
+        data-target="#interest-reg-modal"
         type="button"
         onclick="GetRegistrationForm()">
     Intresseanmälan
 </button>
 
-<div id="interest-reg-box overlay-box">
-    <div id="interest-reg-message">
+<div class="modal fade" id="interest-reg-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4> Intresseanmälan</h4>
+            </div>
+            <div class="modal-body"id="interest-reg-message">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-primary" id="interest-reg-close-btn"
+                        type="button"
+                        onclick="RegisterInterest()">
+                    Anmäl intresse
+                </button>
+                <button class="btn btn-outline-primary" 
+                        type="button"
+                        data-dismiss="modal">
+                    Stäng
+                </button>
+            </div>
+        </div>
     </div>
-    <button class="btn btn-outline-primary col-6 mt-2"
-            type="button"
-            onclick="RegisterInterest()">
-        Anmäl intresse
-    </button>
-    <button class="btn btn-outline-primary col-6 mt-2"
-            type="button"
-            onclick="CloseBox()">
-        Stäng
-    </button>
 </div>
 
 <script>
@@ -29,9 +47,17 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             url: "/interestregistration/interestregistrationajax/" + "@Model",
-            success: function (returnArgs) {
+            success:
+                function (returnArgs) {
                 var messageBox = document.getElementById("interest-reg-message");
-                messageBox.textContent = returnArgs.message;
+                    messageBox.textContent = returnArgs.message;
+                    var btn = document.getElementById("interest-reg-close-btn");
+                    if (returnArgs.isSuccess) {
+                        btn.style.visibility = "hidden";
+                    }
+                    else {
+                        btn.style.visibility = "visible"
+                    }
             },
             error: function () { alert("Error occured"); }
         });
@@ -40,9 +66,18 @@
         $.ajax({
             type: 'POST',
             contentType: "application/json; charset=utf-8",
-            dataType: 'text',
+            dataType: 'json',
             url: "/interestregistration/postinterestregistrationajax/" + "@Model",
-            success: function (data) { alert(data) },
+            headers: {
+                "@tokenSet.HeaderName" : "@tokenSet.RequestToken"
+            },
+            success: 
+                function (returnArgs) {
+                    var messageBox = document.getElementById("interest-reg-message");
+                    messageBox.textContent = returnArgs.message;
+                    var btn = document.getElementById("interest-reg-close-btn");
+                    btn.style.visibility = "hidden";
+                },
             error: function () { alert("Error occured"); }
         });
     }

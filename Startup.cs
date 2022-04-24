@@ -37,7 +37,7 @@ namespace HomeFinder
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<HomeFinderContext>();
-            
+
             //services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IItemRepository, ItemRepository>();
 
