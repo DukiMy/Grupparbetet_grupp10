@@ -70,6 +70,7 @@ namespace HomeFinder.Models
         {
             return new Item
             {
+               
                 ItemType = Generator.SetItemType(),
                 FormOfLease = Generator.SetFormOfLease(),
                 City = Generator.SetCity(),
@@ -80,9 +81,8 @@ namespace HomeFinder.Models
                 GrossFloorArea = Generator.SetGrosFloorArea(),
                 PlotArea = Generator.SetPlotArea(),
                 Price = Generator.SetPrice(),
-                MainImageUrl = Generator.SetImage(),
-                ConstructionYear = Generator.SetConstructionYear(),
-                //ListingDate = DateTime.Now,
+                MainImageUrl = Generator.SetImage(),               
+                ConstructionYear = Generator.SetConstructionYear(),        
                 ListingDate = Generator.SetListingDate(),
                 ShowingDate = Generator.SetShowingDate()
             };
