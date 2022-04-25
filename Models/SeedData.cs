@@ -33,9 +33,9 @@ namespace HomeFinder.Models
                 var itemType2 = new ItemType() { Name = "Gård" }; 
                 var itemType3 = new ItemType() { Name = "Lägenhet" };
                 var itemType4 = new ItemType() { Name = "Radhus" }; 
-                var itemType5 = new ItemType() { Name = "Villa" }; 
+                var itemType5 = new ItemType() { Name = "Villa" };
 
-                context.AddRange(itemType1, itemType2, itemType3, itemType4, itemType5);
+                context.ItemTypes.AddRange(itemType1, itemType2, itemType3, itemType4, itemType5);
                 context.SaveChanges();
                 Generator.GenContext = context;
 

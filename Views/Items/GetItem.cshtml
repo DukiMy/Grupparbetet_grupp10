@@ -4,6 +4,7 @@
 @model ItemViewModel
 <div class="container">
     <h3 class="display-4">Objektdetaljer</h3>
+
     <div class="row">
         <div class="col-md-6">
             @if (Model.Images.Count == 0)
@@ -85,26 +86,45 @@
 
         <div class="col-md-6">
 
-            <div class="row">
+            @*<div class="row">
                 <div class="col-md-4">
                     <a class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal">
-                        Read now
-                    </a>
+                    Read now
+                </a>
+                </div>
+            </div>*@
+
+            <div class="container">
+                <div class="row">
+                    <a class="btn btn-outline-primary"
+                       asp-action="Edit"
+                       asp-controller="Items"
+                       asp-route-id="@Model.Id">Uppdatera ditt objekt</a>
                 </div>
             </div>
 
-            @*<div class="container">
+            <div class="container">
                 <div class="row">
-                    <form asp-controller="InterestRegistration"
-                          asp-action="RegisterInterest">
-                        <input type="hidden"
-                               asp-for="Id" />
-                        <input type="submit"
-                               value="Anmäl intresse"
-                               class="btn btn-outline-primary" />
-                    </form>
+                    <a class="btn btn-outline-primary"
+                       asp-action="Delete"
+                       asp-controller="Items"
+                       asp-route-id="@Model.Id">Ta bort ditt objekt</a>
                 </div>
-            </div>*@
+            </div>
+
+
+            @*<div class="container">
+            <div class="row">
+                <form asp-controller="InterestRegistration"
+                      asp-action="RegisterInterest">
+                    <input type="hidden"
+                           asp-for="Id" />
+                    <input type="submit"
+                           value="Anmäl intresse"
+                           class="btn btn-outline-primary" />
+                </form>
+            </div>
+        </div>*@
 
             <div class="container">
                 <div class="row">
@@ -125,7 +145,7 @@
             </div>
 
 
-<script>
+            <script>
     var geocoder;
     var map;
     var marker;
@@ -141,7 +161,7 @@
     }
     function codeAddress() {
         address = "@Model.Address" + ", " + "@Model.ZipCode" + " " + "@Model.City";
-       
+
         geocoder.geocode({ 'address': address }, function (results, status) {
         if (status == 'OK') {
             map.setCenter(results[0].geometry.location);
@@ -155,7 +175,7 @@
         }
         });
     }
-</script>
+            </script>
             <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEaMfKvxtMmnrBB0elA5kTV0RQ0I_wLII&callback=initMap&v=weekly"
                     async></script>
         </div>

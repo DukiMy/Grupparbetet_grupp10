@@ -56,6 +56,7 @@ namespace HomeFinder.Repository
         public async Task Update(ItemViewModel model, ApplicationUser broker)
         {
             Item item = CreateItemFromViewModel(model, broker);
+            item.Id = model.Id;
             _context.Update(item);
             await _context.SaveChangesAsync();
         }
