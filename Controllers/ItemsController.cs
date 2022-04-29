@@ -179,7 +179,6 @@ namespace HomeFinder.Controllers
                 return NotFound();
             }
             
-
             return View(item);
         }
 
@@ -233,7 +232,7 @@ namespace HomeFinder.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Edit));
             }
             return View(item);
         }

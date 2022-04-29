@@ -19,58 +19,58 @@ namespace HomeFinder.ViewModels
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Du måste välja fastighetstyp")]
+        [Required(ErrorMessage = "Obligatoriskt fält")]
         [DisplayName("Fastighetstyp")]
         public string ItemType { get; set; }
         
         public SelectList ItemTypeList { get; set; }
 
         [DisplayName("Upplåtelseform")]
-        [Required(ErrorMessage = "Du måste välja upplåtelseform")]
+        [Required(ErrorMessage = "Obligatoriskt fält")]
         public string FormOfLease { get; set; }
 
-        [Required(ErrorMessage = "Du måste välja adress")]
+        [Required(ErrorMessage = "Obligatoriskt fält")]
         [DisplayName("Adress")]
-        //[RegularExpression(@"^[0-9]+\s+([a-öA-Ö]+|[a-öA-Ö]+\s[a-öA-Ö]+)$")]
-        //[RegularExpression(@"^([a-öA-Ö]+|[a-öA-Ö]+\s[a-öA-Ö]+)+\s[0-9]$")] funkar med adress 1
+        [RegularExpression(@"^[#.0-9a-öA-Ö\s,-]+$", ErrorMessage ="Felaktigt format. Exempelvis: Drottninggatan 55")]
         public string Address { get; set; }
 
         [DisplayName("Postnummer")]
-        [Required(ErrorMessage = "Du måste välja postnummer")]
+        [Required(ErrorMessage = "Obligatoriskt fält")]
         [RegularExpression(@"^\d{5}$", ErrorMessage = "välj 5 siffror")]
         public string ZipCode { get; set; }
 
-        [Required(ErrorMessage = "Du måste välja stad")]
+        [Required(ErrorMessage = "Obligatoriskt fält")]
         [DisplayName("Stad")]
-        [RegularExpression(@"^([a-öA-Ö]+|[a-öA-Ö]+\s[a-öA-Ö]+)$")]
+        [RegularExpression(@"^([a-öA-Ö]+|[a-öA-Ö]+\s[a-öA-Ö]+)$", ErrorMessage ="Vänligen kontrollera stavning")]
         public string City { get; set; }
 
-        [Required(ErrorMessage = "Du måste välja pris")]
+        [Required(ErrorMessage = "Obligatoriskt fält")]
         [DisplayName("Pris")]
-        [RegularExpression(@"^\d{0,9}$")] //0 går fortf bra
+        [RegularExpression(@"^\d{0,9}$", ErrorMessage ="Ange i siffror")] //0 går fortf bra
         public int Price { get; set; }
 
-        [Required(ErrorMessage = "Du måste välja antal rum")]
+        [Required(ErrorMessage = "Obligatoriskt fält")]
         [DisplayName("Antal rum")]
-        [RegularExpression(@"^\d{0,2}$")] 
+        [RegularExpression(@"^\d{0,2}$", ErrorMessage = "Ange i siffror")] 
         public int NrOfRoom { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Obligatoriskt fält")]
         [StringLength(200)]
         [DisplayName("Beskrivning")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Du måste välja boarea")]
+        [Required(ErrorMessage = "Obligatoriskt fält")]
         [DisplayName("Boarea")]
-        [RegularExpression(@"^\d{0,3}$")]
+        [RegularExpression(@"^\d{0,4}$", ErrorMessage = "Ange i siffror")] //funkar med 0
+        //[RegularExpression(@"[^0]+\d{0,3}$", ErrorMessage = "Ange i siffror")]
         public double LivingArea { get; set; }
 
         [DisplayName("Biarea")]
-        [RegularExpression(@"^\d{0,2}$")]
+        //[RegularExpression(@"^\d{0,4}$", ErrorMessage = "Ange i siffror")] //funkar med 0
         public double? GrossFloorArea { get; set; }
 
         [DisplayName("Tomtarea")]
-        [RegularExpression(@"^\d{0,3}$")]
+        [RegularExpression(@"^\d{0,6}$", ErrorMessage = "Ange i siffror")]
         public double? PlotArea { get; set; }
 
         [Required]
@@ -78,7 +78,6 @@ namespace HomeFinder.ViewModels
         [DataType(DataType.Date)]
         public DateTime ConstructionYear { get; set; }
 
-        [Required]
         [DisplayName("Utlagd")]
         [DataType(DataType.Date)]
         public DateTime ListingDate { get; set; }
@@ -88,13 +87,13 @@ namespace HomeFinder.ViewModels
         public DateTime ShowingDate { get; set; }
 
         [Display(Name = "Välj profilfoto till ditt objekt")]
-        [Required]
+        //[Required(ErrorMessage = "Obligatoriskt fält")]
         public IFormFile MainPhoto { get; set; }
 
         public string MainImageUrl { get; set; }
 
         [Display(Name = "Välj bilder till ditt objekt")]
-        [Required]
+        //[Required(ErrorMessage = "Obligatoriskt fält")]
         public IFormFileCollection ImageFiles { get; set; }
 
         public List<Image> Images { get; set; }

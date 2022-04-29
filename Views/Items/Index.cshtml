@@ -100,29 +100,10 @@
 <div class="container">
     <h3 class="display-4">All items</h3>
     <div class="row">
-        @*@foreach (var item in Model.Items)
+        @foreach (var item in Model.Items)
         {
             <partial name="_itemThumbnail" model="@item" />
-        }*@
-
-        @for (int i = 0; i < Model.Items.Count; i++)
-        {
-
-            @if (i % 5 == 0)
-            {
-                <div class="card col-12 mt-2">
-                    <div class="ad-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <img class="card-img-bottom" src="~/adsimg/ad1.jpg" alt="Loading image">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-            <partial name="_itemThumbnail" model="@Model.Items[i]" />
         }
-
     </div>
 </div>
 

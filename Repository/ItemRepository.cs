@@ -101,7 +101,8 @@ namespace HomeFinder.Repository
                 PlotArea = model.PlotArea,
 
                 ConstructionYear = model.ConstructionYear,
-                ListingDate = model.ListingDate,
+                //ListingDate = model.ListingDate,
+                ListingDate = DateTime.Today,
                 ShowingDate = model.ShowingDate,
 
                 MainImageUrl = model.MainImageUrl,
@@ -111,14 +112,18 @@ namespace HomeFinder.Repository
 
             item.itemGallery = new List<Image>();
 
-            foreach (var file in model.Images)
+            if (model.Images != null)
             {
-                item.itemGallery.Add(new Image()
+                foreach (var file in model.Images)
                 {
-                    Title = file.Title,
-                    URL = file.URL
-                });
+                    item.itemGallery.Add(new Image()
+                    {
+                        Title = file.Title,
+                        URL = file.URL
+                    });
+                }
             }
+
 
             return item;
         }
