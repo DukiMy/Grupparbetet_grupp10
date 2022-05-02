@@ -207,7 +207,21 @@ namespace HomeFinder.Models
                 part2 = num == 1 ? "liten " : num == 2 ? "stor " : num == 3 ? "rymlig " : num == 4 ? "nedgången " : "dyr ";
             }
 
-            return part1 + part2 + GenItemType.ToLower();
+            return @"Lorem, ipsum dolor sit amet consectetur adipisicing elit.Ut, tempora, illum deleniti in voluptatum 
+            non veritatis sed fuga culpa consectetur atque accusamus tempore et vero veniam hic nulla laborum
+            aperiam sapiente repudiandae praesentium? Possimus, distinctio ut quis assumenda asperiores ea sequi
+            reiciendis accusantium vitae dignissimos est excepturi veniam magni repellat, aliquam quidem provident illum
+            repellendus eos architecto deleniti? Illum consequatur tempora sit, mollitia beatae atque? Inventore in
+            aliquam quibusdam neque? Consequuntur, harum? Molestiae ullam, obcaecati delectus sunt deserunt ipsum non
+            repellat dolorem facere, quod nostrum atque repellendus tempore cupiditate mollitia, culpa vitae sit.
+            Corrupti at reprehenderit nostrum impedit necessitatibus quasi a officia excepturi, provident veniam
+            voluptatibus aut vitae. Optio id nostrum nobis possimus praesentium provident ad odit ullam sequi sunt
+            facilis iusto nulla adipisci ipsam, quos delectus corrupti incidunt. Maiores mollitia obcaecati autem, omnis
+            quam, iure itaque hic officia, exercitationem non voluptate voluptatum.Aspernatur hic, quo fuga nobis
+            totam, odit officiis nisi soluta, dolorum quae ratione animi vel non rerum autem dolores quia cupiditate
+            mollitia.Nesciunt ipsa maiores repellat obcaecati, rem reprehenderit ad veniam accusantium aliquam,
+           inventore, hic facilis amet numquam accusamus!Adipisci fugiat nemo animi ex enim amet aliquam nisi omnis
+          temporibus consequatur, tempore voluptatem illum quas quaerat nihil.";
         }
 
         public static double SetLivingArea()

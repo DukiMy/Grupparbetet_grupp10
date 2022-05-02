@@ -40,6 +40,7 @@ namespace HomeFinder
 
             //services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<IInterestRegistrationRepository, InterestRegistrationRepository>();
 
             services.AddAuthentication().AddGoogle(options =>
             {

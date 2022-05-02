@@ -11,62 +11,68 @@ namespace HomeFinder.Controllers
     public class InterestRegistrationController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IInterestRegistrationRepository _interestRegistrationRepository = null;
         private readonly IItemRepository _itemRepository = null;
 
-        public InterestRegistrationController(UserManager<ApplicationUser> userManager, IItemRepository itemRepository)
+        public InterestRegistrationController(UserManager<ApplicationUser> userManager, IItemRepository itemRepository, IInterestRegistrationRepository interestRegistrationRepository)
         {
             _userManager = userManager;
+            _interestRegistrationRepository = interestRegistrationRepository;
             _itemRepository = itemRepository;
         }
 
-
-        public async Task<IActionResult> InterestRegistrationAjax(int id)
+        public async Task<IActionResult> InterestRegistration(int id)
         {
+            bool isSuccess = false;
             string message = string.Empty;
-            
+            bool hasRegisteredInterest = false;
             var user = await _userManager.GetUserAsync(User);
-            bool hasRegisteredInterest = await _itemRepository.GetInterestRegistrationsAsViewModel(id).AnyAsync(i => i.UserEmail == user.Email);
 
-            if (user != null && !hasRegisteredInterest)
+            if (user != null)
             {
-                message = "Vill du anmäla intresse för det här objektet? Vi kommer att lämna ut ditt namn och din e-postadress till mäklaren.";
+                isSuccess = true;
+                hasRegisteredInterest = await _interestRegistrationRepository.GetInterestRegistrationsForItemAsViewModel(id).AnyAsync(i => i.UserEmail == user.Email);
+
+                if (!hasRegisteredInterest)
+                {
+                    message = "Vill du anmäla intresse för det här objektet? Vi kommer att lämna ut ditt namn och din e-postadress till mäklaren.";
+                }
+                else
+                {
+                    message = "Du har redan anmält intresse för det här objektet.";
+                }
             }
-            else if (hasRegisteredInterest)
+            else
             {
-                message = "Du har redan anmält intresse för det här objektet.";
+                message = "Du måste vara inloggad för att kunna anmäla intresse.";
             }
 
-            var result = new JsonModel(hasRegisteredInterest, message);
+            var result = new InterestRegistrationJsonModel(hasRegisteredInterest, message, isSuccess);
 
             return Json(result);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PostInterestRegistrationAjax(int id)
+        public async Task<IActionResult> AddInterestRegistration(int id)
         {
             bool isSuccess = false;
             string message = string.Empty;
+            bool hasRegisteredInterest = false;
+
             if (_itemRepository.ItemExists(id))
             {
                 var user = await _userManager.GetUserAsync(User);
-                bool hasRegisteredInterest = await _itemRepository.GetInterestRegistrationsAsViewModel(id).AnyAsync(i => i.UserEmail == user.Email);
+                hasRegisteredInterest = await _interestRegistrationRepository.GetInterestRegistrationsForItemAsViewModel(id).AnyAsync(i => i.UserEmail == user.Email);
 
                 if (user != null && !hasRegisteredInterest)
                 {
-                    InterestRegistrationViewModel model = new()
-                    {
-                        UserId = user.Id,
-                        ItemId = id
-                    };
-
-                    isSuccess = await _itemRepository.AddInterestRegistrationFromModel(model);
+                    isSuccess = await _interestRegistrationRepository.AddInterestRegistration(id, user);
                     message = "Tack för din intresseanmälan.";
                 }
             }
 
-            var result = new JsonModel(isSuccess, message);
+            var result = new InterestRegistrationJsonModel(hasRegisteredInterest, message, isSuccess);
 
             return Json(result);
         }
@@ -84,10 +90,11 @@ namespace HomeFinder.Controllers
                 //{
                 InterestRegistrationsListViewModel interestRegistrations = new()
                 {
-                    InterestRegistrations = await _itemRepository.GetInterestRegistrationsAsViewModel(id).ToListAsync()
+                    InterestRegistrations = await _interestRegistrationRepository.GetInterestRegistrationsForItemAsViewModel(id).ToListAsync()
                 };
 
                 return View(interestRegistrations);
+                //return Json(interestRegistrations);
                 //}
             }
 
@@ -95,14 +102,16 @@ namespace HomeFinder.Controllers
         }
     }
 
-    public class JsonModel
+    public class InterestRegistrationJsonModel
     {
         public bool IsSuccess { get; set; }
+        public bool HasRegisteredInterest { get; set; }
         public string Message { get; set; }
 
-        public JsonModel(bool isSuccess, string message)
+        public InterestRegistrationJsonModel(bool hasRegisteredInterest, string message, bool isSuccess)
         {
             IsSuccess = isSuccess;
+            HasRegisteredInterest = hasRegisteredInterest;
             Message = message;
         }
     }

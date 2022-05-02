@@ -1,0 +1,58 @@
+﻿@using Microsoft.AspNetCore.Antiforgery
+@using HomeFinder.ViewModels
+@model int
+
+
+<button class="btn btn-outline-primary col-12 mt-2"
+        data-toggle="modal"
+        data-target="#interest-reg-list-modal"
+        type="button"
+        onclick="GetInterestRegistrationList()">
+    Visa intresseanmälningar
+</button>
+
+<div class="modal fade" id="interest-reg-list-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4> Intresseanmälningar</h4>
+            </div>
+            <div class="modal-body" id="interest-reg-list">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-primary"
+                        type="button"
+                        data-dismiss="modal">
+                    Stäng
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function GetInterestRegistrationList() {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            url: "/interestregistration/getinterestregistrations/" + "@Model",
+            success:
+                function (data) {
+                    let outputDiv = document.getElementById("interest-reg-list");
+                    let headers = ["Förnamn", "Efternamn", "E-postadress"];
+                    let table = document.createElement("table");
+                    let row = table.insertRow();
+                    let cell1 = row.insertCell();
+                    let cell2 = row.insertCell();
+                    let cell3 = row.insertCell();
+                    cell1.textContent = "hej!";
+                    cell2.textContent = "hej!";
+                    cell3.textContent = "hej!";
+                    outputDiv.appendChild(table);
+            },
+            error: function () { alert("Error occured"); }
+        });
+    }
+    
+</script>

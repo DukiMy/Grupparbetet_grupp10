@@ -1,51 +1,38 @@
 ﻿@using HomeFinder.ViewModels
 @model ItemViewModel
 
-<div class="card col-12 mt-4 box-shadow">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-6">
-                <img class="card-img-bottom" src="@Url.Content(Model.MainImageUrl)" alt="Loading image">
+<div class="card col-12 mt-4 box-shadow item-card">
+    <div class="card-body row">
+        <div class="col-md-6">
+            <img class="card-img-bottom" src="@Url.Content(Model.MainImageUrl)" alt="Loading image">
+        </div>
+        <div class="col-md-6">
+            <div class="col-12">
+                <h4 class="card-title">@(string.IsNullOrEmpty(Model.Address) ? "Address is not available" :
+                    Model.Address)</h4>
+                <h5 class="card-title">@(string.IsNullOrEmpty(Model.City) ? "City is not availabe": Model.City)</h5>
             </div>
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col">
-                        <h4 class="card-title">@(string.IsNullOrEmpty(Model.Address) ? "Address is not available" : Model.Address)</h4>
-                        <h5 class="card-title">@(string.IsNullOrEmpty(Model.City) ? "City is not availabe": Model.City)</h5>
-                    </div>
-                </div>
 
-                <div >
-                    <div class="row">
-                        <div class="col-sm">
-                            <ul class="list-group">
-                                <li class="list-group-item"><span class="font-weight-bold">Pris - </span> @Model.Price.ToString("c0")</li>
-                                <li class="list-group-item"><span class="font-weight-bold">Boyta - </span> @Model.LivingArea</li>
-                                <li class="list-group-item"><span class="font-weight-bold">Antal rum - </span> @Model.NrOfRoom</li>
-                            </ul>
-                        </div>
-                        <div class="col-sm">
-                            <ul class="list-group">
-                                <li class="list-group-item"><span class="font-weight-bold">Fastighetstyp - </span> @Model.ItemType</li>
-                                <li class="list-group-item"><span class="font-weight-bold">Tomtarea - </span> @Model.PlotArea</li>
-                                <li class="list-group-item"><span class="font-weight-bold">Biarea - </span> @Model.GrossFloorArea</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <h4>@Model.Description</h4>
-                </div>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                        <a asp-route="itemDetailsRoute" asp-route-id="@Model.Id"
-                           class="btn btn-sm btn-outline-secondary">Till objektsidan</a>
-                    </div>
+            <div>
+                <table class="list-group col-12">
+                    <tr>
+                        <td class="font-weight-bold col-4">@Model.Price kr</td>
+                        <td class="font-weight-bold col-4">@Model.LivingArea m²</td>
+                        <td class="font-weight-bold col-4">@Model.NrOfRoom rum</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold col-4">@Model.ItemType</td>
+                        <td class="font-weight-bold col-4">@Model.PlotArea m²</td>
+                        <td class="font-weight-bold col-4">@Model.GrossFloorArea m²</td>
+                    </tr>
+                </table>
+            </div>
 
-                </div>
+            <div class="card-description mt-2 mb-2">
+                <h6>@Model.Description</h6>
             </div>
         </div>
+        <a asp-route="itemDetailsRoute" asp-route-id="@Model.Id"
+            class="btn btn-sm btn-outline-secondary stretched-link m-2">Läs mer</a>
     </div>
 </div>
-
-

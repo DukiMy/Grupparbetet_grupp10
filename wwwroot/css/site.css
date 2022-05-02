@@ -92,4 +92,15 @@ body {
     justify-content: center;
 }
 
+.card-description {
+    height: 3.5rem;
+    overflow:clip;
+}
+
+.item-card:hover {
+    box-shadow: 3px 3px 10px #808080;
+    transition: 300ms;
+    
+}
+
 

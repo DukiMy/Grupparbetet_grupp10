@@ -7,16 +7,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HomeFinder.Models
+namespace HomeFinder.Models;
+
+public class Image
 {
-    public class Image
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
+    public int Id { get; set; }
+    public string Title { get; set; }
 
-        [DisplayName("Bild-titel")]
-        public string URL { get; set; }
-        public Item Item { get; set; }
+    [DisplayName("Bild-titel")]
+    public string URL { get; set; }
+    public Item Item { get; set; }
 
-    }
 }

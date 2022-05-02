@@ -4,15 +4,13 @@
 .front {
     background-image: url('../placeholderimg/city.jpg');
     background-size: cover;
-    border: 1px solid black;
+    border-radius: 2px;
 }
-    .front span {
-        margin-top: 5px;
-        margin-bottom: 5px;
+    /*.front span {*/
         /*background-color: whitesmoke;*/
-        background-color:aliceblue;
+        /*background-color:aliceblue;
         font: bolder;
-        padding: 1px;
+        font-size: 1.1rem;
         border: 2px solid grey;
         border-radius: 5px;
-    }
+    }*/

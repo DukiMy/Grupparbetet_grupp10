@@ -1,18 +1,17 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = Model.Address;
 }
 
 @model ItemViewModel
 <div class="container card box-shadow">
-    <div class="row p-2">
+    <div class="row p-2 justify-content-center">
         @if (Model.Images.Count == 0)
         {
-            <img src="@Url.Content(Model.MainImageUrl)" width="500" alt="Loading image">
+            <img src="@Url.Content(Model.MainImageUrl)" class="col-12" alt="Loading image">
         }
         else
         {
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <div id="carouselExampleIndicators" class="carousel slide col-12" data-ride="carousel">
                 <ol class="carousel-indicators">
                     @for (int i = 0; i < Model.Images.Count(); i++)
                     {
@@ -23,7 +22,7 @@
                     @for (int i = 0; i < Model.Images.Count(); i++)
                     {
                         <div class="@(i==0 ? "carousel-item active" : "carousel-item") ">
-                            <img class="d-block w-100" src="@Model.Images[i].URL" alt="@Model.Images[i].Title">
+                            <img class="d-block col-12" src="@Model.Images[i].URL" alt="@Model.Images[i].Title">
                         </div>
                     }
                 </div>
@@ -48,11 +47,6 @@
         </div>
         <div class="col-md-12">
             <p class="description">
-                @Model.Description
-            </p>
-        </div>
-        <div class="col-md-12">
-            <p class="description">
                 Mäklare: @Model.BrokerEmail
             </p>
         </div>
@@ -60,21 +54,7 @@
 
     <div class="row p-2">
         <div class="col">
-            @Model.Description Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ut, tempora, illum deleniti in
-            voluptatum non veritatis sed fuga culpa consectetur atque accusamus tempore et vero veniam hic nulla laborum
-            aperiam sapiente repudiandae praesentium? Possimus, distinctio ut quis assumenda asperiores ea sequi
-            reiciendis accusantium vitae dignissimos est excepturi veniam magni repellat, aliquam quidem provident illum
-            repellendus eos architecto deleniti? Illum consequatur tempora sit, mollitia beatae atque? Inventore in
-            aliquam quibusdam neque? Consequuntur, harum? Molestiae ullam, obcaecati delectus sunt deserunt ipsum non
-            repellat dolorem facere, quod nostrum atque repellendus tempore cupiditate mollitia, culpa vitae sit.
-            Corrupti at reprehenderit nostrum impedit necessitatibus quasi a officia excepturi, provident veniam
-            voluptatibus aut vitae. Optio id nostrum nobis possimus praesentium provident ad odit ullam sequi sunt
-            facilis iusto nulla adipisci ipsam, quos delectus corrupti incidunt. Maiores mollitia obcaecati autem, omnis
-            quam, iure itaque hic officia, exercitationem non voluptate voluptatum. Aspernatur hic, quo fuga nobis
-            totam, odit officiis nisi soluta, dolorum quae ratione animi vel non rerum autem dolores quia cupiditate
-            mollitia. Nesciunt ipsa maiores repellat obcaecati, rem reprehenderit ad veniam accusantium aliquam,
-            inventore, hic facilis amet numquam accusamus! Adipisci fugiat nemo animi ex enim amet aliquam nisi omnis
-            temporibus consequatur, tempore voluptatem illum quas quaerat nihil.
+            @Model.Description
         </div>
 
         <div class="col-lg-4">
@@ -99,7 +79,7 @@
                 }
                 <tr class="mt-1">
                     <td class="col-6">Pris:</td>
-                    <td class="col-6 font-weight-bold">@Model.Price.ToString("c0")</td>
+                    <td class="col-6 font-weight-bold">@Model.Price kr</td>
                 </tr>
                 <tr class="mt-1">
                     <td class="col-6">Antal rum:</td>
@@ -128,10 +108,11 @@
 
             </table>
 
-            <partial name="_InterestRegistration" model="@Model.Id" />
+            <partial name="~/Views/InterestRegistration/_interestRegistration.cshtml" model="@Model.Id" />
+            @*<partial name="~/Views/InterestRegistration/_interestRegistrationsList.cshtml" model="@Model.Id" />*@
 
             <a class="btn btn-outline-primary col-12 mt-2" asp-controller="InterestRegistration"
-               asp-action="GetInterestRegistrations" asp-route-id="@Model.Id">Visa intresseanmälningar</a>
+                asp-action="GetInterestRegistrations" asp-route-id="@Model.Id">Visa intresseanmälningar</a>
 
         </div>
     </div>
@@ -174,6 +155,6 @@
     }
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEaMfKvxtMmnrBB0elA5kTV0RQ0I_wLII&callback=initMap&v=weekly"
-        async></script>
-
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEaMfKvxtMmnrBB0elA5kTV0RQ0I_wLII&callback=initMap&v=weekly"
+    async></script>

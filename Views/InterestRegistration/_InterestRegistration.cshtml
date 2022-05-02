@@ -4,36 +4,30 @@
 
 @inject IAntiforgery antiforgery
 
-@{ 
+@{
     var tokenSet = antiforgery.GetAndStoreTokens(Context);
 }
 
-<button class="btn btn-outline-primary col-12 mt-2"
-        data-toggle="modal"
-        data-target="#interest-reg-modal"
-        type="button"
-        onclick="GetRegistrationForm()">
-    Intresseanm‰lan
+<button class="btn btn-outline-primary col-12 mt-2" data-toggle="modal" data-target="#interest-reg-modal" type="button"
+    onclick="GetRegistrationModal()">
+    Intresseanm√§lan
 </button>
 
 <div class="modal fade" id="interest-reg-modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4> Intresseanm‰lan</h4>
+                <h4> Intresseanm√§lan</h4>
             </div>
-            <div class="modal-body"id="interest-reg-message">
+            <div class="modal-body" id="interest-reg-message">
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline-primary" id="interest-reg-close-btn"
-                        type="button"
-                        onclick="RegisterInterest()">
-                    Anm‰l intresse
+                <button class="btn btn-outline-primary" id="interest-reg-close-btn" type="button"
+                    onclick="RegisterInterest()">
+                    Anm√§l intresse
                 </button>
-                <button class="btn btn-outline-primary" 
-                        type="button"
-                        data-dismiss="modal">
-                    St‰ng
+                <button class="btn btn-outline-primary" type="button" data-dismiss="modal">
+                    St√§ng
                 </button>
             </div>
         </div>
@@ -41,24 +35,24 @@
 </div>
 
 <script>
-    function GetRegistrationForm() {
+    function GetRegistrationModal() {
         $.ajax({
             type: "GET",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            url: "/interestregistration/interestregistrationajax/" + "@Model",
+            url: "/interestregistration/interestregistration/" + "@Model",
             success:
                 function (returnArgs) {
-                var messageBox = document.getElementById("interest-reg-message");
+                    var messageBox = document.getElementById("interest-reg-message");
                     messageBox.textContent = returnArgs.message;
                     var btn = document.getElementById("interest-reg-close-btn");
-                    if (returnArgs.isSuccess) {
+                    if (returnArgs.hasRegisteredInterest || !returnArgs.isSuccess) {
                         btn.style.visibility = "hidden";
                     }
                     else {
                         btn.style.visibility = "visible"
                     }
-            },
+                },
             error: function () { alert("Error occured"); }
         });
     }
@@ -67,11 +61,11 @@
             type: 'POST',
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            url: "/interestregistration/postinterestregistrationajax/" + "@Model",
+            url: "/interestregistration/addinterestregistration/" + "@Model",
             headers: {
-                "@tokenSet.HeaderName" : "@tokenSet.RequestToken"
+                "@tokenSet.HeaderName": "@tokenSet.RequestToken"
             },
-            success: 
+            success:
                 function (returnArgs) {
                     var messageBox = document.getElementById("interest-reg-message");
                     messageBox.textContent = returnArgs.message;
@@ -82,5 +76,3 @@
         });
     }
 </script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
