@@ -3,6 +3,8 @@
 }
 
 @model ItemViewModel
+
+<body onload="codeAddress()">
 <div class="container card box-shadow">
     <div class="row p-2 justify-content-center">
         @if (Model.Images.Count == 0)
@@ -109,26 +111,22 @@
             </table>
 
             <partial name="~/Views/InterestRegistration/_interestRegistration.cshtml" model="@Model.Id" />
-            @*<partial name="~/Views/InterestRegistration/_interestRegistrationsList.cshtml" model="@Model.Id" />*@
 
             <a class="btn btn-outline-primary col-12 mt-2" asp-controller="InterestRegistration"
                 asp-action="GetInterestRegistrations" asp-route-id="@Model.Id">Visa intresseanmälningar</a>
 
         </div>
     </div>
-
-    <div onload="codeAddress()" class="row justify-content-center">
-        <div id="map" class="my-3" style="width: 500px; height: 400px;"></div>
+    <div class="row justify-content-center">
+        <div class="my-3" id="map" style="width: 500px; height: 400px;"></div>
     </div>
 </div>
-
-
 <script>
     var geocoder;
     var map;
     var marker;
 
-    var address; function initMap() {
+    function initMap() {
         geocoder = new google.maps.Geocoder();
         var latlng = new google.maps.LatLng(59.334591, 18.063240);
         var mapOptions = {
@@ -138,7 +136,7 @@
         map = new google.maps.Map(document.getElementById('map'), mapOptions);
     }
     function codeAddress() {
-        address = "@Model.Address" + ", " + "@Model.ZipCode" + " " + "@Model.City";
+        var address = "@Model.Address" + ", " + "@Model.ZipCode" + " " + "@Model.City";
 
         geocoder.geocode({ 'address': address }, function (results, status) {
             if (status == 'OK') {
@@ -158,3 +156,5 @@
 <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEaMfKvxtMmnrBB0elA5kTV0RQ0I_wLII&callback=initMap&v=weekly"
     async></script>
+</body>
+
